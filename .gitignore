@@ -1,0 +1,4 @@
+*.exe
+notes.md
+static/css/bootstrap*
+static/js/bootstrap*
