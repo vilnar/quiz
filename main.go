@@ -14,7 +14,11 @@ import (
 )
 
 const PORT = 8090
-const SERVER_INFO = "http://127.0.0.1:8090"
+const HOST_DEFAULT = "http://127.0.0.1"
+
+func getServerInfo() string {
+	return fmt.Sprintf("%s:%d", HOST_DEFAULT, PORT)
+}
 
 func getDotEnvVariable(key string) string {
 	err := godotenv.Load(".env")
