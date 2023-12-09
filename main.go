@@ -7,17 +7,33 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"path"
 	"strings"
+	"strconv"
 )
 
-const PORT = 8090
 const HOST_DEFAULT = "http://127.0.0.1"
 
-func getServerInfo() string {
-	return fmt.Sprintf("%s:%d", HOST_DEFAULT, PORT)
+func getPort() int {
+	res, _ := strconv.Atoi(getDotEnvVariable("PORT"))
+	return res
+}
+
+func getServerInfo(req *http.Request) string {
+	clientIp := getClientIpAddr(req)
+	// fmt.Printf("DEBUG clientIp %+v\n", clientIp)
+	if clientIp == "" || clientIp == "127.0.0.1" {
+		return fmt.Sprintf("%s:%d", HOST_DEFAULT, getPort())
+	}
+	return fmt.Sprintf("%s:%d", getDotEnvVariable("HOST_ROUTER"), getPort())
+}
+
+func getClientIpAddr(req *http.Request) string {
+	host, _, _ := net.SplitHostPort(req.RemoteAddr)
+	return host
 }
 
 func getDotEnvVariable(key string) string {
@@ -31,7 +47,7 @@ func getDotEnvVariable(key string) string {
 }
 
 func main() {
-	fmt.Printf("go server %d \n", PORT)
+	fmt.Printf("server run in port %d \n", getPort())
 
 	mux := http.NewServeMux()
 	// routes
@@ -40,7 +56,7 @@ func main() {
 	mux.HandleFunc("/5_57_kotenov", get_5_57_kotenov)
 	mux.HandleFunc("/check_5_57_kotenov", check_5_57_kotenov)
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", PORT), mux)
+	err := http.ListenAndServe(fmt.Sprintf(":%d", getPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
 	} else if err != nil {

@@ -17,10 +17,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="mb-3 p-3 border">
-                    <div class="row mb-3">L: ({{ .L }}) {{ .Lie_description }}</div>
-                    <div class="row">ПТСР: ({{ .PTSD }}) {{ .PTSD_description }}</div>
-                    <div class="row">ГСР: ({{ .GSR }}) {{ .GSR_description }}</div>
-                    <div class="row mb-3">Депресія: ({{ .Depression }}) {{ .Depression_description }}</div>
+                    <div class="row mb-3 {{if gt .L 69}} text-danger {{else}} text-success {{end}}">L: ({{ .L }}) {{ .Lie_description }}</div>
+                    <div class="row {{if gt .PTSD 69}} text-danger {{end}}">ПТСР: ({{ .PTSD }}) {{ .PTSD_description }}</div>
+                    <div class="row {{if gt .GSR 69}} text-danger {{end}}">ГСР: ({{ .GSR }}) {{ .GSR_description }}</div>
+                    <div class="row mb-3 {{if gt .Depression 69}} text-danger {{end}}">Депресія: ({{ .Depression }}) {{ .Depression_description }}</div>
                     <div class="row">A1: {{.A1}}</div>
                     <div class="row">B: {{.B_}}</div>
                     <div class="row">C: {{.C_}}</div>

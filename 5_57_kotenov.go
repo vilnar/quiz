@@ -24,7 +24,7 @@ func get_5_57_kotenov(w http.ResponseWriter, r *http.Request) {
 		Url  string
 	}{
 		time.Now().Format("02.01.2006"),
-		getServerInfo() + "/check_5_57_kotenov",
+		getServerInfo(r) + "/check_5_57_kotenov",
 	}
 
 	err = tmpl.Execute(w, data)
