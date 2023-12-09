@@ -181,7 +181,7 @@ type QuizResult struct {
 
 type QuizDb struct {
 	Id          int
-	UserId      int
+	PersonId    int
 	AnswersJson string
 	QuizResult
 	CreateAt string
@@ -204,30 +204,30 @@ func getAnswersFromRequest(r *http.Request) Answers {
 func check_5_57_kotenov(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	user := getUserFromRequest(r)
+	person := getPersonFromRequest(r)
 	answers := getAnswersFromRequest(r)
 
-	userId := saveUser(user)
+	personId := savePerson(person)
 	quizResult := calcQuizResult(answers)
-	quizId := saveQuiz(userId, answers, quizResult)
-	renderResult(w, userId, quizId)
+	quizId := saveQuiz(personId, answers, quizResult)
+	renderResult(w, personId, quizId)
 }
 
-func renderResult(w http.ResponseWriter, userId int64, quizId int64) {
+func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
 	tmpl, err := template.ParseFiles(path.Join("templates", "5_57_kotenov_result.html"))
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	u := findUserById(userId)
+	p := findPersonById(personId)
 	q := findQuizById(quizId)
 
 	data := struct {
 		Header string
 		QuizDb
 	}{
-		fmt.Sprintf("Результати дослідження травматичного стресу І.О. Котєньова військовослужбовця %s", u.FullName),
+		fmt.Sprintf("Результати дослідження травматичного стресу І.О. Котєньова військовослужбовця %s", p.FullName),
 		q,
 	}
 
@@ -1295,11 +1295,11 @@ func getAnswerRevers(a int) int {
 	}
 }
 
-func saveQuiz(userId int64, a Answers, q QuizResult) int64 {
+func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
 	db := createDbConnection()
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT INTO test_5_57_kotenov(user_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO test_5_57_kotenov(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -1311,7 +1311,7 @@ func saveQuiz(userId int64, a Answers, q QuizResult) int64 {
 
 	answersJson := string(ab)
 	date := time.Now().Format("2006-01-02 15:04:05")
-	res, err := stmt.Exec(userId, answersJson, q.PTSD, q.GSR, q.Depression, q.Lie_description, q.PTSD_description, q.GSR_description, q.Depression_description, q.A1, q.B_, q.C_, q.D_, q.F_, q.L, q.Ag, q.Di, q.B, q.C, q.D, q.E, q.F, date, date)
+	res, err := stmt.Exec(personId, answersJson, q.PTSD, q.GSR, q.Depression, q.Lie_description, q.PTSD_description, q.GSR_description, q.Depression_description, q.A1, q.B_, q.C_, q.D_, q.F_, q.L, q.Ag, q.Di, q.B, q.C, q.D, q.E, q.F, date, date)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -1336,7 +1336,7 @@ func findQuizById(id int64) QuizDb {
 
 	var q QuizDb
 	if res.Next() {
-		err := res.Scan(&q.Id, &q.UserId, &q.AnswersJson, &q.PTSD, &q.GSR, &q.Depression, &q.Lie_description, &q.PTSD_description, &q.GSR_description, &q.Depression_description, &q.A1, &q.B_, &q.C_, &q.D_, &q.F_, &q.L, &q.Ag, &q.Di, &q.B, &q.C, &q.D, &q.E, &q.F, &q.CreateAt, &q.UpdateAt)
+		err := res.Scan(&q.Id, &q.PersonId, &q.AnswersJson, &q.PTSD, &q.GSR, &q.Depression, &q.Lie_description, &q.PTSD_description, &q.GSR_description, &q.Depression_description, &q.A1, &q.B_, &q.C_, &q.D_, &q.F_, &q.L, &q.Ag, &q.Di, &q.B, &q.C, &q.D, &q.E, &q.F, &q.CreateAt, &q.UpdateAt)
 		if err != nil {
 			log.Fatal(err)
 		}

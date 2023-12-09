@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE person (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	full_name varchar(255),
 	military_name varchar(255),

@@ -1,6 +1,6 @@
 CREATE TABLE test_5_57_kotenov (
 	id BIGINT NOT NULL AUTO_INCREMENT,
-	user_id BIGINT,
+	person_id BIGINT,
 	answers JSON,
 	ptsd INT,
 	gsr INT,
@@ -24,6 +24,6 @@ CREATE TABLE test_5_57_kotenov (
 	f INT,
 	create_at TIMESTAMP NOT NULL,
 	update_at TIMESTAMP NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES user(id),
+	FOREIGN KEY (person_id) REFERENCES person(id),
 	PRIMARY KEY (id)
 );
