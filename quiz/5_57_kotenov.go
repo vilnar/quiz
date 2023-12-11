@@ -12,7 +12,7 @@ import (
 )
 
 func get_5_57_kotenov(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(path.Join("templates", "5_57_kotenov.html"))
+	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "5_57_kotenov.html"))
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -214,7 +214,7 @@ func check_5_57_kotenov(w http.ResponseWriter, r *http.Request) {
 }
 
 func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
-	tmpl, err := template.ParseFiles(path.Join("templates", "5_57_kotenov_result.html"))
+	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "5_57_kotenov_result.html"))
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

@@ -1,4 +1,4 @@
-module pstest
+module quiz
 
 go 1.21.0
 

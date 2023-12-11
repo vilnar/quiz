@@ -37,7 +37,7 @@ func getClientIpAddr(req *http.Request) string {
 }
 
 func getDotEnvVariable(key string) string {
-	err := godotenv.Load(".env")
+	err := godotenv.Load("quiz/.env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -52,7 +52,7 @@ func main() {
 	mux := http.NewServeMux()
 	// routes
 	mux.HandleFunc("/", getDashboard)
-	mux.HandleFunc("/static/", staticHandler)
+	mux.HandleFunc("/quiz/static/", staticHandler)
 	mux.HandleFunc("/5_57_kotenov", get_5_57_kotenov)
 	mux.HandleFunc("/check_5_57_kotenov", check_5_57_kotenov)
 
@@ -67,7 +67,7 @@ func main() {
 
 func getDashboard(w http.ResponseWriter, r *http.Request) {
 	content := ""
-	tmpl, err := template.ParseFiles(path.Join("templates", "dashboard.html"))
+	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "dashboard.html"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
