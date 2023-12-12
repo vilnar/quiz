@@ -1,4 +1,4 @@
-package main
+package common
 
 import (
 	"database/sql"
@@ -9,14 +9,14 @@ import (
 
 var dbConnection *sql.DB
 
-func createDbConnection() *sql.DB {
+func CreateDbConnection() *sql.DB {
 	// connection
 	cfg := mysql.Config{
-		User:                 getDotEnvVariable("DBUSER"),
-		Passwd:               getDotEnvVariable("DBPASS"),
+		User:                 GetDotEnvVariable("DBUSER"),
+		Passwd:               GetDotEnvVariable("DBPASS"),
 		Net:                  "tcp",
-		Addr:                 getDotEnvVariable("DBADDR"),
-		DBName:               getDotEnvVariable("DBNAME"),
+		Addr:                 GetDotEnvVariable("DBADDR"),
+		DBName:               GetDotEnvVariable("DBNAME"),
 		AllowNativePasswords: true,
 	}
 

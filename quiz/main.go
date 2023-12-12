@@ -3,60 +3,28 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/joho/godotenv"
 	"html/template"
 	"io/ioutil"
-	"log"
-	"net"
 	"net/http"
 	"os"
 	"path"
-	"strconv"
 	"strings"
+	"quiz/internal/kotenov_5_57"
+	"quiz/internal/common"
 )
 
-const HOST_DEFAULT = "http://127.0.0.1"
-
-func getPort() int {
-	res, _ := strconv.Atoi(getDotEnvVariable("PORT"))
-	return res
-}
-
-func getServerInfo(req *http.Request) string {
-	clientIp := getClientIpAddr(req)
-	// fmt.Printf("DEBUG clientIp %+v\n", clientIp)
-	if clientIp == "" || clientIp == "127.0.0.1" {
-		return fmt.Sprintf("%s:%d", HOST_DEFAULT, getPort())
-	}
-	return fmt.Sprintf("%s:%d", getDotEnvVariable("HOST_ROUTER"), getPort())
-}
-
-func getClientIpAddr(req *http.Request) string {
-	host, _, _ := net.SplitHostPort(req.RemoteAddr)
-	return host
-}
-
-func getDotEnvVariable(key string) string {
-	err := godotenv.Load("quiz/.env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	return os.Getenv(key)
-}
 
 func main() {
-	fmt.Printf("server run in port %d \n", getPort())
+	fmt.Printf("server run in port %d \n", common.GetPort())
 
 	mux := http.NewServeMux()
 	// routes
 	mux.HandleFunc("/", getDashboard)
 	mux.HandleFunc("/quiz/static/", staticHandler)
-	mux.HandleFunc("/5_57_kotenov", get_5_57_kotenov)
-	mux.HandleFunc("/check_5_57_kotenov", check_5_57_kotenov)
+	mux.HandleFunc("/kotenov_5_57", kotenov_5_57.GetQuizHandler)
+	mux.HandleFunc("/check_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", getPort()), mux)
+	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
 	} else if err != nil {

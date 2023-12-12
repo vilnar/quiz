@@ -1,4 +1,4 @@
-package main
+package kotenov_5_57
 
 import (
 	"encoding/json"
@@ -9,10 +9,11 @@ import (
 	"path"
 	"reflect"
 	"time"
+	"quiz/internal/common"
 )
 
-func get_5_57_kotenov(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "5_57_kotenov.html"))
+func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "kotenov_5_57.html"))
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -24,7 +25,7 @@ func get_5_57_kotenov(w http.ResponseWriter, r *http.Request) {
 		Url  string
 	}{
 		time.Now().Format("02.01.2006"),
-		getServerInfo(r) + "/check_5_57_kotenov",
+		common.GetServerInfo(r) + "/check_kotenov_5_57",
 	}
 
 	err = tmpl.Execute(w, data)
@@ -194,33 +195,33 @@ func getAnswersFromRequest(r *http.Request) Answers {
 	for _, field := range fields {
 		answers.setProperty(
 			field.Name,
-			stringToInt(r.Form.Get(field.Name)),
+			common.StringToInt(r.Form.Get(field.Name)),
 		)
 	}
 	fmt.Printf("answers from request %+v\n", answers)
 	return answers
 }
 
-func check_5_57_kotenov(w http.ResponseWriter, r *http.Request) {
+func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	person := getPersonFromRequest(r)
+	person := common.GetPersonFromRequest(r)
 	answers := getAnswersFromRequest(r)
 
-	personId := savePerson(person)
+	personId := common.SavePerson(person)
 	quizResult := calcQuizResult(answers)
 	quizId := saveQuiz(personId, answers, quizResult)
 	renderResult(w, personId, quizId)
 }
 
 func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
-	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "5_57_kotenov_result.html"))
+	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "kotenov_5_57_result.html"))
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	p := findPersonById(personId)
+	p := common.FindPersonById(personId)
 	q := findQuizById(quizId)
 
 	data := struct {
@@ -1296,10 +1297,10 @@ func getAnswerRevers(a int) int {
 }
 
 func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
-	db := createDbConnection()
+	db := common.CreateDbConnection()
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT INTO test_5_57_kotenov(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO test_kotenov_5_57(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -1325,10 +1326,10 @@ func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
 }
 
 func findQuizById(id int64) QuizDb {
-	db := createDbConnection()
+	db := common.CreateDbConnection()
 	defer db.Close()
 
-	res, err := db.Query("SELECT * FROM test_5_57_kotenov WHERE id = ?", id)
+	res, err := db.Query("SELECT * FROM test_kotenov_5_57 WHERE id = ?", id)
 	defer res.Close()
 	if err != nil {
 		log.Fatal(err)

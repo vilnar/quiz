@@ -1,4 +1,4 @@
-package main
+package common
 
 import (
 	"fmt"
@@ -23,11 +23,11 @@ type PersonDb struct {
 	UpdateAt string
 }
 
-func getPersonFromRequest(r *http.Request) Person {
+func GetPersonFromRequest(r *http.Request) Person {
 	person := Person{
 		r.Form.Get("person_name"),
 		r.Form.Get("person_mil_name"),
-		stringToInt(r.Form.Get("person_age")),
+		StringToInt(r.Form.Get("person_age")),
 		r.Form.Get("gender"),
 		r.Form.Get("person_unit"),
 		r.Form.Get("person_specialty"),
@@ -36,8 +36,8 @@ func getPersonFromRequest(r *http.Request) Person {
 	return person
 }
 
-func savePerson(p Person) int64 {
-	db := createDbConnection()
+func SavePerson(p Person) int64 {
+	db := CreateDbConnection()
 	defer db.Close()
 
 	stmt, err := db.Prepare("INSERT INTO person(full_name, military_name, age, gender, unit, specialty, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
@@ -59,8 +59,8 @@ func savePerson(p Person) int64 {
 	return id
 }
 
-func findPersonById(id int64) PersonDb {
-	db := createDbConnection()
+func FindPersonById(id int64) PersonDb {
+	db := CreateDbConnection()
 	defer db.Close()
 
 	res, err := db.Query("SELECT * FROM person WHERE id = ?", id)
