@@ -20,7 +20,7 @@ func main() {
 	mux := http.NewServeMux()
 	// routes
 	mux.HandleFunc("/", getDashboard)
-	mux.HandleFunc("/quiz/static/", staticHandler)
+	mux.HandleFunc("/quiz/ui/static/", staticHandler)
 	mux.HandleFunc("/kotenov_5_57", kotenov_5_57.GetQuizHandler)
 	mux.HandleFunc("/check_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
 
@@ -35,7 +35,7 @@ func main() {
 
 func getDashboard(w http.ResponseWriter, r *http.Request) {
 	content := ""
-	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "dashboard.html"))
+	tmpl, err := template.ParseFiles(path.Join("quiz", "ui", "templates", "dashboard.html"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

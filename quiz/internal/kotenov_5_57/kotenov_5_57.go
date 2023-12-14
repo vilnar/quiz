@@ -13,7 +13,7 @@ import (
 )
 
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "kotenov_5_57.html"))
+	tmpl, err := template.ParseFiles(path.Join("quiz", "ui", "templates", "kotenov_5_57.html"))
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -216,7 +216,7 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
-	tmpl, err := template.ParseFiles(path.Join("quiz", "templates", "kotenov_5_57_result.html"))
+	tmpl, err := template.ParseFiles(path.Join("quiz", "ui", "templates", "kotenov_5_57_result.html"))
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
