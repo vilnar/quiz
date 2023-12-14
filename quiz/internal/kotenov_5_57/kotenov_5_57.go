@@ -211,6 +211,7 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	personId := common.SavePerson(person)
 	quizResult := calcQuizResult(answers)
 	quizId := saveQuiz(personId, answers, quizResult)
+	savePersonQuiz(personId, quizId)
 	renderResult(w, personId, quizId)
 }
 
@@ -1300,7 +1301,7 @@ func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
 	db := common.CreateDbConnection()
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT INTO test_kotenov_5_57(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO quiz_kotenov_5_57(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -1325,11 +1326,37 @@ func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
 	return id
 }
 
+const QUIZ_TABLE_NAME = "quiz_kotenov_5_57"
+
+func savePersonQuiz(personId int64, quizId int64) {
+	db := common.CreateDbConnection()
+	defer db.Close()
+
+	stmt, err := db.Prepare("INSERT INTO person_quiz(person_id, quiz_id, name, create_at, update_at) VALUES (?, ?, ?, ?, ?)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	date := time.Now().Format("2006-01-02 15:04:05")
+	res, err := stmt.Exec(personId, quizId, QUIZ_TABLE_NAME, date, date)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		panic(err.Error())
+	}
+	if id < 1 {
+		log.Fatalf("Error insert person_quiz")
+	}
+}
+
 func findQuizById(id int64) QuizDb {
 	db := common.CreateDbConnection()
 	defer db.Close()
 
-	res, err := db.Query("SELECT * FROM test_kotenov_5_57 WHERE id = ?", id)
+	res, err := db.Query("SELECT * FROM quiz_kotenov_5_57 WHERE id = ?", id)
 	defer res.Close()
 	if err != nil {
 		log.Fatal(err)

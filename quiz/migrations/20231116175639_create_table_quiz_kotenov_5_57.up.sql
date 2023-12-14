@@ -1,6 +1,6 @@
-CREATE TABLE test_kotenov_5_57 (
+CREATE TABLE quiz_kotenov_5_57 (
 	id BIGINT NOT NULL AUTO_INCREMENT,
-	person_id BIGINT,
+	person_id BIGINT NOT NULL,
 	answers JSON,
 	ptsd INT,
 	gsr INT,
