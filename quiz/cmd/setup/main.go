@@ -2,15 +2,15 @@ package main
 
 import (
 	// "database/sql"
-	"fmt"
 	"errors"
-	"github.com/joho/godotenv"
+	"fmt"
 	mysqlDriver "github.com/go-sql-driver/mysql"
-	"os"
-	"log"
 	"github.com/golang-migrate/migrate/v4"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/joho/godotenv"
+	"log"
+	"os"
 )
 
 func getDotEnvVariable(key string) string {
@@ -27,7 +27,6 @@ func main() {
 	fmt.Printf("run setup\n\n")
 	runMigrate()
 }
-
 
 func runMigrate() {
 	cfg := mysqlDriver.Config{

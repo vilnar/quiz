@@ -8,18 +8,19 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"strings"
-	"quiz/internal/kotenov_5_57"
 	"quiz/internal/common"
+	"quiz/internal/kotenov_5_57"
+	"quiz/internal/user"
+	"strings"
 )
-
 
 func main() {
 	fmt.Printf("server run in port %d \n", common.GetPort())
 
 	mux := http.NewServeMux()
 	// routes
-	mux.HandleFunc("/", getDashboard)
+	mux.HandleFunc("/", getDashboardHandler)
+	mux.HandleFunc("/admin", user.BasicAuth(user.GetAdminDashboardHandler))
 	mux.HandleFunc("/quiz/ui/static/", staticHandler)
 	mux.HandleFunc("/kotenov_5_57", kotenov_5_57.GetQuizHandler)
 	mux.HandleFunc("/check_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
@@ -33,7 +34,7 @@ func main() {
 	}
 }
 
-func getDashboard(w http.ResponseWriter, r *http.Request) {
+func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	content := ""
 	tmpl, err := template.ParseFiles(path.Join("quiz", "ui", "templates", "dashboard.html"))
 	if err != nil {

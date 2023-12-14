@@ -7,9 +7,9 @@ import (
 	"log"
 	"net/http"
 	"path"
+	"quiz/internal/common"
 	"reflect"
 	"time"
-	"quiz/internal/common"
 )
 
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
