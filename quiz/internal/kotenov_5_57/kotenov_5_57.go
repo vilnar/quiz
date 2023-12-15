@@ -12,8 +12,14 @@ import (
 	"time"
 )
 
+const QUIZ_TABLE_NAME = "quiz_kotenov_5_57"
+const QUIZ_LABEL = "Дослідження травматичного стресу (І. Котєньов)"
+
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(path.Join("quiz", "ui", "templates", "kotenov_5_57.html"))
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "kotenov_5_57.html"),
+		path.Join("quiz", "ui", "templates", "header.html"),
+	)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -186,7 +192,6 @@ type QuizDb struct {
 	AnswersJson string
 	QuizResult
 	CreateAt string
-	UpdateAt string
 }
 
 func getAnswersFromRequest(r *http.Request) Answers {
@@ -211,12 +216,15 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	personId := common.SavePerson(person)
 	quizResult := calcQuizResult(answers)
 	quizId := saveQuiz(personId, answers, quizResult)
-	savePersonQuiz(personId, quizId)
+	common.SavePersonQuiz(personId, quizId, QUIZ_TABLE_NAME, QUIZ_LABEL)
 	renderResult(w, personId, quizId)
 }
 
 func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
-	tmpl, err := template.ParseFiles(path.Join("quiz", "ui", "templates", "kotenov_5_57_result.html"))
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "kotenov_5_57_result.html"),
+		path.Join("quiz", "ui", "templates", "header.html"),
+	)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -1301,7 +1309,7 @@ func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
 	db := common.CreateDbConnection()
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT INTO quiz_kotenov_5_57(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO quiz_kotenov_5_57(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -1313,7 +1321,7 @@ func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
 
 	answersJson := string(ab)
 	date := time.Now().Format("2006-01-02 15:04:05")
-	res, err := stmt.Exec(personId, answersJson, q.PTSD, q.GSR, q.Depression, q.Lie_description, q.PTSD_description, q.GSR_description, q.Depression_description, q.A1, q.B_, q.C_, q.D_, q.F_, q.L, q.Ag, q.Di, q.B, q.C, q.D, q.E, q.F, date, date)
+	res, err := stmt.Exec(personId, answersJson, q.PTSD, q.GSR, q.Depression, q.Lie_description, q.PTSD_description, q.GSR_description, q.Depression_description, q.A1, q.B_, q.C_, q.D_, q.F_, q.L, q.Ag, q.Di, q.B, q.C, q.D, q.E, q.F, date)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -1326,31 +1334,6 @@ func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
 	return id
 }
 
-const QUIZ_TABLE_NAME = "quiz_kotenov_5_57"
-
-func savePersonQuiz(personId int64, quizId int64) {
-	db := common.CreateDbConnection()
-	defer db.Close()
-
-	stmt, err := db.Prepare("INSERT INTO person_quiz(person_id, quiz_id, name, create_at, update_at) VALUES (?, ?, ?, ?, ?)")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	date := time.Now().Format("2006-01-02 15:04:05")
-	res, err := stmt.Exec(personId, quizId, QUIZ_TABLE_NAME, date, date)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	id, err := res.LastInsertId()
-	if err != nil {
-		panic(err.Error())
-	}
-	if id < 1 {
-		log.Fatalf("Error insert person_quiz")
-	}
-}
 
 func findQuizById(id int64) QuizDb {
 	db := common.CreateDbConnection()
@@ -1364,7 +1347,7 @@ func findQuizById(id int64) QuizDb {
 
 	var q QuizDb
 	if res.Next() {
-		err := res.Scan(&q.Id, &q.PersonId, &q.AnswersJson, &q.PTSD, &q.GSR, &q.Depression, &q.Lie_description, &q.PTSD_description, &q.GSR_description, &q.Depression_description, &q.A1, &q.B_, &q.C_, &q.D_, &q.F_, &q.L, &q.Ag, &q.Di, &q.B, &q.C, &q.D, &q.E, &q.F, &q.CreateAt, &q.UpdateAt)
+		err := res.Scan(&q.Id, &q.PersonId, &q.AnswersJson, &q.PTSD, &q.GSR, &q.Depression, &q.Lie_description, &q.PTSD_description, &q.GSR_description, &q.Depression_description, &q.A1, &q.B_, &q.C_, &q.D_, &q.F_, &q.L, &q.Ag, &q.Di, &q.B, &q.C, &q.D, &q.E, &q.F, &q.CreateAt)
 		if err != nil {
 			log.Fatal(err)
 		}

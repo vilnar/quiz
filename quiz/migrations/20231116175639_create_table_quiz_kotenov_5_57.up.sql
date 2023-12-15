@@ -23,7 +23,6 @@ CREATE TABLE quiz_kotenov_5_57 (
 	e INT,
 	f INT,
 	create_at TIMESTAMP NOT NULL,
-	update_at TIMESTAMP NOT NULL,
 	FOREIGN KEY (person_id) REFERENCES person(id),
 	PRIMARY KEY (id)
 );

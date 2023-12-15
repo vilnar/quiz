@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center">Пройдені тести</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Назва тесту</th>
+                      <th scope="col">Респондент</th>
+                      <th scope="col">Дата проходження</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {{range $element := .PersonQuizList}}
+                      <tr>
+                          <th scope="row">{{$element.Id}}</th>
+                          <td><a href="/admin/quiz/{{$element.QuizId}}">{{$element.QuizLabel}}</a></td>
+                          <td><a href="/admin/person/{{$element.PersonId}}">{{$element.PersonFullName}}</a></td>
+                          <td>{{$element.CreateAt}}</td>
+                      </tr>
+                      {{end}}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>
