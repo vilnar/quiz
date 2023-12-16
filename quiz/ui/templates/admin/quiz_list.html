@@ -30,8 +30,8 @@
                       {{range $element := .PersonQuizList}}
                       <tr>
                           <th scope="row">{{$element.Id}}</th>
-                          <td><a href="/admin/quiz/{{$element.QuizId}}">{{$element.QuizLabel}}</a></td>
-                          <td><a href="/admin/person/{{$element.PersonId}}">{{$element.PersonFullName}}</a></td>
+                          <td><a href="/admin/quiz?id={{$element.Id}}">{{$element.Label}}</a></td>
+                          <td><a href="/admin/person?id={{$element.PersonId}}">{{$element.PersonFullName}}</a></td>
                           <td>{{$element.CreateAt}}</td>
                       </tr>
                       {{end}}

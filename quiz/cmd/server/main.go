@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"quiz/internal/admin"
 	"quiz/internal/common"
 	"quiz/internal/kotenov_5_57"
-	"quiz/internal/admin"
 	"strings"
 )
 

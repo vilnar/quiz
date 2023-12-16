@@ -1,9 +1,11 @@
-package common
+package person
 
 import (
 	"fmt"
 	"log"
 	"net/http"
+	"quiz/internal/appdb"
+	"quiz/internal/common"
 	"time"
 )
 
@@ -27,7 +29,7 @@ func GetPersonFromRequest(r *http.Request) Person {
 	person := Person{
 		r.Form.Get("person_name"),
 		r.Form.Get("person_mil_name"),
-		StringToInt(r.Form.Get("person_age")),
+		common.StringToInt(r.Form.Get("person_age")),
 		r.Form.Get("gender"),
 		r.Form.Get("person_unit"),
 		r.Form.Get("person_specialty"),
@@ -37,30 +39,30 @@ func GetPersonFromRequest(r *http.Request) Person {
 }
 
 func SavePerson(p Person) int64 {
-	db := CreateDbConnection()
+	db := appdb.CreateDbConnection()
 	defer db.Close()
 
 	stmt, err := db.Prepare("INSERT INTO person(full_name, military_name, age, gender, unit, specialty, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 
 	date := time.Now().Format("2006-01-02 15:04:05")
 	res, err := stmt.Exec(p.FullName, p.MilitaryName, p.Age, p.Gender, p.Unit, p.Specialty, date, date)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 
 	return id
 }
 
 func FindPersonById(id int64) PersonDb {
-	db := CreateDbConnection()
+	db := appdb.CreateDbConnection()
 	defer db.Close()
 
 	res, err := db.Query("SELECT * FROM person WHERE id = ?", id)

@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"path"
 	"quiz/internal/common"
+	// "quiz/internal/person"
+	"quiz/internal/quiz"
 	"time"
 )
 
@@ -79,11 +81,10 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
-	list := common.GetPersonQuizList(60)
+	list := quiz.GetPersonQuizList(60)
 
 	data := struct {
-		PersonQuizList []common.PersonQuiz
+		PersonQuizList []quiz.PersonQuiz
 	}{
 		list,
 	}
@@ -95,3 +96,30 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+// func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
+// 	tmpl, err := template.ParseFiles(
+// 		path.Join("quiz", "ui", "templates", "admin", "quiz.html"),
+// 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+// 	)
+// 	if err != nil {
+// 		log.Print(err.Error())
+// 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+// 		return
+// 	}
+
+// 	list := quiz.GetQuizWithPerson()
+
+// 	data := struct {
+// 		PersonQuizList []quiz.PersonQuiz
+// 	}{
+// 		list,
+// 	}
+
+// 	err = tmpl.Execute(w, data)
+// 	if err != nil {
+// 		log.Print(err.Error())
+// 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+// 		return
+// 	}
+// }

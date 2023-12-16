@@ -8,11 +8,13 @@ import (
 	"net/http"
 	"path"
 	"quiz/internal/common"
+	"quiz/internal/person"
+	"quiz/internal/quiz"
 	"reflect"
 	"time"
 )
 
-const QUIZ_TABLE_NAME = "quiz_kotenov_5_57"
+const QUIZ_NAME = "quiz_kotenov_5_57"
 const QUIZ_LABEL = "Дослідження травматичного стресу (І. Котєньов)"
 
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
@@ -186,12 +188,41 @@ type QuizResult struct {
 	F int
 }
 
-type QuizDb struct {
-	Id          int
-	PersonId    int
-	AnswersJson string
-	QuizResult
+type Quiz struct {
+	Id       int64
+	PersonId int64
+	Name     string
+	Label    string
+	Answers  Answers
+	Result   QuizResult
+	Score    int
 	CreateAt string
+}
+
+func QuizDeserialization(q quiz.QuizDb) Quiz {
+	var r Quiz
+	r.Id = q.Id
+	r.PersonId = q.PersonId
+	r.Name = q.Name
+	r.Label = q.Label
+
+	a := Answers{}
+	err := json.Unmarshal([]byte(q.Answers), &a)
+	if err != nil {
+		log.Fatal(err)
+	}
+	r.Answers = a
+
+	qr := QuizResult{}
+	err = json.Unmarshal([]byte(q.Result), &qr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	r.Result = qr
+
+	r.Score = q.Score
+	r.CreateAt = q.CreateAt
+	return r
 }
 
 func getAnswersFromRequest(r *http.Request) Answers {
@@ -210,13 +241,12 @@ func getAnswersFromRequest(r *http.Request) Answers {
 func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	person := common.GetPersonFromRequest(r)
+	p := person.GetPersonFromRequest(r)
 	answers := getAnswersFromRequest(r)
 
-	personId := common.SavePerson(person)
+	personId := person.SavePerson(p)
 	quizResult := calcQuizResult(answers)
-	quizId := saveQuiz(personId, answers, quizResult)
-	common.SavePersonQuiz(personId, quizId, QUIZ_TABLE_NAME, QUIZ_LABEL)
+	quizId := quiz.SaveQuiz(personId, QUIZ_NAME, QUIZ_LABEL, common.StructToJsonString(answers), common.StructToJsonString(quizResult), 0)
 	renderResult(w, personId, quizId)
 }
 
@@ -230,15 +260,16 @@ func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	p := common.FindPersonById(personId)
-	q := findQuizById(quizId)
+	p := person.FindPersonById(personId)
+	q := quiz.FindQuizById(quizId)
+	qd := QuizDeserialization(q)
 
 	data := struct {
 		Header string
-		QuizDb
+		QuizResult
 	}{
 		fmt.Sprintf("Результати дослідження травматичного стресу І.О. Котєньова військовослужбовця %s", p.FullName),
-		q,
+		qd.Result,
 	}
 
 	err = tmpl.Execute(w, data)
@@ -1303,59 +1334,4 @@ func getAnswerRevers(a int) int {
 	default:
 		return 3
 	}
-}
-
-func saveQuiz(personId int64, a Answers, q QuizResult) int64 {
-	db := common.CreateDbConnection()
-	defer db.Close()
-
-	stmt, err := db.Prepare("INSERT INTO quiz_kotenov_5_57(person_id, answers, ptsd, gsr, depression, lie_description, ptsd_description, gsr_description, depression_description, a1, b_, c_, d_, f_, l, ag, di, b, c, d, e, f, create_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	ab, err := json.Marshal(a)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	answersJson := string(ab)
-	date := time.Now().Format("2006-01-02 15:04:05")
-	res, err := stmt.Exec(personId, answersJson, q.PTSD, q.GSR, q.Depression, q.Lie_description, q.PTSD_description, q.GSR_description, q.Depression_description, q.A1, q.B_, q.C_, q.D_, q.F_, q.L, q.Ag, q.Di, q.B, q.C, q.D, q.E, q.F, date)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	id, err := res.LastInsertId()
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return id
-}
-
-
-func findQuizById(id int64) QuizDb {
-	db := common.CreateDbConnection()
-	defer db.Close()
-
-	res, err := db.Query("SELECT * FROM quiz_kotenov_5_57 WHERE id = ?", id)
-	defer res.Close()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var q QuizDb
-	if res.Next() {
-		err := res.Scan(&q.Id, &q.PersonId, &q.AnswersJson, &q.PTSD, &q.GSR, &q.Depression, &q.Lie_description, &q.PTSD_description, &q.GSR_description, &q.Depression_description, &q.A1, &q.B_, &q.C_, &q.D_, &q.F_, &q.L, &q.Ag, &q.Di, &q.B, &q.C, &q.D, &q.E, &q.F, &q.CreateAt)
-		if err != nil {
-			log.Fatal(err)
-		}
-	} else {
-		log.Printf("No quiz found")
-	}
-
-	fmt.Printf("quiz from db %+v\n", q)
-
-	return q
 }

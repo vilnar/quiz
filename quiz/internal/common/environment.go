@@ -40,12 +40,3 @@ func GetDotEnvVariable(key string) string {
 
 	return os.Getenv(key)
 }
-
-func StringToInt(v string) int {
-	i, err := strconv.Atoi(v)
-	if err != nil {
-		// panic(err)
-		return 0
-	}
-	return i
-}
