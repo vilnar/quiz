@@ -123,21 +123,25 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	personId := person.SavePerson(p)
 	quizResult := calcQuizResult(answers)
 	quizId := quiz.SaveQuiz(personId, QUIZ_NAME, QUIZ_LABEL, common.StructToJsonString(answers), common.StructToJsonString(quizResult), 0)
-	renderResult(w, personId, quizId)
+	q := quiz.FindQuizById(quizId)
+	renderResult(w, q, false)
 }
 
-func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
+func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
+	headerPath := path.Join("quiz", "ui", "templates", "header.html")
+	if isAdmin {
+		headerPath = path.Join("quiz", "ui", "templates", "admin", "header.html")
+	}
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "first_ptsd_result.html"),
-		path.Join("quiz", "ui", "templates", "header.html"),
+		headerPath,
 	)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	p := person.FindPersonById(personId)
-	q := quiz.FindQuizById(quizId)
+	p := person.FindPersonById(q.PersonId)
 	qd := QuizDeserialization(q)
 
 	data := struct {
@@ -158,7 +162,6 @@ func renderResult(w http.ResponseWriter, personId int64, quizId int64) {
 
 func calcQuizResult(a Answers) QuizResult {
 	var res QuizResult
-	// gray points
 	sum := a.A1 + a.A2 + a.A3 + a.A4 + a.A5 + a.A6 + a.A7
 	res.Summary = "Не виявлено ПТСР"
 	if sum > 3 {
@@ -169,31 +172,5 @@ func calcQuizResult(a Answers) QuizResult {
 }
 
 func GetAdminQuizResultHandler(w http.ResponseWriter, r *http.Request, q quiz.QuizDb) {
-	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "first_ptsd_result.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
-	)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	p := person.FindPersonById(q.PersonId)
-	qd := QuizDeserialization(q)
-
-	data := struct {
-		Header string
-		QuizResult
-	}{
-		fmt.Sprintf("Результати дослідження первинного скринінгу ПТСР військовослужбовця %s", p.FullName),
-		qd.Result,
-	}
-
-	err = tmpl.Execute(w, data)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
+	renderResult(w, q, true)
 }
