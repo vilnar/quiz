@@ -21,7 +21,6 @@ func CreateDbConnection() *sql.DB {
 		AllowNativePasswords: true,
 	}
 
-	fmt.Printf("%+v\n", cfg.FormatDSN())
 	// Get a database handle.
 	var err error
 	dbConnection, err = sql.Open("mysql", cfg.FormatDSN())

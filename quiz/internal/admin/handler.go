@@ -100,6 +100,36 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
+	personId := common.StringToInt64(r.URL.Query().Get("person_id"))
+	fmt.Printf("debug person id %+v\n", personId)
+
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "admin", "quiz_list.html"),
+		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+	)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	list := quiz.FindQuizListByPersonId(personId)
+
+	data := struct {
+		QuizWithPersonList []quiz.QuizWithPersonDb
+	}{
+		list,
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	id := common.StringToInt64(r.URL.Query().Get("id"))
 	fmt.Printf("debug id %+v\n", id)

@@ -110,7 +110,6 @@ func getAnswersFromRequest(r *http.Request) Answers {
 			common.StringToInt(r.Form.Get(field.Name)),
 		)
 	}
-	fmt.Printf("answers from request %+v\n", answers)
 	return answers
 }
 

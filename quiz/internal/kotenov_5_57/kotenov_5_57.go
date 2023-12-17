@@ -235,7 +235,6 @@ func getAnswersFromRequest(r *http.Request) Answers {
 			common.StringToInt(r.Form.Get(field.Name)),
 		)
 	}
-	fmt.Printf("answers from request %+v\n", answers)
 	return answers
 }
 
@@ -305,7 +304,6 @@ func calcQuizResult(a Answers) QuizResult {
 	GSR := A1 + b + c + d + e + f
 	Depression := getAnswerRevers(a.A1) + a.A6 + a.A15 + a.A24 + a.A26 + a.A36 + a.A42 + getAnswerRevers(a.A46) + a.A57 + getAnswerRevers(a.A66) + getAnswerRevers(a.A67) + getAnswerRevers(a.A78) + a.A81 + a.A90 + getAnswerRevers(a.A109)
 
-	fmt.Printf("LIE %+v\n", L)
 
 	// T-points
 	res.A1 = getTpoint_A1(A1)
@@ -322,7 +320,6 @@ func calcQuizResult(a Answers) QuizResult {
 	res.E = getTpoint_e(e)
 	res.F = getTpoint_f(f)
 
-	fmt.Printf("T-points %+v\n", res)
 
 	res.PTSD = getTpoint_PTSD(PTSD)
 	res.GSR = getTpoint_GSR(GSR)

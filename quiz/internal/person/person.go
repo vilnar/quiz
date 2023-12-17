@@ -36,7 +36,6 @@ func GetPersonFromRequest(r *http.Request) Person {
 		r.Form.Get("person_unit"),
 		r.Form.Get("person_specialty"),
 	}
-	fmt.Printf("person from request %+v\n", person)
 	return person
 }
 
@@ -82,8 +81,6 @@ func FindPersonById(id int64) PersonDb {
 	} else {
 		log.Printf("No person found")
 	}
-
-	fmt.Printf("person from db %+v\n", p)
 
 	return p
 }
