@@ -1,7 +1,6 @@
 package quiz
 
 import (
-	"fmt"
 	"log"
 	"quiz/internal/appdb"
 	"time"

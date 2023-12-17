@@ -23,16 +23,19 @@ func main() {
 	// routes
 	mux.HandleFunc("/", getDashboardHandler)
 	mux.HandleFunc("/quiz/ui/static/", staticHandler)
+
 	mux.HandleFunc("/kotenov_5_57", kotenov_5_57.GetQuizHandler)
 	mux.HandleFunc("/check_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
+
+	mux.HandleFunc("/first_ptsd", first_ptsd.GetQuizHandler)
+	mux.HandleFunc("/check_first_ptsd", first_ptsd.CheckQuizHandler)
 
 	mux.HandleFunc("/admin", admin.BasicAuth(admin.GetAdminDashboardHandler))
 	mux.HandleFunc("/admin/quiz", admin.BasicAuth(admin.GetQuizHandler))
 	mux.HandleFunc("/admin/quiz_list", admin.BasicAuth(admin.GetQuizListHandler))
 	mux.HandleFunc("/admin/quiz_list_by_person", admin.BasicAuth(admin.GetQuizListByPersonIdHandler))
 	mux.HandleFunc("/admin/person", admin.BasicAuth(person.GetPersonHandler))
-	mux.HandleFunc("/first_ptsd", first_ptsd.GetQuizHandler)
-	mux.HandleFunc("/check_first_ptsd", first_ptsd.CheckQuizHandler)
+	mux.HandleFunc("/admin/person_find", admin.BasicAuth(person.PersonListHandler))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {

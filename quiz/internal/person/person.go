@@ -1,13 +1,8 @@
 package person
 
 import (
-	"fmt"
-	"html/template"
 	"log"
-	"net/http"
-	"path"
 	"quiz/internal/appdb"
-	"quiz/internal/common"
 	"time"
 )
 
@@ -25,18 +20,6 @@ type PersonDb struct {
 	Person
 	CreateAt string
 	UpdateAt string
-}
-
-func GetPersonFromRequest(r *http.Request) Person {
-	person := Person{
-		r.Form.Get("person_name"),
-		r.Form.Get("person_mil_name"),
-		common.StringToInt(r.Form.Get("person_age")),
-		r.Form.Get("gender"),
-		r.Form.Get("person_unit"),
-		r.Form.Get("person_specialty"),
-	}
-	return person
 }
 
 func SavePerson(p Person) int64 {
@@ -66,7 +49,7 @@ func FindPersonById(id int64) PersonDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	res, err := db.Query("SELECT * FROM person WHERE id = ?", id)
+	res, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE id = ?", id)
 	defer res.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -85,30 +68,29 @@ func FindPersonById(id int64) PersonDb {
 	return p
 }
 
-func GetPersonHandler(w http.ResponseWriter, r *http.Request) {
-	id := common.StringToInt64(r.URL.Query().Get("id"))
-	p := FindPersonById(id)
+func GetPersonList(limit int) []PersonDb {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
 
-	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "admin", "person.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
-	)
+	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person LIMIT ? OFFSET 0", limit)
+	defer rows.Close()
 	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 
-	data := struct {
-		Person PersonDb
-	}{
-		p,
+	var result []PersonDb
+	for rows.Next() {
+		var p PersonDb
+		err := rows.Scan(&p.Id, &p.FullName, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, p)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
 	}
 
-	err = tmpl.Execute(w, data)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
+	return result
 }
+

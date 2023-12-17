@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center">Список респондентів</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+        <!-- <div class="input-group mb-4"> -->
+        <!--     <input type="text" class="form-control" id="advanced-search-input" placeholder="phrase in:column1,column2" /> -->
+        <!--     <button class="btn btn-primary" id="advanced-search-button" type="button"> -->
+        <!--         <i class="fa fa-search"></i> -->
+        <!--     </button> -->
+        <!-- </div> -->
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Звання</th>
+                      <th scope="col">П.І.Б.</th>
+                      <th scope="col">Підрозділ</th>
+                      <th scope="col">Спеціальність</th>
+                      <th scope="col">Дата створення</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {{range $element := .PersonList}}
+                      <tr>
+                          <th scope="row">{{$element.Id}}</th>
+                          <td>{{$element.MilitaryName}}</td>
+                          <td><a href="/admin/person?id={{$element.Id}}">{{$element.FullName}}</a></td>
+                          <td>{{$element.Unit}}</td>
+                          <td>{{$element.Specialty}}</td>
+                          <td>{{$element.CreateAt}}</td>
+                      </tr>
+                      {{end}}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>
