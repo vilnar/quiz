@@ -2,8 +2,10 @@ package person
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
+	"path"
 	"quiz/internal/appdb"
 	"quiz/internal/common"
 	"time"
@@ -84,4 +86,32 @@ func FindPersonById(id int64) PersonDb {
 	fmt.Printf("person from db %+v\n", p)
 
 	return p
+}
+
+func GetPersonHandler(w http.ResponseWriter, r *http.Request) {
+	id := common.StringToInt64(r.URL.Query().Get("id"))
+	p := FindPersonById(id)
+
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "admin", "person.html"),
+		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+	)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	data := struct {
+		Person PersonDb
+	}{
+		p,
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Респондент {{.Person.FullName}}</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center">Респондент {{.Person.MilitaryName}} {{.Person.FullName}}</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="mb-3 p-3 border">
+                    <div class="row"><p><span class="fw-bold">Військове звання:</span> {{.Person.MilitaryName}}</p></div>
+                    <div class="row"><p><span class="fw-bold">Вік:</span> {{.Person.Age}}</p></div>
+                    <div class="row"><p><span class="fw-bold">Стать:</span> {{.Person.Gender}}</p></div>
+                    <div class="row"><p><span class="fw-bold">Підрозділ:</span> {{.Person.Unit}}</p></div>
+                    <div class="row"><p><span class="fw-bold">Військова спеціальність:</span> {{.Person.Specialty}}</p></div>
+                    <div class="row"><a href="#">Список тестів які пройдені респонденом TODO: в розробці</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>

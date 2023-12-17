@@ -3,11 +3,14 @@ package admin
 import (
 	"crypto/sha256"
 	"crypto/subtle"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"path"
 	"quiz/internal/common"
+	"quiz/internal/first_ptsd"
+	"quiz/internal/kotenov_5_57"
 	// "quiz/internal/person"
 	"quiz/internal/quiz"
 	"time"
@@ -81,10 +84,10 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list := quiz.GetPersonQuizList(60)
+	list := quiz.FindQuizWithPersonList(60)
 
 	data := struct {
-		PersonQuizList []quiz.PersonQuiz
+		QuizWithPersonList []quiz.QuizWithPersonDb
 	}{
 		list,
 	}
@@ -97,29 +100,21 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
-// 	tmpl, err := template.ParseFiles(
-// 		path.Join("quiz", "ui", "templates", "admin", "quiz.html"),
-// 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
-// 	)
-// 	if err != nil {
-// 		log.Print(err.Error())
-// 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-// 		return
-// 	}
+func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
+	id := common.StringToInt64(r.URL.Query().Get("id"))
+	fmt.Printf("debug id %+v\n", id)
 
-// 	list := quiz.GetQuizWithPerson()
-
-// 	data := struct {
-// 		PersonQuizList []quiz.PersonQuiz
-// 	}{
-// 		list,
-// 	}
-
-// 	err = tmpl.Execute(w, data)
-// 	if err != nil {
-// 		log.Print(err.Error())
-// 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-// 		return
-// 	}
-// }
+	q := quiz.FindQuizById(id)
+	switch q.Name {
+	case kotenov_5_57.QUIZ_NAME:
+		kotenov_5_57.GetAdminQuizResultHandler(w, r, q)
+		return
+	case first_ptsd.QUIZ_NAME:
+		first_ptsd.GetAdminQuizResultHandler(w, r, q)
+		return
+	default:
+		log.Printf("Not found quiz by name")
+		http.Error(w, "Not found quiz by name", http.StatusNotFound)
+		return
+	}
+}

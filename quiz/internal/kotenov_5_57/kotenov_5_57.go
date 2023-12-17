@@ -21,6 +21,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "kotenov_5_57.html"),
 		path.Join("quiz", "ui", "templates", "header.html"),
+		path.Join("quiz", "ui", "templates", "person_blank.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -1333,5 +1334,35 @@ func getAnswerRevers(a int) int {
 		return 5
 	default:
 		return 3
+	}
+}
+
+func GetAdminQuizResultHandler(w http.ResponseWriter, r *http.Request, q quiz.QuizDb) {
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "admin", "kotenov_5_57_result.html"),
+		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+	)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	p := person.FindPersonById(q.PersonId)
+	qd := QuizDeserialization(q)
+
+	data := struct {
+		Header string
+		QuizResult
+	}{
+		fmt.Sprintf("Результати дослідження травматичного стресу І.О. Котєньова військовослужбовця %s", p.FullName),
+		qd.Result,
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
 }

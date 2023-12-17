@@ -66,30 +66,30 @@ func FindQuizById(id int64) QuizDb {
 	return q
 }
 
-type PersonQuiz struct {
+type QuizWithPersonDb struct {
 	QuizDb
 	PersonFullName string
 }
 
-func GetPersonQuizList(limit int) []PersonQuiz {
+func FindQuizWithPersonList(limit int) []QuizWithPersonDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT q.id, q.person_id, name, q.label, q.answers, q.result, q.score, q.create_at, p.full_name FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id  ORDER BY create_at DESC LIMIT ? OFFSET 0", limit)
+	rows, err := db.Query("SELECT q.id, q.person_id, name, q.label, q.answers, q.result, q.score, q.create_at, p.full_name FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET 0", limit)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var result []PersonQuiz
+	var result []QuizWithPersonDb
 	for rows.Next() {
-		var q PersonQuiz
+		var q QuizWithPersonDb
 		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt, &q.PersonFullName)
 		if err != nil {
 			log.Fatal(err)
 		}
 		result = append(result, q)
-	} 
+	}
 	if err = rows.Err(); err != nil {
 		log.Fatal(err)
 	}

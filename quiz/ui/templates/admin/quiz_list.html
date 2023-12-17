@@ -27,7 +27,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                      {{range $element := .PersonQuizList}}
+                      {{range $element := .QuizWithPersonList}}
                       <tr>
                           <th scope="row">{{$element.Id}}</th>
                           <td><a href="/admin/quiz?id={{$element.Id}}">{{$element.Label}}</a></td>

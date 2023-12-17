@@ -10,7 +10,9 @@ import (
 	"path"
 	"quiz/internal/admin"
 	"quiz/internal/common"
+	"quiz/internal/first_ptsd"
 	"quiz/internal/kotenov_5_57"
+	"quiz/internal/person"
 	"strings"
 )
 
@@ -21,10 +23,14 @@ func main() {
 	// routes
 	mux.HandleFunc("/", getDashboardHandler)
 	mux.HandleFunc("/admin", admin.BasicAuth(admin.GetAdminDashboardHandler))
+	mux.HandleFunc("/admin/quiz", admin.BasicAuth(admin.GetQuizHandler))
 	mux.HandleFunc("/admin/quiz_list", admin.BasicAuth(admin.GetQuizListHandler))
+	mux.HandleFunc("/admin/person", admin.BasicAuth(person.GetPersonHandler))
 	mux.HandleFunc("/quiz/ui/static/", staticHandler)
 	mux.HandleFunc("/kotenov_5_57", kotenov_5_57.GetQuizHandler)
 	mux.HandleFunc("/check_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
+	mux.HandleFunc("/first_ptsd", first_ptsd.GetQuizHandler)
+	mux.HandleFunc("/check_first_ptsd", first_ptsd.CheckQuizHandler)
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {
