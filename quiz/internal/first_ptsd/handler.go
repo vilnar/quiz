@@ -25,7 +25,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Date string
-		Url  string
+		FormAction  string
 	}{
 		time.Now().Format("02.01.2006"),
 		common.GetServerInfo(r) + "/check_first_ptsd",

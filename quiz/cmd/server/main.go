@@ -35,7 +35,7 @@ func main() {
 	mux.HandleFunc("/admin/quiz_list", admin.BasicAuth(admin.GetQuizListHandler))
 	mux.HandleFunc("/admin/quiz_list_by_person", admin.BasicAuth(admin.GetQuizListByPersonIdHandler))
 	mux.HandleFunc("/admin/person", admin.BasicAuth(person.GetPersonHandler))
-	mux.HandleFunc("/admin/person_find", admin.BasicAuth(person.PersonListHandler))
+	mux.HandleFunc("/admin/person_list", admin.BasicAuth(person.PersonListHandler))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {

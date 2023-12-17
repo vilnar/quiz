@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"path"
 	"quiz/internal/common"
+	"unicode/utf8"
+	"strings"
 )
 
 func GetPersonFromRequest(r *http.Request) Person {
@@ -48,8 +50,26 @@ func GetPersonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getSearchQueryFromRequest(r *http.Request) string {
+	sq := r.Form.Get("search_query")
+	if utf8.RuneCountInString(sq) < 2 {
+		return ""
+	}
+	sq = strings.Trim(sq, "\"")
+	return sq
+}
+
 func PersonListHandler(w http.ResponseWriter, r *http.Request) {
-	list := GetPersonList(60)
+	r.ParseForm()
+
+	sq := getSearchQueryFromRequest(r)
+	var list []PersonDb
+	if sq == "" {
+		list = GetPersonList(60)
+	} else {
+		list = FindPersonListByFullName(sq)
+	}
+
 
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "person_list.html"),
@@ -62,8 +82,12 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
+		FormAction string
+		SearchQuery string
 		PersonList []PersonDb
 	}{
+		common.GetServerInfo(r) + "/admin/person_list",
+		sq,
 		list,
 	}
 

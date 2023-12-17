@@ -72,7 +72,7 @@ func GetPersonList(limit int) []PersonDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person LIMIT ? OFFSET 0", limit)
+	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person ORDER BY id DESC LIMIT ? OFFSET 0", limit)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -94,3 +94,28 @@ func GetPersonList(limit int) []PersonDb {
 	return result
 }
 
+func FindPersonListByFullName(searchQueryFullName string) []PersonDb {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(full_name) LIKE ?", "%" + searchQueryFullName + "%")
+	defer rows.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result []PersonDb
+	for rows.Next() {
+		var p PersonDb
+		err := rows.Scan(&p.Id, &p.FullName, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, p)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return result
+}
