@@ -3,6 +3,7 @@ package quiz
 import (
 	"log"
 	"quiz/internal/appdb"
+	"quiz/internal/common"
 	"time"
 )
 
@@ -63,11 +64,19 @@ func FindQuizById(id int64) QuizDb {
 	return q
 }
 
-func FindQuizListByPersonId(personId int64) []QuizWithPersonDb {
+func FindQuizListByPersonId(personId int64, page int) QuizWithPersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.full_name FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ?", personId)
+	var count int
+	err := db.QueryRow("SELECT COUNT(q.id) FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ?", personId).Scan(&count)
+	if err != nil {
+		log.Fatal(err)
+	}
+	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
+
+
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.full_name FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ? ORDER BY q.id DESC LIMIT ? OFFSET ?", personId, pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -86,7 +95,12 @@ func FindQuizListByPersonId(personId int64) []QuizWithPersonDb {
 		log.Fatal(err)
 	}
 
-	return result
+	return QuizWithPersonDbList{
+		List:        result,
+		PerPage:     common.PAGE_SIZE_DEFAULT,
+		TotalAmount: count,
+		CurrentPage: page,
+	}
 }
 
 type QuizWithPersonDb struct {
@@ -94,11 +108,22 @@ type QuizWithPersonDb struct {
 	PersonFullName string
 }
 
-func FindQuizWithPersonList(limit int) []QuizWithPersonDb {
+type QuizWithPersonDbList struct {
+	List []QuizWithPersonDb
+
+	PerPage     int
+	TotalAmount int
+	CurrentPage int
+}
+
+func FindQuizWithPersonList(page int) QuizWithPersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.full_name FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET 0", limit)
+	count := appdb.GetCountRowsInTable(db, "quiz")
+	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
+
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.full_name FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -117,5 +142,10 @@ func FindQuizWithPersonList(limit int) []QuizWithPersonDb {
 		log.Fatal(err)
 	}
 
-	return result
+	return QuizWithPersonDbList{
+		List:        result,
+		PerPage:     common.PAGE_SIZE_DEFAULT,
+		TotalAmount: count,
+		CurrentPage: page,
+	}
 }

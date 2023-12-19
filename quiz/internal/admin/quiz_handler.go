@@ -2,6 +2,7 @@ package admin
 
 import (
 	"fmt"
+	"html"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,12 +11,22 @@ import (
 	"quiz/internal/first_ptsd"
 	"quiz/internal/kotenov_5_57"
 	"quiz/internal/quiz"
+	"quiz/internal/pagination"
 )
 
 func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(
+	r.ParseForm()
+	page := common.GetPageFromRequest(r)
+
+	funcMap := template.FuncMap{
+		"safeHTML": func(s string) template.HTML {
+			return template.HTML(html.UnescapeString(s))
+		},
+	}
+	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+		path.Join("quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -23,12 +34,17 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list := quiz.FindQuizWithPersonList(60)
+	list := quiz.FindQuizWithPersonList(page)
+
+	baseUrl := common.GetServerInfo(r) + "/admin/quiz_list"
+	pr := pagination.NewPaginator(list.TotalAmount, list.PerPage, list.CurrentPage, baseUrl).Generate()
 
 	data := struct {
 		QuizWithPersonList []quiz.QuizWithPersonDb
+		Paginator   pagination.Paginator
 	}{
-		list,
+		list.List,
+		pr,
 	}
 
 	err = tmpl.Execute(w, data)
@@ -40,12 +56,25 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
-	personId := common.StringToInt64(r.URL.Query().Get("person_id"))
-	fmt.Printf("debug person id %+v\n", personId)
+	r.ParseForm()
 
-	tmpl, err := template.ParseFiles(
+	page := common.GetPageFromRequest(r)
+
+	personId := common.StringToInt64(r.Form.Get("person_id"))
+	if personId < 1 {
+		log.Fatalf("query param person_id not correct")
+		http.Error(w, "Bad request", http.StatusBadRequest)
+	}
+
+	funcMap := template.FuncMap{
+		"safeHTML": func(s string) template.HTML {
+			return template.HTML(html.UnescapeString(s))
+		},
+	}
+	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+		path.Join("quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -53,12 +82,18 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list := quiz.FindQuizListByPersonId(personId)
+	list := quiz.FindQuizListByPersonId(personId, page)
+
+	baseUrl := common.GetServerInfo(r) + "/admin/quiz_list_by_person"
+	pr := pagination.NewPaginator(list.TotalAmount, list.PerPage, list.CurrentPage, baseUrl).Generate()
+
 
 	data := struct {
 		QuizWithPersonList []quiz.QuizWithPersonDb
+		Paginator   pagination.Paginator
 	}{
-		list,
+		list.List,
+		pr,
 	}
 
 	err = tmpl.Execute(w, data)
