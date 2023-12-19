@@ -16,7 +16,6 @@ import (
 const QUIZ_NAME = "first_ptsd"
 const QUIZ_LABEL = "Опитувальник для первинного скринінгу ПТСР"
 
-
 type Answers struct {
 	A1 int
 	A2 int

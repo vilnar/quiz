@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"path"
 	"quiz/internal/common"
-	"quiz/internal/quiz"
-	"quiz/internal/kotenov_5_57"
 	"quiz/internal/first_ptsd"
+	"quiz/internal/kotenov_5_57"
+	"quiz/internal/quiz"
 )
 
 func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {

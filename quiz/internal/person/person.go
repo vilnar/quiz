@@ -3,6 +3,7 @@ package person
 import (
 	"log"
 	"quiz/internal/appdb"
+	"quiz/internal/common"
 	"time"
 )
 
@@ -18,8 +19,17 @@ type Person struct {
 type PersonDb struct {
 	Id int64
 	Person
+
 	CreateAt string
 	UpdateAt string
+}
+
+type PersonDbList struct {
+	List []PersonDb
+
+	PerPage     int
+	TotalAmount int
+	CurrentPage int
 }
 
 func SavePerson(p Person) int64 {
@@ -68,11 +78,15 @@ func FindPersonById(id int64) PersonDb {
 	return p
 }
 
-func GetPersonList(limit int) []PersonDb {
+func GetPersonList(page int) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person ORDER BY id DESC LIMIT ? OFFSET 0", limit)
+	count := appdb.GetCountRowsInTable(db, "person")
+
+	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
+
+	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -91,14 +105,19 @@ func GetPersonList(limit int) []PersonDb {
 		log.Fatal(err)
 	}
 
-	return result
+	return PersonDbList{
+		List:        result,
+		PerPage:     common.PAGE_SIZE_DEFAULT,
+		TotalAmount: count,
+		CurrentPage: page,
+	}
 }
 
-func FindPersonListByFullName(searchQueryFullName string) []PersonDb {
+func FindPersonListByFullName(searchQueryFullName string) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(full_name) LIKE ?", "%" + searchQueryFullName + "%")
+	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(full_name) LIKE ?", "%"+searchQueryFullName+"% LIMIT ?", 100)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -117,5 +136,10 @@ func FindPersonListByFullName(searchQueryFullName string) []PersonDb {
 		log.Fatal(err)
 	}
 
-	return result
+	return PersonDbList{
+		List:        result,
+		PerPage:     common.PAGE_SIZE_DEFAULT,
+		TotalAmount: 0,
+		CurrentPage: 1,
+	}
 }

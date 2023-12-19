@@ -1,0 +1,23 @@
+{{ if .HasPages }}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {{ .GetPreviousButton "<" | safeHTML }}
+      {{ range .FirstPart }}
+        {{ . | safeHTML }}
+      {{ end }}
+      {{ if len .MiddlePart }}
+        {{ .GetDots | safeHTML }}
+        {{ range .MiddlePart }}
+            {{ . | safeHTML }}
+        {{ end }}
+      {{ end }}
+      {{ if len .LastPart }}
+        {{ .GetDots | safeHTML }}
+        {{ range .LastPart }}
+            {{ . | safeHTML }}
+        {{ end }}
+      {{ end }}
+      {{ .GetNextButton ">" | safeHTML }}
+    </ul>
+</nav>
+{{end}}

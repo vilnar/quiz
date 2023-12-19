@@ -262,7 +262,6 @@ func calcQuizResult(a Answers) QuizResult {
 	GSR := A1 + b + c + d + e + f
 	Depression := getAnswerRevers(a.A1) + a.A6 + a.A15 + a.A24 + a.A26 + a.A36 + a.A42 + getAnswerRevers(a.A46) + a.A57 + getAnswerRevers(a.A66) + getAnswerRevers(a.A67) + getAnswerRevers(a.A78) + a.A81 + a.A90 + getAnswerRevers(a.A109)
 
-
 	// T-points
 	res.A1 = getTpoint_A1(A1)
 	res.B_ = getTpoint_B(B)
@@ -277,7 +276,6 @@ func calcQuizResult(a Answers) QuizResult {
 	res.D = getTpoint_d(d)
 	res.E = getTpoint_e(e)
 	res.F = getTpoint_f(f)
-
 
 	res.PTSD = getTpoint_PTSD(PTSD)
 	res.GSR = getTpoint_GSR(GSR)

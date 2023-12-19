@@ -1,13 +1,16 @@
 package person
 
 import (
+	"fmt"
+	"html"
 	"html/template"
 	"log"
 	"net/http"
 	"path"
 	"quiz/internal/common"
-	"unicode/utf8"
+	"quiz/internal/pagination"
 	"strings"
+	"unicode/utf8"
 )
 
 func GetPersonFromRequest(r *http.Request) Person {
@@ -59,21 +62,36 @@ func getSearchQueryFromRequest(r *http.Request) string {
 	return sq
 }
 
+func getPageFromRequest(r *http.Request) int {
+	p := r.Form.Get("page")
+	page := common.StringToInt(p)
+	if page < 1 {
+		page = 1
+	}
+	return page
+}
+
 func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	sq := getSearchQueryFromRequest(r)
-	var list []PersonDb
+	page := 1 // TODO:
+	var list PersonDbList
 	if sq == "" {
-		list = GetPersonList(60)
+		list = GetPersonList(page)
 	} else {
 		list = FindPersonListByFullName(sq)
 	}
 
-
-	tmpl, err := template.ParseFiles(
+	funcMap := template.FuncMap{
+		"safeHTML": func(s string) template.HTML {
+			return template.HTML(html.UnescapeString(s))
+		},
+	}
+	tmpl, err := template.New("person_list.html").Funcs(funcMap).ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "person_list.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+		path.Join("quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -81,15 +99,23 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	baseUrl := common.GetServerInfo(r) + "/admin/person_list"
+	pr := pagination.NewPaginator(list.TotalAmount, list.PerPage, list.CurrentPage, baseUrl).Generate()
+
+	fmt.Printf("debug pagination %+v\n", pr)
+
 	data := struct {
-		FormAction string
+		FormAction  string
 		SearchQuery string
-		PersonList []PersonDb
+		PersonList  []PersonDb
+		Paginator   pagination.Paginator
 	}{
-		common.GetServerInfo(r) + "/admin/person_list",
+		baseUrl,
 		sq,
-		list,
+		list.List,
+		pr,
 	}
+	// fmt.Printf("debug data %+v\n", data)
 
 	err = tmpl.Execute(w, data)
 	if err != nil {
