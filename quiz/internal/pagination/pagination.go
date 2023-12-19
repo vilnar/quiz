@@ -90,25 +90,25 @@ func (p Paginator) getUrl(page int, text string) string {
 			strParam = strParam + "&" + k + "=" + v[0] // TODO
 		}
 
-		href := baseUrl.Host + "?page=" + strPage + strParam
+		href := baseUrl.String() + "?page=" + strPage + strParam
 		return p.GetAvailablePageWrapper(href, text)
 	}
 }
 
 func (p Paginator) GetActivePageWrapper(text string) string {
-	return "<li class=\"page-item active\"><span class=\"page-link\">" + text + "</span></li>"
+	return `<li class="page-item active"><span class="page-link">` + text + `</span></li>`
 }
 
 func (p Paginator) GetDisabledPageWrapper(text string) string {
-	return "<li class=\"page-item disabled wtf-wrapper\"><span class=\"page-link\">" + text + "</span></li>"
+	return `<li class="page-item disabled wtf-wrapper"><span class="page-link">` + text + `</span></li>`
 }
 
 func (p Paginator) GetAvailablePageWrapper(href, page string) string {
-	return "<li class=\"page-item\"><a class=\"page-link\" href=\"" + href + "\">" + page + "</a></li>"
+	return `<li class="page-item"><a class="page-link" href="` + href + `">` + page + `</a></li>`
 }
 
 func (p Paginator) GetDots() string {
-	return "<li class=\"page-item disabled\"><span class=\"page-link\">...</span></li>"
+	return `<li class="page-item disabled"><span class="page-link">...</span></li>`
 }
 
 func (p Paginator) GetPreviousButton(text string) string {

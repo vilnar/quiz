@@ -1,7 +1,7 @@
 package person
 
 import (
-	"fmt"
+	// "fmt"
 	"html"
 	"html/template"
 	"log"
@@ -9,8 +9,6 @@ import (
 	"path"
 	"quiz/internal/common"
 	"quiz/internal/pagination"
-	"strings"
-	"unicode/utf8"
 )
 
 func GetPersonFromRequest(r *http.Request) Person {
@@ -53,29 +51,12 @@ func GetPersonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getSearchQueryFromRequest(r *http.Request) string {
-	sq := r.Form.Get("search_query")
-	if utf8.RuneCountInString(sq) < 2 {
-		return ""
-	}
-	sq = strings.Trim(sq, "\"")
-	return sq
-}
-
-func getPageFromRequest(r *http.Request) int {
-	p := r.Form.Get("page")
-	page := common.StringToInt(p)
-	if page < 1 {
-		page = 1
-	}
-	return page
-}
-
 func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	sq := getSearchQueryFromRequest(r)
-	page := 1 // TODO:
+	page := common.GetPageFromRequest(r)
+
+	sq := common.GetSearchQueryFromRequest(r)
 	var list PersonDbList
 	if sq == "" {
 		list = GetPersonList(page)
@@ -101,8 +82,6 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 
 	baseUrl := common.GetServerInfo(r) + "/admin/person_list"
 	pr := pagination.NewPaginator(list.TotalAmount, list.PerPage, list.CurrentPage, baseUrl).Generate()
-
-	fmt.Printf("debug pagination %+v\n", pr)
 
 	data := struct {
 		FormAction  string
