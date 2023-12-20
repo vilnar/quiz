@@ -117,7 +117,7 @@ func FindPersonListByFullName(searchQueryFullName string) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(full_name) LIKE ?", "%"+searchQueryFullName+"% LIMIT ?", 100)
+	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(full_name) LIKE ? LIMIT ?", "%"+searchQueryFullName+"%", 100)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
