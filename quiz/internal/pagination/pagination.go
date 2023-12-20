@@ -1,6 +1,8 @@
 package pagination
 
 import (
+	"html"
+	"html/template"
 	"math"
 	"net/url"
 	"strconv"
@@ -16,9 +18,9 @@ type Paginator struct {
 	BaseUrl     string
 
 	// render parts
-	FirstPart  []string
-	MiddlePart []string
-	LastPart   []string
+	FirstPart  []template.HTML
+	MiddlePart []template.HTML
+	LastPart   []template.HTML
 }
 
 func NewPaginator(totalAmount, perPage, currentPage int, baseUrl string) Paginator {
@@ -69,15 +71,15 @@ func (p Paginator) Generate() Paginator {
 	return p
 }
 
-func (p Paginator) getUrlRange(start, end int) []string {
-	var ret []string
+func (p Paginator) getUrlRange(start, end int) []template.HTML {
+	var ret []template.HTML
 	for i := start; i <= end; i++ {
 		ret = append(ret, p.getUrl(i, strconv.Itoa(i)))
 	}
 	return ret
 }
 
-func (p Paginator) getUrl(page int, text string) string {
+func (p Paginator) getUrl(page int, text string) template.HTML {
 	strPage := strconv.Itoa(page)
 	if p.CurrentPage == page {
 		return p.GetActivePageWrapper(strPage)
@@ -95,23 +97,23 @@ func (p Paginator) getUrl(page int, text string) string {
 	}
 }
 
-func (p Paginator) GetActivePageWrapper(text string) string {
-	return `<li class="page-item active"><span class="page-link">` + text + `</span></li>`
+func (p Paginator) GetActivePageWrapper(text string) template.HTML {
+	return safeHtml(`<li class="page-item active"><span class="page-link">` + text + `</span></li>`)
 }
 
-func (p Paginator) GetDisabledPageWrapper(text string) string {
-	return `<li class="page-item disabled wtf-wrapper"><span class="page-link">` + text + `</span></li>`
+func (p Paginator) GetDisabledPageWrapper(text string) template.HTML {
+	return safeHtml(`<li class="page-item disabled wtf-wrapper"><span class="page-link">` + text + `</span></li>`)
 }
 
-func (p Paginator) GetAvailablePageWrapper(href, page string) string {
-	return `<li class="page-item"><a class="page-link" href="` + href + `">` + page + `</a></li>`
+func (p Paginator) GetAvailablePageWrapper(href, page string) template.HTML {
+	return safeHtml(`<li class="page-item"><a class="page-link" href="` + href + `">` + page + `</a></li>`)
 }
 
-func (p Paginator) GetDots() string {
-	return `<li class="page-item disabled"><span class="page-link">...</span></li>`
+func (p Paginator) GetDots() template.HTML {
+	return safeHtml(`<li class="page-item disabled"><span class="page-link">...</span></li>`)
 }
 
-func (p Paginator) GetPreviousButton(text string) string {
+func (p Paginator) GetPreviousButton(text string) template.HTML {
 	if p.CurrentPage <= 1 {
 		return p.GetDisabledPageWrapper(text)
 	}
@@ -119,9 +121,13 @@ func (p Paginator) GetPreviousButton(text string) string {
 	return p.getUrl(p.CurrentPage-1, text)
 }
 
-func (p Paginator) GetNextButton(text string) string {
+func (p Paginator) GetNextButton(text string) template.HTML {
 	if p.CurrentPage == p.TotalPage {
 		return p.GetDisabledPageWrapper(text)
 	}
 	return p.getUrl(p.CurrentPage+1, text)
+}
+
+func safeHtml(s string) template.HTML {
+	return template.HTML(html.UnescapeString(s))
 }

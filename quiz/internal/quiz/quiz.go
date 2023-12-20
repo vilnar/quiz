@@ -75,7 +75,6 @@ func FindQuizListByPersonId(personId int64, page int) QuizWithPersonDbList {
 	}
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-
 	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.full_name FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ? ORDER BY q.id DESC LIMIT ? OFFSET ?", personId, pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {

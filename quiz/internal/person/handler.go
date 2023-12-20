@@ -2,7 +2,6 @@ package person
 
 import (
 	// "fmt"
-	"html"
 	"html/template"
 	"log"
 	"net/http"
@@ -64,12 +63,7 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 		list = FindPersonListByFullName(sq)
 	}
 
-	funcMap := template.FuncMap{
-		"safeHTML": func(s string) template.HTML {
-			return template.HTML(html.UnescapeString(s))
-		},
-	}
-	tmpl, err := template.New("person_list.html").Funcs(funcMap).ParseFiles(
+	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "person_list.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 		path.Join("quiz", "ui", "templates", "pagination.html"),

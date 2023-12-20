@@ -2,7 +2,6 @@ package admin
 
 import (
 	"fmt"
-	"html"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,20 +9,15 @@ import (
 	"quiz/internal/common"
 	"quiz/internal/first_ptsd"
 	"quiz/internal/kotenov_5_57"
-	"quiz/internal/quiz"
 	"quiz/internal/pagination"
+	"quiz/internal/quiz"
 )
 
 func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	page := common.GetPageFromRequest(r)
 
-	funcMap := template.FuncMap{
-		"safeHTML": func(s string) template.HTML {
-			return template.HTML(html.UnescapeString(s))
-		},
-	}
-	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
+	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 		path.Join("quiz", "ui", "templates", "pagination.html"),
@@ -41,7 +35,7 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		QuizWithPersonList []quiz.QuizWithPersonDb
-		Paginator   pagination.Paginator
+		Paginator          pagination.Paginator
 	}{
 		list.List,
 		pr,
@@ -66,12 +60,7 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 	}
 
-	funcMap := template.FuncMap{
-		"safeHTML": func(s string) template.HTML {
-			return template.HTML(html.UnescapeString(s))
-		},
-	}
-	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
+	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 		path.Join("quiz", "ui", "templates", "pagination.html"),
@@ -87,10 +76,9 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 	baseUrl := common.GetServerInfo(r) + "/admin/quiz_list_by_person"
 	pr := pagination.NewPaginator(list.TotalAmount, list.PerPage, list.CurrentPage, baseUrl).Generate()
 
-
 	data := struct {
 		QuizWithPersonList []quiz.QuizWithPersonDb
-		Paginator   pagination.Paginator
+		Paginator          pagination.Paginator
 	}{
 		list.List,
 		pr,
