@@ -220,3 +220,35 @@ func FindPersonListByFullName(sqLastName, sqFirstName, sqPatronymic string, limi
 		CurrentPage: 1,
 	}
 }
+
+
+func FindPersonListByLastName(sqLastName string, limit int) PersonDbList {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(last_name) LIKE ? LIMIT ?", "%"+sqLastName+"%", limit)
+	defer rows.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result []PersonDb
+	for rows.Next() {
+		var p PersonDb
+		err := rows.Scan(&p.Id, &p.LastName, &p.FirstName, &p.Patronymic, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, p)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return PersonDbList{
+		List:        result,
+		PerPage:     common.PAGE_SIZE_DEFAULT,
+		TotalAmount: 0,
+		CurrentPage: 1,
+	}
+}

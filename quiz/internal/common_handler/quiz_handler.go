@@ -25,7 +25,7 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 		r.Form.Set("person_patronymic", p.Patronymic)
 		switch quizNameToPass {
 		// case kotenov_5_57.QUIZ_NAME:
-		// 	kotenov_5_57.wtf(w, r, q)
+		// 	kotenov_5_57.GetQuizHandler(w, r)
 		// 	return
 		case first_ptsd.QUIZ_NAME:
 			first_ptsd.GetQuizHandler(w, r)
@@ -47,14 +47,13 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	redirectUrl := common.GetServerInfo(r) + "/" + quizNameToPass
 	data := struct {
 		FormAction string
 		PersonFromRequest person.PersonName
 		PersonList []person.PersonDb
 		QuizNameToPass string
 	}{
-		redirectUrl,
+		common.GetServerInfo(r) + "/" + quizNameToPass,
 		p,
 		list.List,
 		quizNameToPass,
@@ -68,5 +67,3 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
-

@@ -93,7 +93,7 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 	if sq == "" {
 		list = GetPersonList(page)
 	} else {
-		list = FindPersonListByFullName(sq, "", "", 100)
+		list = FindPersonListByLastName(sq, 100)
 	}
 
 	tmpl, err := template.ParseFiles(

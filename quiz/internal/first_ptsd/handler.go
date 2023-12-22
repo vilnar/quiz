@@ -20,6 +20,9 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	p := person.GetPersonDbFromRequest(r)
+	if p.CheckId() {
+		p = person.FindPersonById(p.Id)
+	}
 	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p)
 	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p.Person.PersonName.LastName)
 	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p.LastName)
