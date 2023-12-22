@@ -1,4 +1,4 @@
-package common_handler
+package apphandler
 
 import (
 	"fmt"

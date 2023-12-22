@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"quiz/internal/apphandler"
 	"quiz/internal/common"
-	"quiz/internal/common_handler"
 	"quiz/internal/first_ptsd"
 	"quiz/internal/kotenov_5_57"
 	"quiz/internal/person"
@@ -31,14 +31,14 @@ func main() {
 	mux.HandleFunc("/quiz_first_ptsd", first_ptsd.GetQuizHandler)
 	mux.HandleFunc("/check_quiz_first_ptsd", first_ptsd.CheckQuizHandler)
 
-	mux.HandleFunc("/find_person_for_quiz", common_handler.FindPersonForQuizHandler)
+	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 
-	mux.HandleFunc("/admin", common_handler.BasicAuth(common_handler.GetAdminDashboardHandler))
-	mux.HandleFunc("/admin/quiz", common_handler.BasicAuth(common_handler.GetQuizHandler))
-	mux.HandleFunc("/admin/quiz_list", common_handler.BasicAuth(common_handler.GetQuizListHandler))
-	mux.HandleFunc("/admin/quiz_list_by_person", common_handler.BasicAuth(common_handler.GetQuizListByPersonIdHandler))
-	mux.HandleFunc("/admin/person", common_handler.BasicAuth(person.GetPersonHandler))
-	mux.HandleFunc("/admin/person_list", common_handler.BasicAuth(person.PersonListHandler))
+	mux.HandleFunc("/admin", apphandler.BasicAuth(apphandler.GetAdminDashboardHandler))
+	mux.HandleFunc("/admin/quiz", apphandler.BasicAuth(apphandler.GetQuizHandler))
+	mux.HandleFunc("/admin/quiz_list", apphandler.BasicAuth(apphandler.GetQuizListHandler))
+	mux.HandleFunc("/admin/quiz_list_by_person", apphandler.BasicAuth(apphandler.GetQuizListByPersonIdHandler))
+	mux.HandleFunc("/admin/person", apphandler.BasicAuth(person.GetPersonHandler))
+	mux.HandleFunc("/admin/person_list", apphandler.BasicAuth(person.PersonListHandler))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {
