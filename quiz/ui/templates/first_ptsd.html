@@ -20,7 +20,7 @@
             <div class="col-md-8">
                 <form id="testForm" action="{{ .FormAction }}" method="POST">
                     <div class="mb-3 p-3 border">
-                        {{template "person_blank.html"}}
+                        {{template "person_blank.html" .Person}}
                         <div class="mb-5">
                             <em>Інструкція: Уважно читаючи кожне твердження, виберіть той варіант відповіді, який найбільше відповідає Вашому стану або поглядам у даний час.</em>
                         </div>

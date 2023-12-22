@@ -1,4 +1,4 @@
-package admin
+package common_handler
 
 import (
 	"crypto/sha256"

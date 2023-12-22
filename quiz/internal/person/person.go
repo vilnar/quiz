@@ -1,14 +1,22 @@
 package person
 
 import (
+	"fmt"
 	"log"
 	"quiz/internal/appdb"
 	"quiz/internal/common"
+	"unicode/utf8"
 	"time"
 )
 
+type PersonName struct {
+	LastName   string
+	FirstName  string
+	Patronymic string
+}
+
 type Person struct {
-	FullName     string
+	PersonName
 	MilitaryName string
 	Age          int
 	Gender       string
@@ -24,6 +32,47 @@ type PersonDb struct {
 	UpdateAt string
 }
 
+func (p PersonDb) CheckId() bool {
+	return p.Id > 0
+}
+
+func (p PersonDb) IsValidData() bool {
+	if utf8.RuneCountInString(p.LastName) < 1 {
+		log.Printf("not valid person last name")
+		return false
+	}
+	if utf8.RuneCountInString(p.FirstName) < 1 {
+		log.Printf("not valid person first name")
+		return false
+	}
+	if utf8.RuneCountInString(p.Patronymic) < 1 {
+		log.Printf("not valid person patronymic")
+		return false
+	}
+	if p.Age < 1 {
+		log.Printf("not valid person age")
+		return false
+	}
+	if utf8.RuneCountInString(p.MilitaryName) < 2 {
+		log.Printf("not valid person military name")
+		return false
+	}
+	if utf8.RuneCountInString(p.Gender) < 2 {
+		log.Printf("not valid person gender")
+		return false
+	}
+	if utf8.RuneCountInString(p.Unit) < 2 {
+		log.Printf("not valid person unit")
+		return false
+	}
+	if utf8.RuneCountInString(p.Specialty) < 2 {
+		log.Printf("not valid person specialty")
+		return false
+	}
+
+	return true
+}
+
 type PersonDbList struct {
 	List []PersonDb
 
@@ -32,17 +81,45 @@ type PersonDbList struct {
 	CurrentPage int
 }
 
-func SavePerson(p Person) int64 {
+func (p Person) GetFullName() string {
+	fmt.Printf("debug fullname %+v\n", p)
+	return fmt.Sprintf("%s %s %s", p.LastName, p.FirstName, p.Patronymic)
+}
+
+func SavePerson(p PersonDb) int64 {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT INTO person(full_name, military_name, age, gender, unit, specialty, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO person(last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	date := time.Now().Format("2006-01-02 15:04:05")
-	res, err := stmt.Exec(p.FullName, p.MilitaryName, p.Age, p.Gender, p.Unit, p.Specialty, date, date)
+	res, err := stmt.Exec(p.LastName, p.FirstName, p.Patronymic, p.MilitaryName, p.Age, p.Gender, p.Unit, p.Specialty, date, date)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return id
+}
+
+func UpdatePerson(p PersonDb) int64 {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
+
+	stmt, err := db.Prepare("UPDATE person SET military_name = ?, age = ?, gender = ?, unit = ?, specialty = ?, update_at = ? WHERE id = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	date := time.Now().Format("2006-01-02 15:04:05")
+	res, err := stmt.Exec(p.MilitaryName, p.Age, p.Gender, p.Unit, p.Specialty, date, p.Id)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -59,7 +136,7 @@ func FindPersonById(id int64) PersonDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	res, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE id = ?", id)
+	res, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE id = ?", id)
 	defer res.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -67,7 +144,7 @@ func FindPersonById(id int64) PersonDb {
 
 	var p PersonDb
 	if res.Next() {
-		err := res.Scan(&p.Id, &p.FullName, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
+		err := res.Scan(&p.Id, &p.LastName, &p.FirstName, &p.Patronymic, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -86,7 +163,7 @@ func GetPersonList(page int) PersonDbList {
 
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
+	rows, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -95,7 +172,7 @@ func GetPersonList(page int) PersonDbList {
 	var result []PersonDb
 	for rows.Next() {
 		var p PersonDb
-		err := rows.Scan(&p.Id, &p.FullName, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
+		err := rows.Scan(&p.Id, &p.LastName, &p.FirstName, &p.Patronymic, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -113,11 +190,11 @@ func GetPersonList(page int) PersonDbList {
 	}
 }
 
-func FindPersonListByFullName(searchQueryFullName string) PersonDbList {
+func FindPersonListByFullName(sqLastName, sqFirstName, sqPatronymic string, limit int) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, full_name, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(full_name) LIKE ? LIMIT ?", "%"+searchQueryFullName+"%", 100)
+	rows, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(last_name) LIKE ? AND LOWER(first_name) LIKE ? AND LOWER(patronymic) LIKE ? LIMIT ?", "%"+sqLastName+"%", "%"+sqFirstName+"%", "%"+sqPatronymic+"%", limit)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -126,7 +203,7 @@ func FindPersonListByFullName(searchQueryFullName string) PersonDbList {
 	var result []PersonDb
 	for rows.Next() {
 		var p PersonDb
-		err := rows.Scan(&p.Id, &p.FullName, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
+		err := rows.Scan(&p.Id, &p.LastName, &p.FirstName, &p.Patronymic, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
 		if err != nil {
 			log.Fatal(err)
 		}

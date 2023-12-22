@@ -105,7 +105,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 		Header string
 		QuizResult
 	}{
-		fmt.Sprintf("Результати дослідження первинного скринінгу ПТСР військовослужбовця %s", p.FullName),
+		fmt.Sprintf("Результати дослідження первинного скринінгу ПТСР військовослужбовця %s", p.GetFullName()),
 		qd.Result,
 	}
 

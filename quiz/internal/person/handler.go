@@ -8,18 +8,51 @@ import (
 	"path"
 	"quiz/internal/common"
 	"quiz/internal/pagination"
+	"unicode/utf8"
 )
 
 func GetPersonFromRequest(r *http.Request) Person {
-	person := Person{
-		r.Form.Get("person_name"),
-		r.Form.Get("person_mil_name"),
-		common.StringToInt(r.Form.Get("person_age")),
-		r.Form.Get("gender"),
-		r.Form.Get("person_unit"),
-		r.Form.Get("person_specialty"),
-	}
+	var person Person
+	person.LastName = r.Form.Get("person_last_name")
+	person.FirstName = r.Form.Get("person_first_name")
+	person.Patronymic = r.Form.Get("person_patronymic")
+	person.MilitaryName = r.Form.Get("person_mil_name")
+	person.Age = common.StringToInt(r.Form.Get("person_age"))
+	person.Gender = r.Form.Get("person_gender")
+	person.Unit = r.Form.Get("person_unit")
+	person.Specialty = r.Form.Get("person_specialty")
 	return person
+}
+
+func GetPersonDbFromRequest(r *http.Request) PersonDb {
+	var person PersonDb
+	person.Id = common.StringToInt64(r.Form.Get("person_id"))
+	person.LastName = r.Form.Get("person_last_name")
+	person.FirstName = r.Form.Get("person_first_name")
+	person.Patronymic = r.Form.Get("person_patronymic")
+	person.MilitaryName = r.Form.Get("person_mil_name")
+	person.Age = common.StringToInt(r.Form.Get("person_age"))
+	person.Gender = r.Form.Get("person_gender")
+	person.Unit = r.Form.Get("person_unit")
+	person.Specialty = r.Form.Get("person_specialty")
+	return person
+}
+
+func GetPersonNameFromRequest(r *http.Request) PersonName {
+	p := PersonName{
+		LastName:   r.Form.Get("person_last_name"),
+		FirstName:  r.Form.Get("person_first_name"),
+		Patronymic: r.Form.Get("person_patronymic"),
+	}
+	return p
+}
+
+func IsEmpyPersonNameFromRequest(r *http.Request) bool {
+	lastName := r.Form.Get("person_last_name")
+	firtName := r.Form.Get("person_first_name")
+	patronymic := r.Form.Get("person_patronymic")
+	return utf8.RuneCountInString(lastName) < 1 || utf8.RuneCountInString(firtName) < 1 || utf8.RuneCountInString(patronymic) < 1
+
 }
 
 func GetPersonHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +93,7 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 	if sq == "" {
 		list = GetPersonList(page)
 	} else {
-		list = FindPersonListByFullName(sq)
+		list = FindPersonListByFullName(sq, "", "", 100)
 	}
 
 	tmpl, err := template.ParseFiles(
@@ -89,6 +122,33 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 		pr,
 	}
 	// fmt.Printf("debug data %+v\n", data)
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
+func GetPersonNameFormHandler(w http.ResponseWriter, r *http.Request, quizNameToPass string) {
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "first_person_blank.html"),
+		path.Join("quiz", "ui", "templates", "header.html"),
+	)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	data := struct {
+		FormAction     string
+		QuizNameToPass string
+	}{
+		common.GetServerInfo(r) + "/find_person_for_quiz",
+		quizNameToPass,
+	}
 
 	err = tmpl.Execute(w, data)
 	if err != nil {

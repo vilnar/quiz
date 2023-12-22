@@ -42,7 +42,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	p := person.GetPersonFromRequest(r)
+	p := person.GetPersonDbFromRequest(r)
 	answers := getAnswersFromRequest(r)
 
 	personId := person.SavePerson(p)

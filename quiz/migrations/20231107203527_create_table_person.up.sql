@@ -1,6 +1,8 @@
 CREATE TABLE person (
 	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	full_name VARCHAR(255) NOT NULL,
+	last_name VARCHAR(255) NOT NULL,
+	first_name VARCHAR(255) NOT NULL,
+	patronymic VARCHAR(255) NOT NULL,
 	military_name VARCHAR(255) NOT NULL,
 	age INT,
 	gender VARCHAR(255),
@@ -9,6 +11,8 @@ CREATE TABLE person (
 	create_at TIMESTAMP NOT NULL,
 	update_at TIMESTAMP NOT NULL,
 	PRIMARY KEY (id),
-        FULLTEXT(full_name)
+        FULLTEXT(last_name),
+        FULLTEXT(first_name),
+        FULLTEXT(patronymic)
 );
 

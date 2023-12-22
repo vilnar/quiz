@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Персональний бланк</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center">Персональний бланк</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="personForm" action="{{ .FormAction }}" method="POST">
+                    <div class="mb-3 p-3 border">
+                        <input type="hidden" name="quiz_name_to_pass" value="{{.QuizNameToPass}}">
+                        <div class="mb-3">
+                            <label class="form-check-label" for="person_last_name">Прізвище</label>
+                            <input class="form-control" type="text" name="person_last_name" required minlength=2>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-check-label" for="person_first_name">Ім'я</label>
+                            <input class="form-control" type="text" name="person_first_name" required minlength=2>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-check-label" for="person_patronymic">По батькові</label>
+                            <input class="form-control" type="text" name="person_patronymic" required minlength=2>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Відправити</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>
+

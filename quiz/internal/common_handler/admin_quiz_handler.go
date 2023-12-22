@@ -1,4 +1,4 @@
-package admin
+package common_handler
 
 import (
 	"fmt"
@@ -12,6 +12,25 @@ import (
 	"quiz/internal/pagination"
 	"quiz/internal/quiz"
 )
+
+func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
+	id := common.StringToInt64(r.URL.Query().Get("id"))
+	fmt.Printf("debug id %+v\n", id)
+
+	q := quiz.FindQuizById(id)
+	switch q.Name {
+	case kotenov_5_57.QUIZ_NAME:
+		kotenov_5_57.GetAdminQuizResultHandler(w, r, q)
+		return
+	case first_ptsd.QUIZ_NAME:
+		first_ptsd.GetAdminQuizResultHandler(w, r, q)
+		return
+	default:
+		log.Printf("Not found quiz by name")
+		http.Error(w, "Not found quiz by name", http.StatusNotFound)
+		return
+	}
+}
 
 func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
@@ -56,8 +75,9 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 
 	personId := common.StringToInt64(r.Form.Get("person_id"))
 	if personId < 1 {
-		log.Fatalf("query param person_id not correct")
+		log.Print("query param person_id not correct")
 		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
 	}
 
 	tmpl, err := template.ParseFiles(
@@ -88,25 +108,6 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-}
-
-func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
-	id := common.StringToInt64(r.URL.Query().Get("id"))
-	fmt.Printf("debug id %+v\n", id)
-
-	q := quiz.FindQuizById(id)
-	switch q.Name {
-	case kotenov_5_57.QUIZ_NAME:
-		kotenov_5_57.GetAdminQuizResultHandler(w, r, q)
-		return
-	case first_ptsd.QUIZ_NAME:
-		first_ptsd.GetAdminQuizResultHandler(w, r, q)
-		return
-	default:
-		log.Printf("Not found quiz by name")
-		http.Error(w, "Not found quiz by name", http.StatusNotFound)
 		return
 	}
 }
