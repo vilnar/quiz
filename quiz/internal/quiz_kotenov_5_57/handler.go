@@ -1,4 +1,4 @@
-package kotenov_5_57
+package quiz_kotenov_5_57
 
 import (
 	"fmt"
@@ -26,7 +26,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p)
 
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "kotenov_5_57.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "kotenov_5_57.html"),
 		path.Join("quiz", "ui", "templates", "header.html"),
 		path.Join("quiz", "ui", "templates", "person_blank.html"),
 	)

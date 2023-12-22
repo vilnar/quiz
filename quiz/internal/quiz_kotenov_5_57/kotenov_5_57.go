@@ -1,4 +1,4 @@
-package kotenov_5_57
+package quiz_kotenov_5_57
 
 import (
 	"encoding/json"
@@ -215,7 +215,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 		headerPath = path.Join("quiz", "ui", "templates", "admin", "header.html")
 	}
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "kotenov_5_57_result.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "kotenov_5_57_result.html"),
 		headerPath,
 	)
 	if err != nil {

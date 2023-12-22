@@ -11,9 +11,9 @@ import (
 	"path"
 	"quiz/internal/apphandler"
 	"quiz/internal/common"
-	"quiz/internal/first_ptsd"
-	"quiz/internal/kotenov_5_57"
 	"quiz/internal/person"
+	"quiz/internal/quiz_first_ptsd"
+	"quiz/internal/quiz_kotenov_5_57"
 	"strings"
 )
 
@@ -25,11 +25,11 @@ func main() {
 	mux.HandleFunc("/", getDashboardHandler)
 	mux.HandleFunc("/quiz/ui/static/", staticHandler)
 
-	mux.HandleFunc("/quiz_kotenov_5_57", kotenov_5_57.GetQuizHandler)
-	mux.HandleFunc("/check_quiz_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
+	mux.HandleFunc("/quiz_kotenov_5_57", quiz_kotenov_5_57.GetQuizHandler)
+	mux.HandleFunc("/check_quiz_kotenov_5_57", quiz_kotenov_5_57.CheckQuizHandler)
 
-	mux.HandleFunc("/quiz_first_ptsd", first_ptsd.GetQuizHandler)
-	mux.HandleFunc("/check_quiz_first_ptsd", first_ptsd.CheckQuizHandler)
+	mux.HandleFunc("/quiz_first_ptsd", quiz_first_ptsd.GetQuizHandler)
+	mux.HandleFunc("/check_quiz_first_ptsd", quiz_first_ptsd.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 

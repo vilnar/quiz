@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"path"
 	"quiz/internal/common"
-	"quiz/internal/first_ptsd"
-	"quiz/internal/kotenov_5_57"
 	"quiz/internal/person"
+	"quiz/internal/quiz_first_ptsd"
+	"quiz/internal/quiz_kotenov_5_57"
 )
 
 func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,11 +24,11 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 		r.Form.Set("person_first_name", p.FirstName)
 		r.Form.Set("person_patronymic", p.Patronymic)
 		switch quizNameToPass {
-		case kotenov_5_57.QUIZ_NAME:
-			kotenov_5_57.GetQuizHandler(w, r)
+		case quiz_kotenov_5_57.QUIZ_NAME:
+			quiz_kotenov_5_57.GetQuizHandler(w, r)
 			return
-		case first_ptsd.QUIZ_NAME:
-			first_ptsd.GetQuizHandler(w, r)
+		case quiz_first_ptsd.QUIZ_NAME:
+			quiz_first_ptsd.GetQuizHandler(w, r)
 			return
 		default:
 			log.Printf("Not found quiz name")

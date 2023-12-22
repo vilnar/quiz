@@ -1,4 +1,4 @@
-package first_ptsd
+package quiz_first_ptsd
 
 import (
 	"fmt"
@@ -26,7 +26,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p)
 
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "first_ptsd.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd.html"),
 		path.Join("quiz", "ui", "templates", "header.html"),
 		path.Join("quiz", "ui", "templates", "person_blank.html"),
 	)

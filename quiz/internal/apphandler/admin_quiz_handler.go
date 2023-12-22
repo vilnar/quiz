@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"path"
 	"quiz/internal/common"
-	"quiz/internal/first_ptsd"
-	"quiz/internal/kotenov_5_57"
 	"quiz/internal/pagination"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_first_ptsd"
+	"quiz/internal/quiz_kotenov_5_57"
 )
 
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,11 +19,11 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 
 	q := quiz.FindQuizById(id)
 	switch q.Name {
-	case kotenov_5_57.QUIZ_NAME:
-		kotenov_5_57.GetAdminQuizResultHandler(w, r, q)
+	case quiz_kotenov_5_57.QUIZ_NAME:
+		quiz_kotenov_5_57.GetAdminQuizResultHandler(w, r, q)
 		return
-	case first_ptsd.QUIZ_NAME:
-		first_ptsd.GetAdminQuizResultHandler(w, r, q)
+	case quiz_first_ptsd.QUIZ_NAME:
+		quiz_first_ptsd.GetAdminQuizResultHandler(w, r, q)
 		return
 	default:
 		log.Printf("Not found quiz by name")

@@ -1,4 +1,4 @@
-package first_ptsd
+package quiz_first_ptsd
 
 import (
 	"encoding/json"
@@ -90,7 +90,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 		headerPath = path.Join("quiz", "ui", "templates", "admin", "header.html")
 	}
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "first_ptsd_result.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result.html"),
 		headerPath,
 	)
 	if err != nil {
