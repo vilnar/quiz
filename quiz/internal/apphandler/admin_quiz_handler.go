@@ -11,6 +11,7 @@ import (
 	"quiz/internal/quiz"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_kotenov_5_57"
+	"quiz/internal/quiz_nps_prognoz_2"
 )
 
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +25,9 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	case quiz_first_ptsd.QUIZ_NAME:
 		quiz_first_ptsd.GetAdminQuizResultHandler(w, r, q)
+		return
+	case quiz_nps_prognoz_2.QUIZ_NAME:
+		quiz_nps_prognoz_2.GetAdminQuizResultHandler(w, r, q)
 		return
 	default:
 		log.Printf("Not found quiz by name")

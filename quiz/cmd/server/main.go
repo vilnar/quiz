@@ -14,6 +14,7 @@ import (
 	"quiz/internal/person"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_kotenov_5_57"
+	"quiz/internal/quiz_nps_prognoz_2"
 	"strings"
 )
 
@@ -30,6 +31,9 @@ func main() {
 
 	mux.HandleFunc("/quiz_first_ptsd", quiz_first_ptsd.GetQuizHandler)
 	mux.HandleFunc("/check_quiz_first_ptsd", quiz_first_ptsd.CheckQuizHandler)
+
+	mux.HandleFunc("/quiz_nps_prognoz_2", quiz_nps_prognoz_2.GetQuizHandler)
+	mux.HandleFunc("/check_quiz_nps_prognoz_2", quiz_nps_prognoz_2.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 
