@@ -13,7 +13,7 @@ import (
 	"reflect"
 )
 
-const QUIZ_NAME = "first_ptsd"
+const QUIZ_NAME = "quiz_first_ptsd"
 const QUIZ_LABEL = "Опитувальник для первинного скринінгу ПТСР"
 
 type Answers struct {

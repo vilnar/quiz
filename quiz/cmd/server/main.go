@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"html"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -24,11 +25,11 @@ func main() {
 	mux.HandleFunc("/", getDashboardHandler)
 	mux.HandleFunc("/quiz/ui/static/", staticHandler)
 
-	mux.HandleFunc("/kotenov_5_57", kotenov_5_57.GetQuizHandler)
-	mux.HandleFunc("/check_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
+	mux.HandleFunc("/quiz_kotenov_5_57", kotenov_5_57.GetQuizHandler)
+	mux.HandleFunc("/check_quiz_kotenov_5_57", kotenov_5_57.CheckQuizHandler)
 
-	mux.HandleFunc("/first_ptsd", first_ptsd.GetQuizHandler)
-	mux.HandleFunc("/check_first_ptsd", first_ptsd.CheckQuizHandler)
+	mux.HandleFunc("/quiz_first_ptsd", first_ptsd.GetQuizHandler)
+	mux.HandleFunc("/check_quiz_first_ptsd", first_ptsd.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", common_handler.FindPersonForQuizHandler)
 
@@ -49,7 +50,12 @@ func main() {
 }
 
 func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
-	content := ""
+	if r.URL.Path != "/" {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "Error: handler for %s not found", html.EscapeString(r.URL.Path))
+		return
+	}
+
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "dashboard.html"),
 		path.Join("quiz", "ui", "templates", "header.html"),
@@ -59,6 +65,7 @@ func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	content := ""
 	if err := tmpl.Execute(w, content); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

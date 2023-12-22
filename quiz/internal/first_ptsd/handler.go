@@ -24,8 +24,6 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 		p = person.FindPersonById(p.Id)
 	}
 	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p)
-	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p.Person.PersonName.LastName)
-	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p.LastName)
 
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "first_ptsd.html"),
@@ -41,10 +39,10 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Date       string
 		FormAction string
-		Person	person.PersonDb
+		Person     person.PersonDb
 	}{
 		time.Now().Format("02.01.2006"),
-		common.GetServerInfo(r) + "/check_first_ptsd",
+		common.GetServerInfo(r) + "/check_quiz_first_ptsd",
 		p,
 	}
 
@@ -67,13 +65,7 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	answers := getAnswersFromRequest(r)
 
-	var personId int64
-	if p.CheckId() {
-		person.UpdatePerson(p)
-		personId = p.Id
-	} else {
-		personId = person.SavePerson(p)
-	}
+	personId := person.UpdateOrSavePerson(p)
 	quizResult := calcQuizResult(answers)
 	quizId := quiz.SaveQuiz(personId, QUIZ_NAME, QUIZ_LABEL, common.StructToJsonString(answers), common.StructToJsonString(quizResult), 0)
 	q := quiz.FindQuizById(quizId)

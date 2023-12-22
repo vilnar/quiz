@@ -8,7 +8,7 @@ import (
 	"path"
 	"quiz/internal/common"
 	"quiz/internal/first_ptsd"
-	// "quiz/internal/kotenov_5_57"
+	"quiz/internal/kotenov_5_57"
 	"quiz/internal/person"
 )
 
@@ -24,9 +24,9 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 		r.Form.Set("person_first_name", p.FirstName)
 		r.Form.Set("person_patronymic", p.Patronymic)
 		switch quizNameToPass {
-		// case kotenov_5_57.QUIZ_NAME:
-		// 	kotenov_5_57.GetQuizHandler(w, r)
-		// 	return
+		case kotenov_5_57.QUIZ_NAME:
+			kotenov_5_57.GetQuizHandler(w, r)
+			return
 		case first_ptsd.QUIZ_NAME:
 			first_ptsd.GetQuizHandler(w, r)
 			return
@@ -48,10 +48,10 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		FormAction string
+		FormAction        string
 		PersonFromRequest person.PersonName
-		PersonList []person.PersonDb
-		QuizNameToPass string
+		PersonList        []person.PersonDb
+		QuizNameToPass    string
 	}{
 		common.GetServerInfo(r) + "/" + quizNameToPass,
 		p,

@@ -5,8 +5,8 @@ import (
 	"log"
 	"quiz/internal/appdb"
 	"quiz/internal/common"
-	"unicode/utf8"
 	"time"
+	"unicode/utf8"
 )
 
 type PersonName struct {
@@ -221,7 +221,6 @@ func FindPersonListByFullName(sqLastName, sqFirstName, sqPatronymic string, limi
 	}
 }
 
-
 func FindPersonListByLastName(sqLastName string, limit int) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
@@ -251,4 +250,15 @@ func FindPersonListByLastName(sqLastName string, limit int) PersonDbList {
 		TotalAmount: 0,
 		CurrentPage: 1,
 	}
+}
+
+func UpdateOrSavePerson(p PersonDb) int64 {
+	var personId int64
+	if p.CheckId() {
+		UpdatePerson(p)
+		personId = p.Id
+	} else {
+		personId = SavePerson(p)
+	}
+	return personId
 }
