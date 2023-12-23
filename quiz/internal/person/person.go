@@ -36,6 +36,17 @@ func (p PersonDb) CheckId() bool {
 	return p.Id > 0
 }
 
+func (p PersonDb) GetGenderLabel() string {
+	switch p.Gender {
+	case "male":
+		return "чоловіча"
+	case "female":
+		return "жіноча"
+	default:
+		return "чоловіча"
+	}
+}
+
 func (p PersonDb) IsValidData() bool {
 	if utf8.RuneCountInString(p.LastName) < 1 {
 		log.Printf("not valid person last name")
@@ -58,6 +69,10 @@ func (p PersonDb) IsValidData() bool {
 		return false
 	}
 	if utf8.RuneCountInString(p.Gender) < 2 {
+		log.Printf("not valid person gender by count in string")
+		return false
+	}
+	if p.Gender != "male" && p.Gender != "female" {
 		log.Printf("not valid person gender")
 		return false
 	}

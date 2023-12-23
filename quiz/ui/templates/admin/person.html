@@ -20,7 +20,7 @@
                 <div class="mb-3 p-3 border">
                     <div class="row"><p><span class="fw-bold">Військове звання:</span> {{.Person.MilitaryName}}</p></div>
                     <div class="row"><p><span class="fw-bold">Вік:</span> {{.Person.Age}}</p></div>
-                    <div class="row"><p><span class="fw-bold">Стать:</span> {{.Person.Gender}}</p></div>
+                    <div class="row"><p><span class="fw-bold">Стать:</span> {{.Person.GetGenderLabel}}</p></div>
                     <div class="row"><p><span class="fw-bold">Підрозділ:</span> {{.Person.Unit}}</p></div>
                     <div class="row"><p><span class="fw-bold">Військова спеціальність:</span> {{.Person.Specialty}}</p></div>
                     <div class="row"><a href="/admin/quiz_list_by_person?person_id={{.Person.Id}}">Список тестів які пройдені респонденом</a></div>
