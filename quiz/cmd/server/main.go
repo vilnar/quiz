@@ -59,7 +59,7 @@ func main() {
 
 type QuizLink struct {
 	Title string
-	Link string
+	Link  string
 }
 
 func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
@@ -79,26 +79,26 @@ func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var list = []QuizLink{
-		QuizLink {
+		{
 			quiz_first_ptsd.QUIZ_SHORT_LABEL,
 			quiz_first_ptsd.GetQuizUrl(),
 		},
-		QuizLink {
+		{
 			quiz_kotenov_5_57.QUIZ_SHORT_LABEL,
 			quiz_kotenov_5_57.GetQuizUrl(),
 		},
-		QuizLink {
+		{
 			quiz_nps_prognoz_2.QUIZ_SHORT_LABEL,
 			quiz_nps_prognoz_2.GetQuizUrl(),
 		},
-		QuizLink {
+		{
 			quiz_hads.QUIZ_SHORT_LABEL,
 			quiz_hads.GetQuizUrl(),
 		},
 	}
-	data := struct{
+	data := struct {
 		LinkList []QuizLink
-	} {
+	}{
 		list,
 	}
 	if err := tmpl.Execute(w, data); err != nil {
