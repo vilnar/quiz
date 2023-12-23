@@ -2,7 +2,7 @@ package quiz_kotenov_5_57
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,7 +14,7 @@ import (
 )
 
 const QUIZ_NAME = "quiz_kotenov_5_57"
-const QUIZ_LABEL = "Дослідження травматичного стресу (І. Котєньов)"
+const QUIZ_LABEL = "дослідження травматичного стресу (І. Котєньов)"
 
 type Answers struct {
 	A1   int
@@ -227,10 +227,12 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 	qd := QuizDeserialization(q)
 
 	data := struct {
-		Header string
+		QuizLabel string
+		Person    person.PersonDb
 		QuizResult
 	}{
-		fmt.Sprintf("Результати %s військовослужбовця %s", QUIZ_LABEL, p.GetFullName()),
+		QUIZ_LABEL,
+		p,
 		qd.Result,
 	}
 

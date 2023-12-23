@@ -2,7 +2,7 @@ package quiz_first_ptsd
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,7 +14,7 @@ import (
 )
 
 const QUIZ_NAME = "quiz_first_ptsd"
-const QUIZ_LABEL = "Опитувальник для первинного скринінгу ПТСР"
+const QUIZ_LABEL = "опитувальник для первинного скринінгу ПТСР"
 
 type Answers struct {
 	A1 int
@@ -102,10 +102,12 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 	qd := QuizDeserialization(q)
 
 	data := struct {
-		Header string
+		QuizLabel string
+		Person    person.PersonDb
 		QuizResult
 	}{
-		fmt.Sprintf("Результати дослідження первинного скринінгу ПТСР військовослужбовця %s", p.GetFullName()),
+		QUIZ_LABEL,
+		p,
 		qd.Result,
 	}
 

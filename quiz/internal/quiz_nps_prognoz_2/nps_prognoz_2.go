@@ -2,7 +2,7 @@ package quiz_nps_prognoz_2
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,7 +14,7 @@ import (
 )
 
 const QUIZ_NAME = "quiz_nps_prognoz_2"
-const QUIZ_LABEL = "Дослідження рівня нервово-психічної стійкості військовослужбовців – Прогноз 2 (В. Рибніков)"
+const QUIZ_LABEL = "дослідження рівня нервово-психічної стійкості військовослужбовців – Прогноз 2 (В. Рибніков)"
 
 type Answers struct {
 	A1  int
@@ -190,10 +190,12 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 	qd := QuizDeserialization(q)
 
 	data := struct {
-		Header string
+		QuizLabel string
+		Person    person.PersonDb
 		QuizResult
 	}{
-		fmt.Sprintf("Результати %s військовослужбовця %s", QUIZ_LABEL, p.GetFullName()),
+		QUIZ_LABEL,
+		p,
 		qd.Result,
 	}
 

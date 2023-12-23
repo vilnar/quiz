@@ -10,6 +10,7 @@ import (
 	"quiz/internal/person"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_kotenov_5_57"
+	"quiz/internal/quiz_nps_prognoz_2"
 )
 
 func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
@@ -29,6 +30,9 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		case quiz_first_ptsd.QUIZ_NAME:
 			quiz_first_ptsd.GetQuizHandler(w, r)
+			return
+		case quiz_nps_prognoz_2.QUIZ_NAME:
+			quiz_nps_prognoz_2.GetQuizHandler(w, r)
 			return
 		default:
 			log.Printf("Not found quiz name")
