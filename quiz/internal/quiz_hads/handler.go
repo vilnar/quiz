@@ -37,10 +37,12 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		Date       string
-		FormAction string
-		Person     person.PersonDb
+		QuizShortLabel string
+		Date           string
+		FormAction     string
+		Person         person.PersonDb
 	}{
+		QUIZ_SHORT_LABEL,
 		time.Now().Format("02.01.2006"),
 		common.GetServerInfo(r) + GetCheckQuizUrl(),
 		p,
