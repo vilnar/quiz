@@ -42,7 +42,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 		Person     person.PersonDb
 	}{
 		time.Now().Format("02.01.2006"),
-		common.GetServerInfo(r) + "/check_quiz_nps_prognoz_2",
+		common.GetServerInfo(r) + GetCheckQuizUrl(),
 		p,
 	}
 

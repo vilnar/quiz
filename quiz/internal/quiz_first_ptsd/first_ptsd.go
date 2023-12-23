@@ -15,6 +15,15 @@ import (
 
 const QUIZ_NAME = "quiz_first_ptsd"
 const QUIZ_LABEL = "опитувальник для первинного скринінгу ПТСР"
+const QUIZ_SHORT_LABEL = "опитувальник для первинного скринінгу ПТСР"
+
+func GetQuizUrl() string {
+	return "/" + QUIZ_NAME
+}
+
+func GetCheckQuizUrl() string {
+	return "/check_" + QUIZ_NAME
+}
 
 type Answers struct {
 	A1 int

@@ -27,17 +27,17 @@ func main() {
 	mux.HandleFunc("/", getDashboardHandler)
 	mux.HandleFunc("/quiz/ui/static/", staticHandler)
 
-	mux.HandleFunc("/quiz_kotenov_5_57", quiz_kotenov_5_57.GetQuizHandler)
-	mux.HandleFunc("/check_quiz_kotenov_5_57", quiz_kotenov_5_57.CheckQuizHandler)
+	mux.HandleFunc(quiz_first_ptsd.GetQuizUrl(), quiz_first_ptsd.GetQuizHandler)
+	mux.HandleFunc(quiz_first_ptsd.GetCheckQuizUrl(), quiz_first_ptsd.CheckQuizHandler)
 
-	mux.HandleFunc("/quiz_first_ptsd", quiz_first_ptsd.GetQuizHandler)
-	mux.HandleFunc("/check_quiz_first_ptsd", quiz_first_ptsd.CheckQuizHandler)
+	mux.HandleFunc(quiz_kotenov_5_57.GetQuizUrl(), quiz_kotenov_5_57.GetQuizHandler)
+	mux.HandleFunc(quiz_kotenov_5_57.GetCheckQuizUrl(), quiz_kotenov_5_57.CheckQuizHandler)
 
-	mux.HandleFunc("/quiz_nps_prognoz_2", quiz_nps_prognoz_2.GetQuizHandler)
-	mux.HandleFunc("/check_quiz_nps_prognoz_2", quiz_nps_prognoz_2.CheckQuizHandler)
+	mux.HandleFunc(quiz_nps_prognoz_2.GetQuizUrl(), quiz_nps_prognoz_2.GetQuizHandler)
+	mux.HandleFunc(quiz_nps_prognoz_2.GetCheckQuizUrl(), quiz_nps_prognoz_2.CheckQuizHandler)
 
-	mux.HandleFunc("/quiz_hads", quiz_hads.GetQuizHandler)
-	mux.HandleFunc("/check_quiz_hads", quiz_hads.CheckQuizHandler)
+	mux.HandleFunc(quiz_hads.GetQuizUrl(), quiz_hads.GetQuizHandler)
+	mux.HandleFunc(quiz_hads.GetCheckQuizUrl(), quiz_hads.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 
@@ -57,6 +57,11 @@ func main() {
 	}
 }
 
+type QuizLink struct {
+	Title string
+	Link string
+}
+
 func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		w.WriteHeader(http.StatusNotFound)
@@ -73,8 +78,30 @@ func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	content := ""
-	if err := tmpl.Execute(w, content); err != nil {
+	var list = []QuizLink{
+		QuizLink {
+			quiz_first_ptsd.QUIZ_SHORT_LABEL,
+			quiz_first_ptsd.GetQuizUrl(),
+		},
+		QuizLink {
+			quiz_kotenov_5_57.QUIZ_SHORT_LABEL,
+			quiz_kotenov_5_57.GetQuizUrl(),
+		},
+		QuizLink {
+			quiz_nps_prognoz_2.QUIZ_SHORT_LABEL,
+			quiz_nps_prognoz_2.GetQuizUrl(),
+		},
+		QuizLink {
+			quiz_hads.QUIZ_SHORT_LABEL,
+			quiz_hads.GetQuizUrl(),
+		},
+	}
+	data := struct{
+		LinkList []QuizLink
+	} {
+		list,
+	}
+	if err := tmpl.Execute(w, data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

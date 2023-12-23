@@ -15,6 +15,15 @@ import (
 
 const QUIZ_NAME = "quiz_kotenov_5_57"
 const QUIZ_LABEL = "дослідження травматичного стресу (І. Котєньов)"
+const QUIZ_SHORT_LABEL = "опитувальник І.О. Котєньов"
+
+func GetQuizUrl() string {
+	return "/" + QUIZ_NAME
+}
+
+func GetCheckQuizUrl() string {
+	return "/check_" + QUIZ_NAME
+}
 
 type Answers struct {
 	A1   int

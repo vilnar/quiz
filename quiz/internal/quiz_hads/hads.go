@@ -15,6 +15,15 @@ import (
 
 const QUIZ_NAME = "quiz_hads"
 const QUIZ_LABEL = "госпітальна шкала тривоги та депресії (HADS)"
+const QUIZ_SHORT_LABEL = "HADS"
+
+func GetQuizUrl() string {
+	return "/" + QUIZ_NAME
+}
+
+func GetCheckQuizUrl() string {
+	return "/check_" + QUIZ_NAME
+}
 
 type Answers struct {
 	A1  int
