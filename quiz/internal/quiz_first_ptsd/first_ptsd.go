@@ -109,6 +109,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 	}
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result_content.html"),
 		headerPath,
 	)
 	if err != nil {
@@ -120,9 +121,9 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 	qd := QuizDeserialization(q)
 
 	data := struct {
-		QuizLabel string
-		Person    person.PersonDb
-		QuizResult
+		QuizLabel  string
+		Person     person.PersonDb
+		QuizResult QuizResult
 	}{
 		QUIZ_LABEL,
 		p,

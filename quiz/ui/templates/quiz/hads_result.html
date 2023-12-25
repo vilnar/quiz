@@ -21,10 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="mb-3 p-3 border">
-                    <div class="row">
-                        <div class="row {{if .IsHighAnxiety}} text-danger {{end}}">Тривога ({{ .Anxiety }}) {{.AnxietyDescription}}</div>
-                        <div class="row {{if .IsHighDepression}} text-danger {{end}}">Депресія ({{ .Depression }}) {{.DepressionDescription}}</div>
-                    </div>
+                    {{template "hads_result_content.html" .QuizResult}}
                 </div>
             </div>
         </div>

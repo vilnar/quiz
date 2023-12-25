@@ -21,23 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="mb-3 p-3 border">
-                    <div class="row mb-3 {{if gt .L 69}} text-danger {{else}} text-success {{end}}">L: ({{ .L }}) {{ .Lie_description }}</div>
-                    <div class="row {{if gt .PTSD 69}} text-danger {{end}}">ПТСР: ({{ .PTSD }}) {{ .PTSD_description }}</div>
-                    <div class="row {{if gt .GSR 69}} text-danger {{end}}">ГСР: ({{ .GSR }}) {{ .GSR_description }}</div>
-                    <div class="row mb-3 {{if gt .Depression 69}} text-danger {{end}}">Депресія: ({{ .Depression }}) {{ .Depression_description }}</div>
-                    <div class="row">A1: {{.A1}}</div>
-                    <div class="row">B: {{.B_}}</div>
-                    <div class="row">C: {{.C_}}</div>
-                    <div class="row">D: {{.D_}}</div>
-                    <div class="row">F: {{.F_}}</div>
-                    <div class="row">L: {{.L}}</div>
-                    <div class="row">Ag: {{.Ag}}</div>
-                    <div class="row mb-3">Di: {{.Di}}</div>
-                    <div class="row">b: {{.B}}</div>
-                    <div class="row">c: {{.C}}</div>
-                    <div class="row">d: {{.D}}</div>
-                    <div class="row">e: {{.E}}</div>
-                    <div class="row">f: {{.F}}</div>
+                    {{template "kotenov_5_57_result_content.html" .QuizResult}}
                 </div>
             </div>
         </div>

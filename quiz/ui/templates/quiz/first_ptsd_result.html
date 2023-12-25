@@ -21,9 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="mb-3 p-3 border">
-                    <div class="row">
-                        <p><span class="fw-bold">Висновок:</span> {{.Summary}}</p>
-                    </div>
+                    {{template "first_ptsd_result_content.html" .QuizResult}}
                 </div>
             </div>
         </div>

@@ -21,10 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="mb-3 p-3 border">
-                    <div class="row mb-3 {{if .IsLie }} text-danger {{else}} text-success {{end}}">Достовірність: ({{ .Lie }}) {{ .LieDescription }}</div>
-                    <div class="row {{if lt .NPS 4}} text-danger {{end}}">Нервово-психічна стійкість: ({{ .NPS }})</div>
-                    <div class="row {{if lt .NPS 4}} text-danger {{end}}">Рівень: {{.NPSLevelDescription}}</div>
-                    <div class="row {{if lt .NPS 4}} text-danger {{end}}">Заключення: {{.NPSDescription}}</div>
+                    {{template "nps_prognoz_2_result_content.html" .QuizResult}}
                 </div>
             </div>
         </div>
