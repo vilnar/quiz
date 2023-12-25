@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Звіт по даті</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center">Звіт по даті</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="dateForm" action="{{ .FormAction }}" method="POST" class="mb-4">
+                    <div class="row mb-3">
+                        <label class="form-check-label" for="start_date">Дата початку</label>
+                        <input name="start_date" class="form-control" type="date" min="2022-01-01" value="{{.Date}}" required>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="form-check-label" for="start_date">Дата завершення</label>
+                        <input name="end_date" class="form-control" type="date" min="2022-01-01" value="{{.Date}}" required>
+                    </div>
+                    <button class="btn btn-outline-success" type="submit">Пошук</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -47,6 +47,8 @@ func main() {
 	mux.HandleFunc("/admin/quiz_list_by_person", apphandler.BasicAuth(apphandler.GetQuizListByPersonIdHandler))
 	mux.HandleFunc("/admin/person", apphandler.BasicAuth(person.GetPersonHandler))
 	mux.HandleFunc("/admin/person_list", apphandler.BasicAuth(person.PersonListHandler))
+	mux.HandleFunc("/admin/report_by_date", apphandler.BasicAuth(apphandler.GetReportByDateHandler))
+	mux.HandleFunc("/admin/check_report_by_date", apphandler.BasicAuth(apphandler.CheckReportByDateHandler))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {
@@ -64,24 +66,8 @@ type QuizLink struct {
 
 func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		w.WriteHeader(http.StatusNotFound)
-		tmpl404, err := template.ParseFiles(
-			path.Join("quiz", "ui", "templates", "404.html"),
-			path.Join("quiz", "ui", "templates", "header.html"),
-		)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		data := struct {
-			ErrorMessage string
-		}{
-			fmt.Sprintf("Error: handler for %s not found", html.EscapeString(r.URL.Path)),
-		}
-		if err := tmpl404.Execute(w, data); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		message := fmt.Sprintf("Помилка: URL %s не знайдено", html.EscapeString(r.URL.Path))
+		common.NotFoundHandler(w, r, message, false)
 		return
 	}
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Звіт по даті</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center">Звіт з {{.StartDate}} по {{.EndDate}}</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {{range $key, $elements := .GroupQuizList}}
+                    <div class="mb-5">
+                        {{$person := $.PersonList.FindPersonInList $key}}
+                        <div class="row">
+                            <p class="p-3 bg-secondary text-white">{{$person.MilitaryName}} {{$person.GetFullName}}</p>
+                        </div>
+                        {{range $value := $elements}}
+                            <div class="row mb-3 p-3 border">
+                                <p><span class="fw-bold">Дата:</span> {{$value.CreateAt}}</p>
+                                <p>{{$value.Label}}</p>
+                                {{if eq $value.Name "quiz_kotenov_5_57"}}
+                                    {{template "kotenov_5_57_result_content.html" GetQuizParseResultKotenov557 $value}}
+                                {{end}}
+                                {{if eq $value.Name "quiz_first_ptsd"}}
+                                    {{template "first_ptsd_result_content.html" GetQuizParseResultFirstPtsd $value}}
+                                {{end}}
+                                {{if eq $value.Name "quiz_nps_prognoz_2"}}
+                                    {{template "nps_prognoz_2_result_content.html" GetQuizParseResultNpsPrognoz2 $value}}
+                                {{end}}
+                                {{if eq $value.Name "quiz_hads"}}
+                                    {{template "hads_result_content.html" GetQuizParseResultHads $value}}
+                                {{end}}
+                            </div>
+                        {{end}}
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>
+

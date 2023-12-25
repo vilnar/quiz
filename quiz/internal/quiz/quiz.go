@@ -155,3 +155,45 @@ func FindQuizWithPersonList(page int) QuizWithPersonDbList {
 		CurrentPage: page,
 	}
 }
+
+func FindQuizByDateRange(start, end string) []QuizDb {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id, person_id, name, label, answers, result, score, create_at FROM quiz WHERE create_at BETWEEN ? AND ?", start, end)
+	defer rows.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result []QuizDb
+	for rows.Next() {
+		var q QuizDb
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, q)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return result
+}
+
+func GetPersonIdsFromList(list []QuizDb) []int64 {
+	var result []int64
+	for _, i := range list {
+		result = append(result, i.PersonId)
+	}
+	return result
+}
+
+func GetQuizGroupListByPersonId(list []QuizDb) map[int64][]QuizDb {
+	result := make(map[int64][]QuizDb)
+	for _, i := range list {
+		result[i.PersonId] = append(result[i.PersonId], i)
+	}
+	return result
+}

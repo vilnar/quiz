@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 )
 
 func GetCountRowsInTable(db *sql.DB, tableName string) int {
@@ -15,4 +16,20 @@ func GetCountRowsInTable(db *sql.DB, tableName string) int {
 	}
 	fmt.Printf("Number of rows are %s\n", count)
 	return count
+}
+
+func Placeholders(n int) string {
+	ps := make([]string, n)
+	for i := 0; i < n; i++ {
+		ps[i] = "?"
+	}
+	return strings.Join(ps, ",")
+}
+
+func IdsToArgs(ids []int64) []interface{} {
+	args := make([]interface{}, len(ids))
+	for i, id := range ids {
+		args[i] = id
+	}
+	return args
 }

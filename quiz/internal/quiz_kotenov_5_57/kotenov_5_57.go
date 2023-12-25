@@ -206,6 +206,15 @@ func QuizDeserialization(q quiz.QuizDb) Quiz {
 	return r
 }
 
+func GetParseResult(q quiz.QuizDb) QuizResult {
+	qr := QuizResult{}
+	err := json.Unmarshal([]byte(q.Result), &qr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return qr
+}
+
 func getAnswersFromRequest(r *http.Request) Answers {
 	var answers Answers
 	fields := reflect.VisibleFields(reflect.TypeOf(answers))

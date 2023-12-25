@@ -96,6 +96,16 @@ type PersonDbList struct {
 	CurrentPage int
 }
 
+func (p PersonDbList) FindPersonInList(id int64) PersonDb {
+	for _, i := range p.List {
+		if i.Id == id {
+			return i
+		}
+	}
+	var res PersonDb
+	return res
+}
+
 func (p Person) GetFullName() string {
 	fmt.Printf("debug fullname %+v\n", p)
 	return fmt.Sprintf("%s %s %s", p.LastName, p.FirstName, p.Patronymic)
@@ -168,6 +178,41 @@ func FindPersonById(id int64) PersonDb {
 	}
 
 	return p
+}
+
+func FindPersonListByIds(ids []int64) PersonDbList {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
+
+	query := fmt.Sprintf("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE id IN (%s)", appdb.Placeholders(len(ids)))
+
+	fmt.Printf("debug query -- %#v\n", query)
+	args := appdb.IdsToArgs(ids)
+	rows, err := db.Query(query, args...)
+	defer rows.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result []PersonDb
+	for rows.Next() {
+		var p PersonDb
+		err := rows.Scan(&p.Id, &p.LastName, &p.FirstName, &p.Patronymic, &p.MilitaryName, &p.Age, &p.Gender, &p.Unit, &p.Specialty, &p.CreateAt, &p.UpdateAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, p)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return PersonDbList{
+		List:        result,
+		PerPage:     common.PAGE_SIZE_DEFAULT,
+		TotalAmount: 0,
+		CurrentPage: 1,
+	}
 }
 
 func GetPersonList(page int) PersonDbList {
