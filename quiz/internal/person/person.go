@@ -107,7 +107,6 @@ func (p PersonDbList) FindPersonInList(id int64) PersonDb {
 }
 
 func (p Person) GetFullName() string {
-	fmt.Printf("debug fullname %+v\n", p)
 	return fmt.Sprintf("%s %s %s", p.LastName, p.FirstName, p.Patronymic)
 }
 
@@ -186,7 +185,6 @@ func FindPersonListByIds(ids []int64) PersonDbList {
 
 	query := fmt.Sprintf("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE id IN (%s)", appdb.Placeholders(len(ids)))
 
-	fmt.Printf("debug query -- %#v\n", query)
 	args := appdb.IdsToArgs(ids)
 	rows, err := db.Query(query, args...)
 	defer rows.Close()

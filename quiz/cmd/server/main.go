@@ -116,8 +116,7 @@ func staticHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.Header().Set("Content-Type", "text/css")
 	}
-	// fmt.Printf("%+v\n", path)
-	// fmt.Printf("%+v\n", path[1:])
+	// fmt.Printf("debug %+v\n", path[1:])
 	data, err := ioutil.ReadFile(path[1:])
 	if err != nil {
 		fmt.Print(err)

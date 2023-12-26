@@ -20,7 +20,6 @@ func GetPort() int {
 
 func GetServerInfo(req *http.Request) string {
 	clientIp := getClientIpAddr(req)
-	// fmt.Printf("DEBUG clientIp %+v\n", clientIp)
 	if clientIp == "" || clientIp == "127.0.0.1" {
 		return fmt.Sprintf("%s:%d", HOST_DEFAULT, GetPort())
 	}

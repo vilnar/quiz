@@ -1,7 +1,6 @@
 package quiz_first_ptsd
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -23,7 +22,6 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	if p.CheckId() {
 		p = person.FindPersonById(p.Id)
 	}
-	fmt.Printf("debug GetPersonDbFromRequest %+v\n", p)
 
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd.html"),
@@ -60,7 +58,6 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	p := person.GetPersonDbFromRequest(r)
-	fmt.Printf("debug ppp %+v\n", p)
 	if !p.IsValidData() {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return

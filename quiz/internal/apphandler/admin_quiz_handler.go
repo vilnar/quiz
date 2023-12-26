@@ -19,7 +19,6 @@ import (
 
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	id := common.StringToInt64(r.URL.Query().Get("id"))
-	fmt.Printf("debug id %+v\n", id)
 
 	q := quiz.FindQuizById(id)
 	switch q.Name {
@@ -186,16 +185,16 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 
 	funcMap := template.FuncMap{
 		"GetQuizParseResultKotenov557": func(q quiz.QuizDb) quiz_kotenov_5_57.QuizResult {
-			return quiz_kotenov_5_57.GetParseResult(q)
+			return quiz_kotenov_5_57.GetQuizParseResult(q)
 		},
 		"GetQuizParseResultFirstPtsd": func(q quiz.QuizDb) quiz_first_ptsd.QuizResult {
-			return quiz_first_ptsd.GetParseResult(q)
+			return quiz_first_ptsd.GetQuizParseResult(q)
 		},
 		"GetQuizParseResultNpsPrognoz2": func(q quiz.QuizDb) quiz_nps_prognoz_2.QuizResult {
-			return quiz_nps_prognoz_2.GetParseResult(q)
+			return quiz_nps_prognoz_2.GetQuizParseResult(q)
 		},
 		"GetQuizParseResultHads": func(q quiz.QuizDb) quiz_hads.QuizResult {
-			return quiz_hads.GetParseResult(q)
+			return quiz_hads.GetQuizParseResult(q)
 		},
 	}
 	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(
@@ -221,7 +220,6 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	groupQuizList := quiz.GetQuizGroupListByPersonId(list)
-	fmt.Printf("debug list quiz %+v\n", groupQuizList)
 	personIds := quiz.GetPersonIdsFromList(list)
 	personList := person.FindPersonListByIds(personIds)
 

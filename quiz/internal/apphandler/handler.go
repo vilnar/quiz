@@ -1,7 +1,6 @@
 package apphandler
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -18,7 +17,6 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	p := person.GetPersonNameFromRequest(r)
 	quizNameToPass := r.Form.Get("quiz_name_to_pass")
-	fmt.Printf("debug data quizNameToPass %+v\n", quizNameToPass)
 
 	list := person.FindPersonListByFullName(p.LastName, p.FirstName, p.Patronymic, 10)
 	if len(list.List) < 1 {
@@ -66,7 +64,6 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 		list.List,
 		quizNameToPass,
 	}
-	// fmt.Printf("debug data %+v\n", data)
 
 	err = tmpl.Execute(w, data)
 	if err != nil {
