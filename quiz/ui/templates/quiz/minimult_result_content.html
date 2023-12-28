@@ -1,0 +1,13 @@
+<div class="mb-3">
+    <p class="{{if .IsHighLie}} text-danger {{end}}">L: ({{printf "%.2f" .L }}) {{ .L_Description }}</p>
+    <p class="{{if .IsHighF}} text-danger {{end}}">F: ({{printf "%.2f" .F }}) {{ .F_Description }}</p>
+    <p class="{{if .IsHighK}} text-danger {{end}}">K: ({{printf "%.2f" .K }}) {{ .K_Description }}</p>
+    <p class="{{if .IsHighHs}} text-danger {{end}}">Hs: ({{printf "%.2f" .Hs }}) {{ .Hs_Description }}</p>
+    <p class="{{if .IsHighDepression}} text-danger {{end}}">D: ({{printf "%.2f" .D }}) {{ .D_Description }}</p>
+    <p class="{{if .IsHighHy}} text-danger {{end}}">Hy: ({{printf "%.2f" .Hy }}) {{ .Hy_Description }}</p>
+    <p class="{{if .IsHighPd}} text-danger {{end}}">Pd: ({{printf "%.2f" .Pd }}) {{ .Pd_Description }}</p>
+    <p class="{{if .IsHighPa}} text-danger {{end}}">Pa: ({{printf "%.2f" .Pa }}) {{ .Pa_Description }}</p>
+    <p class="{{if .IsHighPt}} text-danger {{end}}">Pt: ({{printf "%.2f" .Pt }}) {{ .Pt_Description }}</p>
+    <p class="{{if .IsHighSe}} text-danger {{end}}">Se: ({{printf "%.2f" .Se }}) {{ .Se_Description }}</p>
+    <p class="{{if .IsHighMa}} text-danger {{end}}">Ma: ({{printf "%.2f" .Ma }}) {{ .Ma_Description }}</p>
+</div>

@@ -42,6 +42,9 @@
                                 {{if eq $value.Name "quiz_ies_r_5_54"}}
                                     {{template "ies_r_5_54_result_content.html" GetQuizParseResultIesR554 $value}}
                                 {{end}}
+                                {{if eq $value.Name "quiz_minimult"}}
+                                    {{template "minimult_result_content.html" GetQuizParseResultMinimult $value}}
+                                {{end}}
                             </div>
                         {{end}}
                     </div>

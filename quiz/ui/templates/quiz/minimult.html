@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.QuizShortLabel}}</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-8">
+                <h4 class="text-center">{{.QuizShortLabel}}</h4>
+                <em>Дата: {{ .Date }}</em>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="testForm" action="{{ .FormAction }}" method="POST">
+                    <div class="mb-3 p-3 border">
+                        {{template "person_blank.html" .Person}}
+                        <div class="mb-5">
+                            <em>Інструкція: Вам пропонується ряд тверджень, які стосуються стану Вашого здоров’я й Вашого характеру. Прочитайте кожне твердження й вирішіть, вірно воно чи невірно по відношенню до Вас. Не витрачайте час на роздуми. Найбільш природнім є те рішення, яке першим приходить в голову.</em>
+                        </div>
+                        <fieldset id="group1" class="mb-3">
+                            <legend class="col-form-label">1. У Вас хороший апетит.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="1" required>
+                                <label class="form-check-label" for="A1">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="0">
+                                <label class="form-check-label" for="A1">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group2" class="mb-3">
+                            <legend class="col-form-label">2. Щоранку Ви зазвичай відчуваєте, що виспалися й відпочили.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A2" value="1" required>
+                                <label class="form-check-label" for="A2">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A2" value="0">
+                                <label class="form-check-label" for="A2">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group3" class="mb-3">
+                            <legend class="col-form-label">3. У Вашому повсякденному житті маса цікавого.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A3" value="1" required>
+                                <label class="form-check-label" for="A3">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A3" value="0">
+                                <label class="form-check-label" for="A3">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group4" class="mb-3">
+                            <legend class="col-form-label">4. Ви працюєте з великим напруженням.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A4" value="1" required>
+                                <label class="form-check-label" for="A4">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A4" value="0">
+                                <label class="form-check-label" for="A4">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group5" class="mb-3">
+                            <legend class="col-form-label">5. Часом Вам у голову приходять такі нехороші думки, що про них краще не розповідати.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A5" value="1" required>
+                                <label class="form-check-label" for="A5">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A5" value="0">
+                                <label class="form-check-label" for="A5">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group6" class="mb-3">
+                            <legend class="col-form-label">6. У Вас дуже рідко бувають закрепи.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A6" value="1" required>
+                                <label class="form-check-label" for="A6">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A6" value="0">
+                                <label class="form-check-label" for="A6">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group7" class="mb-3">
+                            <legend class="col-form-label">7. Іноді Вам дуже хотілося назавжди піти з дому.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A7" value="1" required>
+                                <label class="form-check-label" for="A7">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A7" value="0">
+                                <label class="form-check-label" for="A7">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group8" class="mb-3">
+                            <legend class="col-form-label">8. Часом у Вас бувають напади нестримного сміху або плачу.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A8" value="1" required>
+                                <label class="form-check-label" for="A8">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A8" value="0">
+                                <label class="form-check-label" for="A8">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group9" class="mb-3">
+                            <legend class="col-form-label">9. Часом Вас турбує нудота й блювотні позиви.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A9" value="1" required>
+                                <label class="form-check-label" for="A9">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A9" value="0">
+                                <label class="form-check-label" for="A9">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group10" class="mb-3">
+                            <legend class="col-form-label">10. У Вас таке враження, що Вас ніхто не розуміє.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A10" value="1" required>
+                                <label class="form-check-label" for="A10">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A10" value="0">
+                                <label class="form-check-label" for="A10">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group11" class="mb-3">
+                            <legend class="col-form-label">11. Іноді Вам хочеться вилаятися.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A11" value="1" required>
+                                <label class="form-check-label" for="A11">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A11" value="0">
+                                <label class="form-check-label" for="A11">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group12" class="mb-3">
+                            <legend class="col-form-label">12. Кожного тижня Вам сняться кошмари.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A12" value="1" required>
+                                <label class="form-check-label" for="A12">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A12" value="0">
+                                <label class="form-check-label" for="A12">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group13" class="mb-3">
+                            <legend class="col-form-label">13. Вам важче зосередитися, ніж більшості людей.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A13" value="1" required>
+                                <label class="form-check-label" for="A13">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A13" value="0">
+                                <label class="form-check-label" for="A13">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group14" class="mb-3">
+                            <legend class="col-form-label">14. З Вами відбувалися (або відбуваються) дивні речі.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A14" value="1" required>
+                                <label class="form-check-label" for="A14">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A14" value="0">
+                                <label class="form-check-label" for="A14">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group15" class="mb-3">
+                            <legend class="col-form-label">15. Ви досягли б у житті набагато більшого, якби люди не були налаштовані проти Вас.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A15" value="1" required>
+                                <label class="form-check-label" for="A15">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A15" value="0">
+                                <label class="form-check-label" for="A15">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group16" class="mb-3">
+                            <legend class="col-form-label">16. У дитинстві був час, коли Ви скоювали крадіжки.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A16" value="1" required>
+                                <label class="form-check-label" for="A16">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A16" value="0">
+                                <label class="form-check-label" for="A16">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group17" class="mb-3">
+                            <legend class="col-form-label">17. Бувало, що по кілька днів, тижнів або цілих місяців Ви нічим не могли зайнятися, тому що важко було змусити себе включитися в роботу.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A17" value="1" required>
+                                <label class="form-check-label" for="A17">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A17" value="0">
+                                <label class="form-check-label" for="A17">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group18" class="mb-3">
+                            <legend class="col-form-label">18. У Вас переривчастий і неспокійний сон.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A18" value="1" required>
+                                <label class="form-check-label" for="A18">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A18" value="0">
+                                <label class="form-check-label" for="A18">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group19" class="mb-3">
+                            <legend class="col-form-label">19. Коли Ви знаходитеся серед людей, Вам чуються дивні речі.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A19" value="1" required>
+                                <label class="form-check-label" for="A19">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A19" value="0">
+                                <label class="form-check-label" for="A19">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group20" class="mb-3">
+                            <legend class="col-form-label">20. Більшість людей, які Вас знають, не вважають Вас неприємною людиною.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A20" value="1" required>
+                                <label class="form-check-label" for="A20">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A20" value="0">
+                                <label class="form-check-label" for="A20">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group21" class="mb-3">
+                            <legend class="col-form-label">21. Вам часто доводилося підкорятися кому-небудь, хто знав менше Вашого.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A21" value="1" required>
+                                <label class="form-check-label" for="A21">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A21" value="0">
+                                <label class="form-check-label" for="A21">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group22" class="mb-3">
+                            <legend class="col-form-label">22. Більшість людей задоволені своїм життям більше, ніж Ви.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A22" value="1" required>
+                                <label class="form-check-label" for="A22">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A22" value="0">
+                                <label class="form-check-label" for="A22">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group23" class="mb-3">
+                            <legend class="col-form-label">23. Багато хто перебільшує свої нещастя, щоб домогтися співчуття та допомоги.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A23" value="1" required>
+                                <label class="form-check-label" for="A23">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A23" value="0">
+                                <label class="form-check-label" for="A23">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group24" class="mb-3">
+                            <legend class="col-form-label">24. Іноді Ви сердитесь.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A24" value="1" required>
+                                <label class="form-check-label" for="A24">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A24" value="0">
+                                <label class="form-check-label" for="A24">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group25" class="mb-3">
+                            <legend class="col-form-label">25. Вам безперечно не вистачає впевненості в собі.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A25" value="1" required>
+                                <label class="form-check-label" for="A25">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A25" value="0">
+                                <label class="form-check-label" for="A25">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group26" class="mb-3">
+                            <legend class="col-form-label">26. У Вас часто бувають посмикування в м’язах.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A26" value="1" required>
+                                <label class="form-check-label" for="A26">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A26" value="0">
+                                <label class="form-check-label" for="A26">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group27" class="mb-3">
+                            <legend class="col-form-label">27. У Вас часто буває почуття, ніби Ви зробили щось неправильне або недобре.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A27" value="1" required>
+                                <label class="form-check-label" for="A27">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A27" value="0">
+                                <label class="form-check-label" for="A27">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group28" class="mb-3">
+                            <legend class="col-form-label">28. Зазвичай Ви задоволені своєю долею.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A28" value="1" required>
+                                <label class="form-check-label" for="A28">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A28" value="0">
+                                <label class="form-check-label" for="A28">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group29" class="mb-3">
+                            <legend class="col-form-label">29. Деякі так люблять командувати, що Вам хочеться все зробити наперекір, хоча Ви знаєте, що вони праві.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A29" value="1" required>
+                                <label class="form-check-label" for="A29">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A29" value="0">
+                                <label class="form-check-label" for="A29">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group30" class="mb-3">
+                            <legend class="col-form-label">30. Ви вважаєте, що проти Вас щось задумують.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A30" value="1" required>
+                                <label class="form-check-label" for="A30">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A30" value="0">
+                                <label class="form-check-label" for="A30">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group31" class="mb-3">
+                            <legend class="col-form-label">31. Більшість людей здатні добиватися вигоди не зовсім чесним шляхом.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A31" value="1" required>
+                                <label class="form-check-label" for="A31">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A31" value="0">
+                                <label class="form-check-label" for="A31">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group32" class="mb-3">
+                            <legend class="col-form-label">32. Вас часто турбує шлунок.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A32" value="1" required>
+                                <label class="form-check-label" for="A32">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A32" value="0">
+                                <label class="form-check-label" for="A32">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group33" class="mb-3">
+                            <legend class="col-form-label">33. Часто Ви не можете зрозуміти, чому напередодні Ви були в поганому настрої й роздратовані.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A33" value="1" required>
+                                <label class="form-check-label" for="A33">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A33" value="0">
+                                <label class="form-check-label" for="A33">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group34" class="mb-3">
+                            <legend class="col-form-label">34. Часом Ваші думки текли так швидко, що Ви не встигали їх висловлювати.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A34" value="1" required>
+                                <label class="form-check-label" for="A34">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A34" value="0">
+                                <label class="form-check-label" for="A34">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group35" class="mb-3">
+                            <legend class="col-form-label">35. Ви вважаєте, що Ваше сімейне життя не гірше, ніж у більшості Ваших знайомих.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A35" value="1" required>
+                                <label class="form-check-label" for="A35">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A35" value="0">
+                                <label class="form-check-label" for="A35">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group36" class="mb-3">
+                            <legend class="col-form-label">36. Часом Ви впевнені у власній непотрібності.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A36" value="1" required>
+                                <label class="form-check-label" for="A36">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A36" value="0">
+                                <label class="form-check-label" for="A36">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group37" class="mb-3">
+                            <legend class="col-form-label">37. В останні роки Ваше самопочуття було в основному гарним.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A37" value="1" required>
+                                <label class="form-check-label" for="A37">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A37" value="0">
+                                <label class="form-check-label" for="A37">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group38" class="mb-3">
+                            <legend class="col-form-label">38. У Вас бували періоди, під час яких Ви щось робили та потім не могли пригадати, що саме.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A38" value="1" required>
+                                <label class="form-check-label" for="A38">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A38" value="0">
+                                <label class="form-check-label" for="A38">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group39" class="mb-3">
+                            <legend class="col-form-label">39. Ви вважаєте, що Вас часто незаслужено карали.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A39" value="1" required>
+                                <label class="form-check-label" for="A39">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A39" value="0">
+                                <label class="form-check-label" for="A39">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group40" class="mb-3">
+                            <legend class="col-form-label">40. Ви ніколи не почували себе краще, ніж тепер.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A40" value="1" required>
+                                <label class="form-check-label" for="A40">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A40" value="0">
+                                <label class="form-check-label" for="A40">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group41" class="mb-3">
+                            <legend class="col-form-label">41. Вам байдуже, що думають про Вас інші.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A41" value="1" required>
+                                <label class="form-check-label" for="A41">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A41" value="0">
+                                <label class="form-check-label" for="A41">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group42" class="mb-3">
+                            <legend class="col-form-label">42. З пам’яттю у Вас все благополучно.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A42" value="1" required>
+                                <label class="form-check-label" for="A42">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A42" value="0">
+                                <label class="form-check-label" for="A42">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group43" class="mb-3">
+                            <legend class="col-form-label">43. Вам важко підтримувати розмову з людиною, з якою Ви тільки що познайомилися.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A43" value="1" required>
+                                <label class="form-check-label" for="A43">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A43" value="0">
+                                <label class="form-check-label" for="A43">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group44" class="mb-3">
+                            <legend class="col-form-label">44. Більшу частину часу Ви відчуваєте загальну слабкість.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A44" value="1" required>
+                                <label class="form-check-label" for="A44">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A44" value="0">
+                                <label class="form-check-label" for="A44">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group45" class="mb-3">
+                            <legend class="col-form-label">45. У Вас рідко болить голова.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A45" value="1" required>
+                                <label class="form-check-label" for="A45">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A45" value="0">
+                                <label class="form-check-label" for="A45">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group46" class="mb-3">
+                            <legend class="col-form-label">46. Іноді Вам бувало важко зберегти рівновагу під час ходьби.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A46" value="1" required>
+                                <label class="form-check-label" for="A46">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A46" value="0">
+                                <label class="form-check-label" for="A46">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group47" class="mb-3">
+                            <legend class="col-form-label">47. Не всі Ваші знайомі Вам подобаються.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A47" value="1" required>
+                                <label class="form-check-label" for="A47">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A47" value="0">
+                                <label class="form-check-label" for="A47">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group48" class="mb-3">
+                            <legend class="col-form-label">48. Є люди, які намагаються вкрасти Ваші ідеї та думки.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A48" value="1" required>
+                                <label class="form-check-label" for="A48">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A48" value="0">
+                                <label class="form-check-label" for="A48">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group49" class="mb-3">
+                            <legend class="col-form-label">49. Ви вважаєте, що скоювали вчинки, які не можна пробачити.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A49" value="1" required>
+                                <label class="form-check-label" for="A49">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A49" value="0">
+                                <label class="form-check-label" for="A49">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group50" class="mb-3">
+                            <legend class="col-form-label">50. Ви вважаєте, що Ви занадто сором’язливі.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A50" value="1" required>
+                                <label class="form-check-label" for="A50">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A50" value="0">
+                                <label class="form-check-label" for="A50">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group51" class="mb-3">
+                            <legend class="col-form-label">51. Ви майже завжди про що-небудь турбуєтесь.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A51" value="1" required>
+                                <label class="form-check-label" for="A51">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A51" value="0">
+                                <label class="form-check-label" for="A51">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group52" class="mb-3">
+                            <legend class="col-form-label">52. Ваші батьки часто не схвалювали Ваших знайомств.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A52" value="1" required>
+                                <label class="form-check-label" for="A52">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A52" value="0">
+                                <label class="form-check-label" for="A52">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group53" class="mb-3">
+                            <legend class="col-form-label">53. Іноді Ви трохи пліткуєте.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A53" value="1" required>
+                                <label class="form-check-label" for="A53">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A53" value="0">
+                                <label class="form-check-label" for="A53">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group54" class="mb-3">
+                            <legend class="col-form-label">54. Часом Ви відчуваєте, що Вам незвичайно легко приймати рішення.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A54" value="1" required>
+                                <label class="form-check-label" for="A54">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A54" value="0">
+                                <label class="form-check-label" for="A54">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group55" class="mb-3">
+                            <legend class="col-form-label">55. У Вас буває сильне серцебиття й Ви часто задихаєтесь.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A55" value="1" required>
+                                <label class="form-check-label" for="A55">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A55" value="0">
+                                <label class="form-check-label" for="A55">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group56" class="mb-3">
+                            <legend class="col-form-label">56. Ви запальні, але швидко відходите.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A56" value="1" required>
+                                <label class="form-check-label" for="A56">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A56" value="0">
+                                <label class="form-check-label" for="A56">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group57" class="mb-3">
+                            <legend class="col-form-label">57. У Вас бувають періоди такого неспокою, що важко всидіти на місці.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A57" value="1" required>
+                                <label class="form-check-label" for="A57">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A57" value="0">
+                                <label class="form-check-label" for="A57">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group58" class="mb-3">
+                            <legend class="col-form-label">58. Ваші батьки та інші члени родини часто прискіпуються до Вас.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A58" value="1" required>
+                                <label class="form-check-label" for="A58">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A58" value="0">
+                                <label class="form-check-label" for="A58">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group59" class="mb-3">
+                            <legend class="col-form-label">59. Ваша доля нікого особливо не цікавить.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A59" value="1" required>
+                                <label class="form-check-label" for="A59">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A59" value="0">
+                                <label class="form-check-label" for="A59">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group60" class="mb-3">
+                            <legend class="col-form-label">60. Ви не засуджуєте людину, яка не проти скористатися в своїх інтересах помилками іншого.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A60" value="1" required>
+                                <label class="form-check-label" for="A60">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A60" value="0">
+                                <label class="form-check-label" for="A60">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group61" class="mb-3">
+                            <legend class="col-form-label">61. Іноді Ви сповнені енергії.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A61" value="1" required>
+                                <label class="form-check-label" for="A61">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A61" value="0">
+                                <label class="form-check-label" for="A61">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group62" class="mb-3">
+                            <legend class="col-form-label">62. За останній час у Вас погіршився зір.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A62" value="1" required>
+                                <label class="form-check-label" for="A62">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A62" value="0">
+                                <label class="form-check-label" for="A62">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group63" class="mb-3">
+                            <legend class="col-form-label">63. Часто у Вас дзвенить або шумить у вухах.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A63" value="1" required>
+                                <label class="form-check-label" for="A63">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A63" value="0">
+                                <label class="form-check-label" for="A63">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group64" class="mb-3">
+                            <legend class="col-form-label">64. У Вашому житті були випадки (можливо, тільки один), коли Ви відчували, що на Вас впливають гіпнозом.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A64" value="1" required>
+                                <label class="form-check-label" for="A64">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A64" value="0">
+                                <label class="form-check-label" for="A64">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group65" class="mb-3">
+                            <legend class="col-form-label">65. У Вас бувають періоди, коли Ви незвично веселі без особливої причини.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A65" value="1" required>
+                                <label class="form-check-label" for="A65">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A65" value="0">
+                                <label class="form-check-label" for="A65">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group66" class="mb-3">
+                            <legend class="col-form-label">66. Навіть перебуваючи в компанії, Ви зазвичай відчуваєте себе самотньо.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A66" value="1" required>
+                                <label class="form-check-label" for="A66">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A66" value="0">
+                                <label class="form-check-label" for="A66">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group67" class="mb-3">
+                            <legend class="col-form-label">67. Ви вважаєте, що майже кожен може збрехати, щоб уникнути неприємностей.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A67" value="1" required>
+                                <label class="form-check-label" for="A67">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A67" value="0">
+                                <label class="form-check-label" for="A67">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group68" class="mb-3">
+                            <legend class="col-form-label">68. Ви відчуваєте гостріше, ніж більшість інших людей.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A68" value="1" required>
+                                <label class="form-check-label" for="A68">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A68" value="0">
+                                <label class="form-check-label" for="A68">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group69" class="mb-3">
+                            <legend class="col-form-label">69. Часом Ваша голова працює ніби повільніше, ніж зазвичай.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A69" value="1" required>
+                                <label class="form-check-label" for="A69">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A69" value="0">
+                                <label class="form-check-label" for="A69">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group70" class="mb-3">
+                            <legend class="col-form-label">70. Ви часто розчаровуєтесь у людях.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A70" value="1" required>
+                                <label class="form-check-label" for="A70">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A70" value="0">
+                                <label class="form-check-label" for="A70">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group71" class="mb-3">
+                            <legend class="col-form-label">71. Ви зловживаєте спиртними напоями.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A71" value="1" required>
+                                <label class="form-check-label" for="A71">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A71" value="0">
+                                <label class="form-check-label" for="A71">Ні</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Відправити</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
