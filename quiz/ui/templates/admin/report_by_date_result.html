@@ -25,8 +25,8 @@
                         </div>
                         {{range $value := $elements}}
                             <div class="row mb-3 p-3 border">
-                                <p><span class="fw-bold">Дата:</span> {{$value.CreateAt}}</p>
-                                <p>{{$value.Label}}</p>
+                                <p class="small text-end"><em>Дата: {{$value.CreateAt}}</em></p>
+                                <p class="fw-bold">{{$value.Label}}</p>
                                 {{if eq $value.Name "quiz_kotenov_5_57"}}
                                     {{template "kotenov_5_57_result_content.html" GetQuizParseResultKotenov557 $value}}
                                 {{end}}
@@ -38,6 +38,9 @@
                                 {{end}}
                                 {{if eq $value.Name "quiz_hads"}}
                                     {{template "hads_result_content.html" GetQuizParseResultHads $value}}
+                                {{end}}
+                                {{if eq $value.Name "quiz_ies_r_5_54"}}
+                                    {{template "ies_r_5_54_result_content.html" GetQuizParseResultIesR554 $value}}
                                 {{end}}
                             </div>
                         {{end}}

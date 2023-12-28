@@ -12,6 +12,7 @@ import (
 	"quiz/internal/quiz"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
+	"quiz/internal/quiz_ies_r_5_54"
 	"quiz/internal/quiz_kotenov_5_57"
 	"quiz/internal/quiz_nps_prognoz_2"
 	"time"
@@ -33,6 +34,9 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	case quiz_hads.QUIZ_NAME:
 		quiz_hads.GetAdminQuizResultHandler(w, r, q)
+		return
+	case quiz_ies_r_5_54.QUIZ_NAME:
+		quiz_ies_r_5_54.GetAdminQuizResultHandler(w, r, q)
 		return
 	default:
 		log.Printf("Not found quiz by name")
@@ -196,6 +200,9 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		"GetQuizParseResultHads": func(q quiz.QuizDb) quiz_hads.QuizResult {
 			return quiz_hads.GetQuizParseResult(q)
 		},
+		"GetQuizParseResultIesR554": func(q quiz.QuizDb) quiz_ies_r_5_54.QuizResult {
+			return quiz_ies_r_5_54.GetQuizParseResult(q)
+		},
 	}
 	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "report_by_date_result.html"),
@@ -203,6 +210,7 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result_content.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "nps_prognoz_2_result_content.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "hads_result_content.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "ies_r_5_54_result_content.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
