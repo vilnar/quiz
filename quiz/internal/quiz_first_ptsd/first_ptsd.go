@@ -45,7 +45,12 @@ func (i *Answers) setProperty(propName string, propValue int) *Answers {
 }
 
 type QuizResult struct {
+	Points  int
 	Summary string
+}
+
+func (q QuizResult) IsHighScore() bool {
+	return q.Points > 3
 }
 
 type Quiz struct {
@@ -144,9 +149,9 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
 
 func calcQuizResult(a Answers) QuizResult {
 	var res QuizResult
-	sum := a.A1 + a.A2 + a.A3 + a.A4 + a.A5 + a.A6 + a.A7
+	res.Points = a.A1 + a.A2 + a.A3 + a.A4 + a.A5 + a.A6 + a.A7
 	res.Summary = "Не виявлено ПТСР"
-	if sum > 3 {
+	if res.IsHighScore() {
 		res.Summary = "Виявлено первинні ознаки ПТСР"
 	}
 

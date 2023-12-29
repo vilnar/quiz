@@ -29,13 +29,10 @@
                         </div>
                         <fieldset id="group1" class="mb-3">
                             <legend class="col-form-label"></legend>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="person_id" value="0" required>
-                                <label class="form-check-label" for="person_id">ПРОПУСТИТИ</label>
-                            </div>
-                            {{range $element := .PersonList}}
+                            <div class="mb-3">
+                            {{range $key, $element := .PersonList}}
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="person_id" value="{{$element.Id}}">
+                                <input class="form-check-input" type="radio" name="person_id" value="{{$element.Id}}" {{if eq $key 0}} required {{end}}>
                                 <label class="form-check-label" for="person_id">{{$element.GetFullName}}</label>
                                 <div><span class="fw-bold">Звання:</span> {{$element.MilitaryName}}</div>
                                 <div><span class="fw-bold">Підрозділ:</span> {{$element.Unit}}</div>
@@ -43,6 +40,11 @@
                                 <div><span class="fw-bold">Дата створення:</span> {{$element.CreateAt}}</div>
                             </div>
                             {{end}}
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="person_id" value="0">
+                                <label class="form-check-label" for="person_id">ПРОПУСТИТИ</label>
+                            </div>
                         </fieldset>
                     </div>
                     <button type="submit" class="btn btn-primary">Відправити</button>
