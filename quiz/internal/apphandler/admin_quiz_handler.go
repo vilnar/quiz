@@ -212,7 +212,7 @@ func GetInputQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	log.Print(common.DebugRequest(r))
 
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "input_quiz_list.html"),
+		path.Join("quiz", "ui", "templates", "admin", "input_quiz_list.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
