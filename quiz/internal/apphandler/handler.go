@@ -1,19 +1,15 @@
 package apphandler
 
 import (
+	"fmt"
+	"html"
 	"html/template"
 	"log"
 	"net/http"
 	"path"
 	"quiz/internal/common"
 	"quiz/internal/person"
-	"quiz/internal/quiz_first_ptsd"
-	"quiz/internal/quiz_hads"
-	"quiz/internal/quiz_ies_r_5_54"
-	"quiz/internal/quiz_iso"
-	"quiz/internal/quiz_kotenov_5_57"
-	"quiz/internal/quiz_minimult"
-	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_switch"
 )
 
 func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
@@ -26,33 +22,8 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 		r.Form.Set("person_last_name", p.LastName)
 		r.Form.Set("person_first_name", p.FirstName)
 		r.Form.Set("person_patronymic", p.Patronymic)
-		switch quizNameToPass {
-		case quiz_kotenov_5_57.QUIZ_NAME:
-			quiz_kotenov_5_57.GetQuizHandler(w, r)
-			return
-		case quiz_first_ptsd.QUIZ_NAME:
-			quiz_first_ptsd.GetQuizHandler(w, r)
-			return
-		case quiz_nps_prognoz_2.QUIZ_NAME:
-			quiz_nps_prognoz_2.GetQuizHandler(w, r)
-			return
-		case quiz_hads.QUIZ_NAME:
-			quiz_hads.GetQuizHandler(w, r)
-			return
-		case quiz_ies_r_5_54.QUIZ_NAME:
-			quiz_ies_r_5_54.GetQuizHandler(w, r)
-			return
-		case quiz_minimult.QUIZ_NAME:
-			quiz_minimult.GetQuizHandler(w, r)
-			return
-		case quiz_iso.QUIZ_NAME:
-			quiz_iso.GetQuizHandler(w, r)
-			return
-		default:
-			log.Printf("Not found quiz name")
-			http.Error(w, "Not found quiz name", http.StatusNotFound)
-			return
-		}
+		quiz_switch.RedirectToQuizByQuizName(w, r, quizNameToPass)
+		return
 	}
 
 	tmpl, err := template.ParseFiles(
@@ -81,6 +52,34 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
+func GetDashboardHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		message := fmt.Sprintf("Помилка: URL %s не знайдено", html.EscapeString(r.URL.Path))
+		common.NotFoundHandler(w, r, message, false)
+		return
+	}
+
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "dashboard.html"),
+		path.Join("quiz", "ui", "templates", "header.html"),
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	list := quiz_switch.GetQuizLinkList()
+	data := struct {
+		LinkList []quiz_switch.QuizLink
+	}{
+		list,
+	}
+	if err := tmpl.Execute(w, data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }

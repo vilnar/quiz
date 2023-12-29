@@ -23,30 +23,31 @@
                         <div class="row">
                             <p class="p-3 bg-secondary text-white">{{$person.MilitaryName}} {{$person.GetFullName}}</p>
                         </div>
-                        {{range $value := $elements}}
+                        {{range $quiz := $elements}}
                             <div class="row mb-3 p-3 border">
-                                <p class="small text-end"><em>Дата: {{$value.CreateAt}}</em></p>
-                                <p class="fw-bold">{{$value.Label}}</p>
-                                {{if eq $value.Name "quiz_kotenov_5_57"}}
-                                    {{template "kotenov_5_57_result_content.html" GetQuizParseResultKotenov557 $value}}
+                                <p class="small text-end"><em>Дата: {{$quiz.CreateAt}}</em></p>
+                                <p class="fw-bold">{{$quiz.Label}}</p> 
+                                <!-- quiz_switch_todo -->
+                                {{if eq $quiz.Name "quiz_kotenov_5_57"}}
+                                    {{template "kotenov_5_57_result_content.html" GetQuizParseResultKotenov557 $quiz}}
                                 {{end}}
-                                {{if eq $value.Name "quiz_first_ptsd"}}
-                                    {{template "first_ptsd_result_content.html" GetQuizParseResultFirstPtsd $value}}
+                                {{if eq $quiz.Name "quiz_first_ptsd"}}
+                                    {{template "first_ptsd_result_content.html" GetQuizParseResultFirstPtsd $quiz}}
                                 {{end}}
-                                {{if eq $value.Name "quiz_nps_prognoz_2"}}
-                                    {{template "nps_prognoz_2_result_content.html" GetQuizParseResultNpsPrognoz2 $value}}
+                                {{if eq $quiz.Name "quiz_nps_prognoz_2"}}
+                                    {{template "nps_prognoz_2_result_content.html" GetQuizParseResultNpsPrognoz2 $quiz}}
                                 {{end}}
-                                {{if eq $value.Name "quiz_hads"}}
-                                    {{template "hads_result_content.html" GetQuizParseResultHads $value}}
+                                {{if eq $quiz.Name "quiz_hads"}}
+                                    {{template "hads_result_content.html" GetQuizParseResultHads $quiz}}
                                 {{end}}
-                                {{if eq $value.Name "quiz_ies_r_5_54"}}
-                                    {{template "ies_r_5_54_result_content.html" GetQuizParseResultIesR554 $value}}
+                                {{if eq $quiz.Name "quiz_ies_r_5_54"}}
+                                    {{template "ies_r_5_54_result_content.html" GetQuizParseResultIesR554 $quiz}}
                                 {{end}}
-                                {{if eq $value.Name "quiz_minimult"}}
-                                    {{template "minimult_result_content.html" GetQuizParseResultMinimult $value}}
+                                {{if eq $quiz.Name "quiz_minimult"}}
+                                    {{template "minimult_result_content.html" GetQuizParseResultMinimult $quiz}}
                                 {{end}}
-                                {{if eq $value.Name "quiz_iso"}}
-                                    {{template "iso_result_content.html" GetQuizParseResultIso $value}}
+                                {{if eq $quiz.Name "quiz_iso"}}
+                                    {{template "iso_result_content.html" GetQuizParseResultIso $quiz}}
                                 {{end}}
                             </div>
                         {{end}}

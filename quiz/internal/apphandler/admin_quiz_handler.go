@@ -10,13 +10,7 @@ import (
 	"quiz/internal/pagination"
 	"quiz/internal/person"
 	"quiz/internal/quiz"
-	"quiz/internal/quiz_first_ptsd"
-	"quiz/internal/quiz_hads"
-	"quiz/internal/quiz_ies_r_5_54"
-	"quiz/internal/quiz_iso"
-	"quiz/internal/quiz_kotenov_5_57"
-	"quiz/internal/quiz_minimult"
-	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_switch"
 	"time"
 )
 
@@ -24,33 +18,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	id := common.StringToInt64(r.URL.Query().Get("id"))
 
 	q := quiz.FindQuizById(id)
-	switch q.Name {
-	case quiz_kotenov_5_57.QUIZ_NAME:
-		quiz_kotenov_5_57.GetAdminQuizResultHandler(w, r, q)
-		return
-	case quiz_first_ptsd.QUIZ_NAME:
-		quiz_first_ptsd.GetAdminQuizResultHandler(w, r, q)
-		return
-	case quiz_nps_prognoz_2.QUIZ_NAME:
-		quiz_nps_prognoz_2.GetAdminQuizResultHandler(w, r, q)
-		return
-	case quiz_hads.QUIZ_NAME:
-		quiz_hads.GetAdminQuizResultHandler(w, r, q)
-		return
-	case quiz_ies_r_5_54.QUIZ_NAME:
-		quiz_ies_r_5_54.GetAdminQuizResultHandler(w, r, q)
-		return
-	case quiz_minimult.QUIZ_NAME:
-		quiz_minimult.GetAdminQuizResultHandler(w, r, q)
-		return
-	case quiz_iso.QUIZ_NAME:
-		quiz_iso.GetAdminQuizResultHandler(w, r, q)
-		return
-	default:
-		log.Printf("Not found quiz by name")
-		http.Error(w, "Not found quiz by name", http.StatusNotFound)
-		return
-	}
+	quiz_switch.RedirectToQuizResultByQuiz(w, r, q)
 }
 
 func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
@@ -195,40 +163,11 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	funcMap := template.FuncMap{
-		"GetQuizParseResultKotenov557": func(q quiz.QuizDb) quiz_kotenov_5_57.QuizResult {
-			return quiz_kotenov_5_57.GetQuizParseResult(q)
-		},
-		"GetQuizParseResultFirstPtsd": func(q quiz.QuizDb) quiz_first_ptsd.QuizResult {
-			return quiz_first_ptsd.GetQuizParseResult(q)
-		},
-		"GetQuizParseResultNpsPrognoz2": func(q quiz.QuizDb) quiz_nps_prognoz_2.QuizResult {
-			return quiz_nps_prognoz_2.GetQuizParseResult(q)
-		},
-		"GetQuizParseResultHads": func(q quiz.QuizDb) quiz_hads.QuizResult {
-			return quiz_hads.GetQuizParseResult(q)
-		},
-		"GetQuizParseResultIesR554": func(q quiz.QuizDb) quiz_ies_r_5_54.QuizResult {
-			return quiz_ies_r_5_54.GetQuizParseResult(q)
-		},
-		"GetQuizParseResultMinimult": func(q quiz.QuizDb) quiz_minimult.QuizResult {
-			return quiz_minimult.GetQuizParseResult(q)
-		},
-		"GetQuizParseResultIso": func(q quiz.QuizDb) quiz_iso.QuizResult {
-			return quiz_iso.GetQuizParseResult(q)
-		},
-	}
-	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(
-		path.Join("quiz", "ui", "templates", "admin", "report_by_date_result.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "kotenov_5_57_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "nps_prognoz_2_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "hads_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "ies_r_5_54_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "iso_result_content.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
-	)
+	funcMap := quiz_switch.GetTemplateFuncMapForQuizParseResult()
+	mainTemplate := path.Join("quiz", "ui", "templates", "admin", "report_by_date_result.html")
+	header := path.Join("quiz", "ui", "templates", "admin", "header.html")
+	files := quiz_switch.GetFilesForParseReportByDate(mainTemplate, header)
+	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(files...)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -265,6 +204,30 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
+func GetInputQuizListHandler(w http.ResponseWriter, r *http.Request) {
+	log.Print(common.DebugRequest(r))
+
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "input_quiz_list.html"),
+		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	list := quiz_switch.GetInputQuizLinkList()
+	data := struct {
+		LinkList []quiz_switch.QuizLink
+	}{
+		list,
+	}
+	if err := tmpl.Execute(w, data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }

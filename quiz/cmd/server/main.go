@@ -3,12 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
-	"html"
-	"html/template"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"path"
 	"quiz/internal/apphandler"
 	"quiz/internal/common"
 	"quiz/internal/person"
@@ -27,7 +24,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	// routes
-	mux.HandleFunc("/", getDashboardHandler)
+	mux.HandleFunc("/", apphandler.GetDashboardHandler)
 	mux.HandleFunc("/quiz/ui/static/", staticHandler)
 
 	mux.HandleFunc(quiz_first_ptsd.GetQuizUrl(), quiz_first_ptsd.GetQuizHandler)
@@ -68,68 +65,6 @@ func main() {
 	} else if err != nil {
 		fmt.Printf("error starting server: %s\n", err)
 		os.Exit(1)
-	}
-}
-
-type QuizLink struct {
-	Title string
-	Link  string
-}
-
-func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		message := fmt.Sprintf("Помилка: URL %s не знайдено", html.EscapeString(r.URL.Path))
-		common.NotFoundHandler(w, r, message, false)
-		return
-	}
-
-	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "dashboard.html"),
-		path.Join("quiz", "ui", "templates", "header.html"),
-	)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	var list = []QuizLink{
-		{
-			quiz_first_ptsd.QUIZ_SHORT_LABEL,
-			quiz_first_ptsd.GetQuizUrl(),
-		},
-		{
-			quiz_kotenov_5_57.QUIZ_SHORT_LABEL,
-			quiz_kotenov_5_57.GetQuizUrl(),
-		},
-		{
-			quiz_nps_prognoz_2.QUIZ_SHORT_LABEL,
-			quiz_nps_prognoz_2.GetQuizUrl(),
-		},
-		{
-			quiz_hads.QUIZ_SHORT_LABEL,
-			quiz_hads.GetQuizUrl(),
-		},
-		{
-			quiz_ies_r_5_54.QUIZ_SHORT_LABEL,
-			quiz_ies_r_5_54.GetQuizUrl(),
-		},
-		{
-			quiz_minimult.QUIZ_SHORT_LABEL,
-			quiz_minimult.GetQuizUrl(),
-		},
-		{
-			quiz_iso.QUIZ_SHORT_LABEL,
-			quiz_iso.GetQuizUrl(),
-		},
-	}
-	data := struct {
-		LinkList []QuizLink
-	}{
-		list,
-	}
-	if err := tmpl.Execute(w, data); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
 }
 
