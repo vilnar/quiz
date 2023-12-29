@@ -1,0 +1,8 @@
+<div class="mb-3">
+    <p class="mb-3 {{if .IsLowSincerity }} text-danger {{else}} text-success {{end}}">Щирість: ({{ .Sincerity }}) {{ .SincerityDescription }}</p>
+    <p class="{{if .IsHighDepression }} text-danger {{end}}">Депресивність: ({{ .Depression }}) {{ .DepressionDescription }}</p>
+    <p class="{{if .IsHighNeuroticism }} text-danger {{end}}">Невротизація: ({{ .Neuroticism }}) {{ .NeuroticismDescription }}</p>
+    <p class="{{if .IsLowCommunication }} text-danger {{end}}">Комунікабельність: ({{ .Communication }}) {{ .CommunicationDescription }}</p>
+    <p class="{{if .IsSuicidalOrientation }} text-danger {{end}}">{{ .Summary }}</p>
+</div>
+

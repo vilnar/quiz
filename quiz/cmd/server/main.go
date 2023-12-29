@@ -15,6 +15,7 @@ import (
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
 	"quiz/internal/quiz_ies_r_5_54"
+	"quiz/internal/quiz_iso"
 	"quiz/internal/quiz_kotenov_5_57"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
@@ -46,6 +47,9 @@ func main() {
 
 	mux.HandleFunc(quiz_minimult.GetQuizUrl(), quiz_minimult.GetQuizHandler)
 	mux.HandleFunc(quiz_minimult.GetCheckQuizUrl(), quiz_minimult.CheckQuizHandler)
+
+	mux.HandleFunc(quiz_iso.GetQuizUrl(), quiz_iso.GetQuizHandler)
+	mux.HandleFunc(quiz_iso.GetCheckQuizUrl(), quiz_iso.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 
@@ -112,6 +116,10 @@ func getDashboardHandler(w http.ResponseWriter, r *http.Request) {
 		{
 			quiz_minimult.QUIZ_SHORT_LABEL,
 			quiz_minimult.GetQuizUrl(),
+		},
+		{
+			quiz_iso.QUIZ_SHORT_LABEL,
+			quiz_iso.GetQuizUrl(),
 		},
 	}
 	data := struct {

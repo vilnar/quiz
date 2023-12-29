@@ -45,6 +45,9 @@
                                 {{if eq $value.Name "quiz_minimult"}}
                                     {{template "minimult_result_content.html" GetQuizParseResultMinimult $value}}
                                 {{end}}
+                                {{if eq $value.Name "quiz_iso"}}
+                                    {{template "iso_result_content.html" GetQuizParseResultIso $value}}
+                                {{end}}
                             </div>
                         {{end}}
                     </div>

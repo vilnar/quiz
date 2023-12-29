@@ -13,6 +13,7 @@ import (
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
 	"quiz/internal/quiz_ies_r_5_54"
+	"quiz/internal/quiz_iso"
 	"quiz/internal/quiz_kotenov_5_57"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
@@ -41,6 +42,9 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	case quiz_minimult.QUIZ_NAME:
 		quiz_minimult.GetAdminQuizResultHandler(w, r, q)
+		return
+	case quiz_iso.QUIZ_NAME:
+		quiz_iso.GetAdminQuizResultHandler(w, r, q)
 		return
 	default:
 		log.Printf("Not found quiz by name")
@@ -210,6 +214,9 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		"GetQuizParseResultMinimult": func(q quiz.QuizDb) quiz_minimult.QuizResult {
 			return quiz_minimult.GetQuizParseResult(q)
 		},
+		"GetQuizParseResultIso": func(q quiz.QuizDb) quiz_iso.QuizResult {
+			return quiz_iso.GetQuizParseResult(q)
+		},
 	}
 	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "report_by_date_result.html"),
@@ -219,6 +226,7 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		path.Join("quiz", "ui", "templates", "quiz", "hads_result_content.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "ies_r_5_54_result_content.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "iso_result_content.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {

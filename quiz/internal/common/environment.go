@@ -11,7 +11,7 @@ import (
 )
 
 const HOST_DEFAULT = "http://127.0.0.1"
-const PAGE_SIZE_DEFAULT = 5
+const PAGE_SIZE_DEFAULT = 20
 
 func GetPort() int {
 	res, _ := strconv.Atoi(GetDotEnvVariable("PORT"))

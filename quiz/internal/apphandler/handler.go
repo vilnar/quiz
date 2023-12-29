@@ -10,6 +10,7 @@ import (
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
 	"quiz/internal/quiz_ies_r_5_54"
+	"quiz/internal/quiz_iso"
 	"quiz/internal/quiz_kotenov_5_57"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
@@ -43,6 +44,9 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		case quiz_minimult.QUIZ_NAME:
 			quiz_minimult.GetQuizHandler(w, r)
+			return
+		case quiz_iso.QUIZ_NAME:
+			quiz_iso.GetQuizHandler(w, r)
 			return
 		default:
 			log.Printf("Not found quiz name")
