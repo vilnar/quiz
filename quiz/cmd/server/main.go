@@ -49,6 +49,7 @@ func main() {
 	mux.HandleFunc(quiz_iso.GetCheckQuizUrl(), quiz_iso.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
+	mux.HandleFunc("/test", apphandler.GetTestUiHandler)
 
 	mux.HandleFunc("/admin", apphandler.BasicAuth(apphandler.GetAdminDashboardHandler))
 	mux.HandleFunc("/admin/quiz", apphandler.BasicAuth(apphandler.GetQuizHandler))

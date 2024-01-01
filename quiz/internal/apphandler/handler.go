@@ -85,3 +85,22 @@ func GetDashboardHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func GetTestUiHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(
+		path.Join("quiz", "ui", "templates", "test_ui.html"),
+		path.Join("quiz", "ui", "templates", "header.html"),
+	)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	data := ""
+	if err := tmpl.Execute(w, data); err != nil {
+		log.Print(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
