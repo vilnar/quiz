@@ -101,7 +101,59 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func GetReportByDateHandler(w http.ResponseWriter, r *http.Request) {
+func GetQuizReportByPersonHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	personId := common.StringToInt64(r.Form.Get("person_id"))
+	if personId < 1 {
+		log.Print("query param person_id not correct")
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
+	funcMap := quiz_switch.GetTemplateFuncMapForQuizParseResult()
+	mainTemplate := path.Join("quiz", "ui", "templates", "admin", "quiz_report_by_person.html")
+	header := path.Join("quiz", "ui", "templates", "admin", "header.html")
+	files := quiz_switch.GetFilesForParseReport(mainTemplate, header)
+	tmpl, err := template.New("quiz_report_by_person.html").Funcs(funcMap).ParseFiles(files...)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	p := person.FindPersonById(personId)
+	if p.Id < 1 {
+		log.Print("query param person_id not correct")
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
+	list := quiz.FindAllQuizByPersonId(p.Id)
+	fmt.Printf("debug list quiz %+v\n", len(list))
+	if len(list) < 1 {
+		message := fmt.Sprintf("Не знайдено тестів для респондента %s", p.GetFullName)
+		log.Print(message)
+		common.NotFoundHandler(w, r, message, true)
+		return
+	}
+
+	data := struct {
+		QuizList []quiz.QuizDb
+		Person   person.PersonDb
+	}{
+		list,
+		p,
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
+func GetQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	log.Print(common.DebugRequest(r))
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "admin", "report_by_date.html"),
@@ -117,7 +169,7 @@ func GetReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		FormAction string
 		Date       string
 	}{
-		common.GetServerInfo(r) + "/admin/check_report_by_date",
+		common.GetServerInfo(r) + "/admin/check_quiz_report_by_date",
 		time.Now().Format("2006-01-02"),
 	}
 
@@ -152,7 +204,7 @@ func getDateFromRequest(r *http.Request) (string, string, error) {
 	return start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"), nil
 }
 
-func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
+func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	log.Print(common.DebugRequest(r))
 	r.ParseForm()
 
@@ -166,7 +218,7 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	funcMap := quiz_switch.GetTemplateFuncMapForQuizParseResult()
 	mainTemplate := path.Join("quiz", "ui", "templates", "admin", "report_by_date_result.html")
 	header := path.Join("quiz", "ui", "templates", "admin", "header.html")
-	files := quiz_switch.GetFilesForParseReportByDate(mainTemplate, header)
+	files := quiz_switch.GetFilesForParseReport(mainTemplate, header)
 	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(files...)
 	if err != nil {
 		log.Print(err.Error())
@@ -193,7 +245,7 @@ func CheckReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		GroupQuizList map[int64][]quiz.QuizDb
 		PersonList    person.PersonDbList
 	}{
-		common.GetServerInfo(r) + "/admin/report_by_date",
+		common.GetServerInfo(r) + "/admin/quiz_report_by_date",
 		start,
 		end,
 		groupQuizList,

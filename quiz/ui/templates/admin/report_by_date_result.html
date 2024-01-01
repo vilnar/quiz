@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row mb-3 justify-content-center p-3">
             <div class="col-md-8">
-                <h3 class="text-center">Звіт з {{.StartDate}} по {{.EndDate}}</h3>
+                <h4 class="text-center">Звіт з {{.StartDate}} по {{.EndDate}}</h4>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -21,7 +21,7 @@
                     <div class="mb-5">
                         {{$person := $.PersonList.FindPersonInList $key}}
                         <div class="row">
-                            <p class="p-3 bg-secondary text-white">{{$person.MilitaryName}} {{$person.GetFullName}}</p>
+                            <a href="/admin/person?id={{$person.Id}}" class="p-3 bg-secondary text-white">{{$person.MilitaryName}} {{$person.GetFullName}}</a>
                         </div>
                         {{range $quiz := $elements}}
                             <div class="row mb-3 p-3 border">

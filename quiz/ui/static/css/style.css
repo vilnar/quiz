@@ -6,3 +6,10 @@
     height: auto;
     max-width: 100%;
 }
+
+
+.bi {
+    display: inline-block;
+    vertical-align: -.125em;
+    fill: currentcolor;
+}

@@ -103,6 +103,32 @@ func FindQuizListByPersonId(personId int64, page int) QuizWithPersonDbList {
 	}
 }
 
+func FindAllQuizByPersonId(personId int64) []QuizDb {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id, person_id, name, label, answers, result, score, create_at FROM quiz WHERE person_id = ?", personId)
+	defer rows.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result []QuizDb
+	for rows.Next() {
+		var q QuizDb
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, q)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return result
+}
+
 type QuizWithPersonDb struct {
 	QuizDb
 	PersonLastName   string

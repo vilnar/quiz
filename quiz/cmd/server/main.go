@@ -57,9 +57,10 @@ func main() {
 	mux.HandleFunc("/admin/quiz_list_by_person", apphandler.BasicAuth(apphandler.GetQuizListByPersonIdHandler))
 	mux.HandleFunc("/admin/person", apphandler.BasicAuth(person.GetPersonHandler))
 	mux.HandleFunc("/admin/person_list", apphandler.BasicAuth(person.PersonListHandler))
-	mux.HandleFunc("/admin/report_by_date", apphandler.BasicAuth(apphandler.GetReportByDateHandler))
-	mux.HandleFunc("/admin/check_report_by_date", apphandler.BasicAuth(apphandler.CheckReportByDateHandler))
+	mux.HandleFunc("/admin/quiz_report_by_date", apphandler.BasicAuth(apphandler.GetQuizReportByDateHandler))
+	mux.HandleFunc("/admin/check_quiz_report_by_date", apphandler.BasicAuth(apphandler.CheckQuizReportByDateHandler))
 	mux.HandleFunc("/admin/input_quiz_list", apphandler.BasicAuth(apphandler.GetInputQuizListHandler))
+	mux.HandleFunc("/admin/quiz_report_by_person", apphandler.BasicAuth(apphandler.GetQuizReportByPersonHandler))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {
@@ -78,6 +79,8 @@ func staticHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/css")
 	} else if strings.HasSuffix(path, "png") {
 		w.Header().Set("Content-Type", "image/png")
+	} else if strings.HasSuffix(path, "svg") {
+		w.Header().Set("Content-Type", "image/svg+xml")
 	}
 	// fmt.Printf("debug %+v\n", path[1:])
 	data, err := ioutil.ReadFile(path[1:])

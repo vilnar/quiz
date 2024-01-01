@@ -22,8 +22,19 @@
                     <div class="row"><p><span class="fw-bold">Вік:</span> {{.Person.Age}}</p></div>
                     <div class="row"><p><span class="fw-bold">Стать:</span> {{.Person.GetGenderLabel}}</p></div>
                     <div class="row"><p><span class="fw-bold">Підрозділ:</span> {{.Person.Unit}}</p></div>
-                    <div class="row"><p><span class="fw-bold">Військова спеціальність:</span> {{.Person.Specialty}}</p></div>
-                    <div class="row"><a href="/admin/quiz_list_by_person?person_id={{.Person.Id}}">Список тестів які пройдені респонденом</a></div>
+                    <div class="row mb-3"><p><span class="fw-bold">Військова спеціальність:</span> {{.Person.Specialty}}</p></div>
+                    <div class="row mb-3">
+                        <a href="/admin/quiz_list_by_person?person_id={{.Person.Id}}">
+                            <img class="bi" src="/quiz/ui/static/icons/list.svg" alt="list" width="16" height="16">
+                            Список тестів які пройдені
+                        </a>
+                    </div>
+                    <div class="row mb-3">
+                        <a href="/admin/quiz_report_by_person?person_id={{.Person.Id}}">
+                            <img class="bi" src="/quiz/ui/static/icons/file-check.svg" alt="list" width="16" height="16">
+                            ЗВІТ тестів які пройдені
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

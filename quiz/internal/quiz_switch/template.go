@@ -39,7 +39,7 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 	}
 }
 
-func GetFilesForParseReportByDate(main, header string) []string {
+func GetFilesForParseReport(main, header string) []string {
 	return []string{
 		main,
 		path.Join("quiz", "ui", "templates", "quiz", "kotenov_5_57_result_content.html"),
