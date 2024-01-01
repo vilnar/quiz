@@ -2,6 +2,7 @@ package common
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 )
@@ -18,6 +19,7 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request, message string, isA
 		headerPath,
 	)
 	if err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -27,6 +29,7 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request, message string, isA
 		message,
 	}
 	if err := tmp.Execute(w, data); err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вітаємо з проходженням тесту {{.QuizLabel}}</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="vh-100 text-white wrap-logo-background">
+        <div class="container">
+            <div class="row mb-3 p-3 justify-content-center">
+                <div class="col-md-8">
+                    <h4 class="text-center">Ви успішно пройшли тест {{.QuizLabel}}</h4>
+                    <div class="row">
+                        <p class="text-center small">Респондент: {{.Person.MilitaryName}} {{.Person.GetFullName}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <p class="text-center mb-3">Дякуюємо за проходження тестування!<p> 
+            </div>
+            <div class="row">
+                <div>
+                    <img src="/quiz/ui/static/images/mp.png" class="mlogo mx-auto d-block" alt="морська піхота">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+

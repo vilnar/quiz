@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"path"
 	"strconv"
 )
 
@@ -39,4 +40,8 @@ func GetDotEnvVariable(key string) string {
 	}
 
 	return os.Getenv(key)
+}
+
+func GetDumpFilePath() string {
+	return path.Join("quiz", "dump", "quiz.sql")
 }

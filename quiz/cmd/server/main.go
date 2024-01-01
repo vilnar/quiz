@@ -73,8 +73,10 @@ func staticHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	if strings.HasSuffix(path, "js") {
 		w.Header().Set("Content-Type", "text/javascript")
-	} else {
+	} else if strings.HasSuffix(path, "css") {
 		w.Header().Set("Content-Type", "text/css")
+	} else if strings.HasSuffix(path, "png") {
+		w.Header().Set("Content-Type", "image/png")
 	}
 	// fmt.Printf("debug %+v\n", path[1:])
 	data, err := ioutil.ReadFile(path[1:])

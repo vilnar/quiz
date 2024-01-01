@@ -231,15 +231,11 @@ func getAnswersFromRequest(r *http.Request) Answers {
 	return answers
 }
 
-func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
-	headerPath := path.Join("quiz", "ui", "templates", "header.html")
-	if isAdmin {
-		headerPath = path.Join("quiz", "ui", "templates", "admin", "header.html")
-	}
+func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "quiz", "kotenov_5_57_result.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "kotenov_5_57_result_content.html"),
-		headerPath,
+		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())

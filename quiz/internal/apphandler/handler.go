@@ -68,6 +68,7 @@ func GetDashboardHandler(w http.ResponseWriter, r *http.Request) {
 		path.Join("quiz", "ui", "templates", "header.html"),
 	)
 	if err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -79,6 +80,7 @@ func GetDashboardHandler(w http.ResponseWriter, r *http.Request) {
 		list,
 	}
 	if err := tmpl.Execute(w, data); err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

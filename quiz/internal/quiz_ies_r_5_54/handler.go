@@ -8,6 +8,7 @@ import (
 	"quiz/internal/common"
 	"quiz/internal/person"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_common"
 	"time"
 )
 
@@ -67,10 +68,14 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	personId := person.UpdateOrSavePerson(p)
 	quizResult := calcQuizResult(answers)
 	quizId := quiz.SaveQuiz(personId, QUIZ_NAME, QUIZ_LABEL, common.StructToJsonString(answers), common.StructToJsonString(quizResult), 0)
-	q := quiz.FindQuizById(quizId)
-	renderResult(w, q, false)
+	if quizId < 1 {
+		log.Printf("Not save quiz")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	quiz_common.QuizGreetingHandler(w, personId, QUIZ_SHORT_LABEL)
 }
 
 func GetAdminQuizResultHandler(w http.ResponseWriter, r *http.Request, q quiz.QuizDb) {
-	renderResult(w, q, true)
+	renderResult(w, q)
 }

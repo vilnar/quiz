@@ -193,15 +193,11 @@ func getAnswersFromRequest(r *http.Request) Answers {
 	return answers
 }
 
-func renderResult(w http.ResponseWriter, q quiz.QuizDb, isAdmin bool) {
-	headerPath := path.Join("quiz", "ui", "templates", "header.html")
-	if isAdmin {
-		headerPath = path.Join("quiz", "ui", "templates", "admin", "header.html")
-	}
+func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	tmpl, err := template.ParseFiles(
 		path.Join("quiz", "ui", "templates", "quiz", "nps_prognoz_2_result.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "nps_prognoz_2_result_content.html"),
-		headerPath,
+		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -296,5 +292,5 @@ func npsToSten(v int) int {
 }
 
 func GetAdminQuizResultHandler(w http.ResponseWriter, r *http.Request, q quiz.QuizDb) {
-	renderResult(w, q, true)
+	renderResult(w, q)
 }
