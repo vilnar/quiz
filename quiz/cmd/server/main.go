@@ -59,7 +59,6 @@ func main() {
 	mux.HandleFunc("/admin/person_list", apphandler.BasicAuth(person.PersonListHandler))
 	mux.HandleFunc("/admin/quiz_report_by_date", apphandler.BasicAuth(apphandler.GetQuizReportByDateHandler))
 	mux.HandleFunc("/admin/check_quiz_report_by_date", apphandler.BasicAuth(apphandler.CheckQuizReportByDateHandler))
-	mux.HandleFunc("/admin/input_quiz_list", apphandler.BasicAuth(apphandler.GetInputQuizListHandler))
 	mux.HandleFunc("/admin/quiz_report_by_person", apphandler.BasicAuth(apphandler.GetQuizReportByPersonHandler))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)

@@ -259,27 +259,3 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
-func GetInputQuizListHandler(w http.ResponseWriter, r *http.Request) {
-	log.Print(common.DebugRequest(r))
-
-	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "admin", "input_quiz_list.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
-	)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	list := quiz_switch.GetInputQuizLinkList()
-	data := struct {
-		LinkList []quiz_switch.QuizLink
-	}{
-		list,
-	}
-	if err := tmpl.Execute(w, data); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-}

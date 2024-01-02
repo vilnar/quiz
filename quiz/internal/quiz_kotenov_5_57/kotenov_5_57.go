@@ -25,10 +25,6 @@ func GetCheckQuizUrl() string {
 	return "/check_" + QUIZ_NAME
 }
 
-func GetInputQuizUrl() string {
-	return "/admin/input_" + QUIZ_NAME
-}
-
 type Answers struct {
 	A1   int
 	A2   int
