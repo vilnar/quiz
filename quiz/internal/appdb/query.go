@@ -14,7 +14,7 @@ func GetCountRowsInTable(db *sql.DB, tableName string) int {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Number of rows are %s\n", count)
+	log.Printf("Number of rows are %s\n", count)
 	return count
 }
 

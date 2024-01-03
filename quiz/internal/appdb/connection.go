@@ -2,7 +2,6 @@ package appdb
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/go-sql-driver/mysql"
 	"log"
 	"quiz/internal/common"
@@ -32,6 +31,6 @@ func CreateDbConnection() *sql.DB {
 	if pingErr != nil {
 		log.Fatal(pingErr)
 	}
-	fmt.Println("Connected!")
+	log.Println("Connected!")
 	return dbConnection
 }
