@@ -16,6 +16,7 @@ import (
 	"quiz/internal/quiz_kotenov_5_57"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_stai"
 	"strings"
 )
 
@@ -47,6 +48,9 @@ func main() {
 
 	mux.HandleFunc(quiz_iso.GetQuizUrl(), quiz_iso.GetQuizHandler)
 	mux.HandleFunc(quiz_iso.GetCheckQuizUrl(), quiz_iso.CheckQuizHandler)
+
+	mux.HandleFunc(quiz_stai.GetQuizUrl(), quiz_stai.GetQuizHandler)
+	mux.HandleFunc(quiz_stai.GetCheckQuizUrl(), quiz_stai.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 	mux.HandleFunc("/test", apphandler.GetTestUiHandler)

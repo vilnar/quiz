@@ -11,6 +11,7 @@ import (
 	"quiz/internal/quiz_kotenov_5_57"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_stai"
 )
 
 func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
@@ -36,6 +37,10 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 		"GetQuizParseResultIso": func(q quiz.QuizDb) quiz_iso.QuizResult {
 			return quiz_iso.GetQuizParseResult(q)
 		},
+		"GetQuizParseResultStai": func(q quiz.QuizDb) quiz_stai.QuizResult {
+			return quiz_stai.GetQuizParseResult(q)
+		},
+		// TODO: find in template quiz_switch_todo
 	}
 }
 
@@ -49,6 +54,7 @@ func GetFilesForParseReport(main, header string) []string {
 		path.Join("quiz", "ui", "templates", "quiz", "ies_r_5_54_result_content.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
 		path.Join("quiz", "ui", "templates", "quiz", "iso_result_content.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "stai_result_content.html"),
 		header,
 	}
 }

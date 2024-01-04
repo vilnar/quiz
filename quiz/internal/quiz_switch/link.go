@@ -8,6 +8,7 @@ import (
 	"quiz/internal/quiz_kotenov_5_57"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_stai"
 )
 
 type QuizLink struct {
@@ -44,6 +45,10 @@ func GetQuizLinkList() []QuizLink {
 		{
 			quiz_iso.QUIZ_SHORT_LABEL,
 			quiz_iso.GetQuizUrl(),
+		},
+		{
+			quiz_stai.QUIZ_SHORT_LABEL,
+			quiz_stai.GetQuizUrl(),
 		},
 	}
 }

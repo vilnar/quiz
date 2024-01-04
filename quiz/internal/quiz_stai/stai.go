@@ -1,4 +1,4 @@
-package quiz_ies_r_5_54
+package quiz_stai
 
 import (
 	"encoding/json"
@@ -13,9 +13,9 @@ import (
 	"reflect"
 )
 
-const QUIZ_NAME = "quiz_ies_r_5_54"
-const QUIZ_LABEL = "Дослідження впливу травмівної події (IES-R) 5.54"
-const QUIZ_SHORT_LABEL = "Методика 5.54"
+const QUIZ_NAME = "quiz_stai"
+const QUIZ_LABEL = "Шкала тривоги Спілбергера – Ханіна 5.51"
+const QUIZ_SHORT_LABEL = "Шкала Спілбергера – Ханіна"
 
 func GetQuizUrl() string {
 	return "/" + QUIZ_NAME
@@ -48,6 +48,24 @@ type Answers struct {
 	A20 int
 	A21 int
 	A22 int
+	A23 int
+	A24 int
+	A25 int
+	A26 int
+	A27 int
+	A28 int
+	A29 int
+	A30 int
+	A31 int
+	A32 int
+	A33 int
+	A34 int
+	A35 int
+	A36 int
+	A37 int
+	A38 int
+	A39 int
+	A40 int
 }
 
 func (i *Answers) setProperty(propName string, propValue int) *Answers {
@@ -56,15 +74,18 @@ func (i *Answers) setProperty(propName string, propValue int) *Answers {
 }
 
 type QuizResult struct {
-	Intrusion                 int
-	Avoidance                 int
-	PhysiologicalExcitability int
-	TotalScore                int
-	Summary                   string
+	StateAnxiety            int
+	StateAnxietyDescription string
+	TraitAnxiety            int
+	TraitAnxietyDescription string
 }
 
-func (q QuizResult) IsHighReaction() bool {
-	return q.TotalScore >= 50
+func (q QuizResult) IsHighStateAnxiety() bool {
+	return q.StateAnxiety >= 45
+}
+
+func (q QuizResult) IsHighTraitAnxiety() bool {
+	return q.TraitAnxiety >= 45
 }
 
 type Quiz struct {
@@ -127,8 +148,8 @@ func getAnswersFromRequest(r *http.Request) Answers {
 
 func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "quiz", "ies_r_5_54_result.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "ies_r_5_54_result_content.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "stai_result.html"),
+		path.Join("quiz", "ui", "templates", "quiz", "stai_result_content.html"),
 		path.Join("quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
@@ -159,17 +180,22 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 
 func calcQuizResult(a Answers) QuizResult {
 	var res QuizResult
-	res.Intrusion = a.A1 + a.A2 + a.A3 + a.A6 + a.A9 + a.A16 + a.A20
-	res.Avoidance = a.A5 + a.A7 + a.A8 + a.A11 + a.A12 + a.A13 + a.A17 + a.A22
-	res.PhysiologicalExcitability = a.A4 + a.A10 + a.A14 + a.A15 + a.A18 + a.A19 + a.A21
-	res.TotalScore = res.Intrusion + res.Avoidance + res.PhysiologicalExcitability
-
-	if res.IsHighReaction() {
-		res.Summary = "Реакція на стресову ситуацію ВИРАЖЕНА"
-	} else if res.TotalScore < 50 && res.TotalScore >= 30 {
-		res.Summary = "Реакція на стресову ситуацію ПОМІРНА"
+	res.StateAnxiety = (a.A3 + a.A4 + a.A6 + a.A7 + a.A9 + a.A12 + a.A13 + a.A14 + a.A17 + a.A18) - (a.A1 + a.A2 + a.A5 + a.A8 + a.A10 + a.A11 + a.A15 + a.A16 + a.A19 + a.A20) + 50
+	if res.IsHighStateAnxiety() {
+		res.StateAnxietyDescription = "високий рівень реактивної тривожності"
+	} else if res.StateAnxiety >= 31 {
+		res.StateAnxietyDescription = "помірний рівень реактивної тривожності"
 	} else {
-		res.Summary = "Реакція на стресову ситуацію СЛАБКА"
+		res.StateAnxietyDescription = "низький рівень реактивної тривожності"
 	}
+	res.TraitAnxiety = (a.A22 + a.A23 + a.A24 + a.A25 + a.A28 + a.A29 + a.A31 + a.A32 + a.A34 + a.A35 + a.A37 + a.A38 + a.A40) - (a.A21 + a.A26 + a.A27 + a.A30 + a.A33 + a.A36 + a.A39) + 35
+	if res.IsHighTraitAnxiety() {
+		res.TraitAnxietyDescription = "високий рівень особистісної тривожності"
+	} else if res.TraitAnxiety >= 31 {
+		res.TraitAnxietyDescription = "помірний рівень особистісної тривожності"
+	} else {
+		res.TraitAnxietyDescription = "низький рівень особистісної тривожності"
+	}
+
 	return res
 }

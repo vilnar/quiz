@@ -47,6 +47,9 @@
                                 {{if eq $quiz.Name "quiz_iso"}}
                                     {{template "iso_result_content.html" GetQuizParseResultIso $quiz}}
                                 {{end}}
+                                {{if eq $quiz.Name "quiz_stai"}}
+                                    {{template "stai_result_content.html" GetQuizParseResultStai $quiz}}
+                                {{end}}
                             </div>
                         {{end}}
                     </div>
