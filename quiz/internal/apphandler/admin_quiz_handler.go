@@ -129,7 +129,6 @@ func GetQuizReportByPersonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	list := quiz.FindAllQuizByPersonId(p.Id)
-	fmt.Printf("debug list quiz %+v\n", len(list))
 	if len(list) < 1 {
 		message := fmt.Sprintf("Не знайдено тестів для респондента %s", p.GetFullName)
 		log.Print(message)
@@ -227,7 +226,6 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	list := quiz.FindQuizByDateRange(start, end)
-	fmt.Printf("debug list quiz %+v\n", len(list))
 	if len(list) < 1 {
 		message := fmt.Sprintf("Не знайдено тестів за період з %s по %s", start, end)
 		log.Print(message)

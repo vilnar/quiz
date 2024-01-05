@@ -37,7 +37,7 @@ func runMigrate() {
 		DBName:               getDotEnvVariable("DBNAME"),
 		AllowNativePasswords: true,
 	}
-	fmt.Printf("debug dsn %+v\n", cfg.FormatDSN())
+	log.Printf("DSN %+v\n", cfg.FormatDSN())
 	log.Printf("start migration!\n")
 	m, err := migrate.New("file://quiz/migrations", fmt.Sprintf("mysql://%s", cfg.FormatDSN()))
 	if err != nil {

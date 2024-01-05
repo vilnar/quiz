@@ -20,7 +20,6 @@ func CreateDbConnection() *sql.DB {
 		AllowNativePasswords: true,
 	}
 
-	// Get a database handle.
 	var err error
 	dbConnection, err = sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
@@ -31,6 +30,5 @@ func CreateDbConnection() *sql.DB {
 	if pingErr != nil {
 		log.Fatal(pingErr)
 	}
-	log.Println("Connected!")
 	return dbConnection
 }

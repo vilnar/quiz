@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"quiz/internal/apphandler"
@@ -21,7 +22,7 @@ import (
 )
 
 func main() {
-	fmt.Printf("server run in port %d \n", common.GetPort())
+	log.Printf("\nServer URL:\n%s\n\nRouter URL:\n%s\n", common.GetServerUrlDefault(), common.GetServerUrlRouter())
 
 	mux := http.NewServeMux()
 	// routes
@@ -67,9 +68,9 @@ func main() {
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {
-		fmt.Printf("server closed\n")
+		log.Printf("server closed\n")
 	} else if err != nil {
-		fmt.Printf("error starting server: %s\n", err)
+		log.Printf("error starting server: %s\n", err)
 		os.Exit(1)
 	}
 }
@@ -88,13 +89,13 @@ func staticHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Printf("debug %+v\n", path[1:])
 	data, err := ioutil.ReadFile(path[1:])
 	if err != nil {
-		fmt.Print(err)
+		log.Print(err)
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	_, err = w.Write(data)
 	if err != nil {
-		fmt.Print(err)
+		log.Print(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
