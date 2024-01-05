@@ -109,9 +109,9 @@ func getAnswersFromRequest(r *http.Request) Answers {
 
 func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result_content.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "first_ptsd_result.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "first_ptsd_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())

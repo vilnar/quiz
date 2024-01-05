@@ -3,6 +3,7 @@ package quiz_switch
 import (
 	"html/template"
 	"path"
+	"quiz/internal/common"
 	"quiz/internal/quiz"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
@@ -47,14 +48,14 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 func GetFilesForParseReport(main, header string) []string {
 	return []string{
 		main,
-		path.Join("quiz", "ui", "templates", "quiz", "kotenov_5_57_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "first_ptsd_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "nps_prognoz_2_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "hads_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "ies_r_5_54_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "iso_result_content.html"),
-		path.Join("quiz", "ui", "templates", "quiz", "stai_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "kotenov_5_57_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "first_ptsd_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "nps_prognoz_2_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "hads_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "ies_r_5_54_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "iso_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "stai_result_content.html"),
 		header,
 	}
 }

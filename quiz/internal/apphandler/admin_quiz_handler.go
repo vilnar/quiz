@@ -26,9 +26,9 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	page := common.GetPageFromRequest(r)
 
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "admin", "quiz_list.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
-		path.Join("quiz", "ui", "templates", "pagination.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_list.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -70,9 +70,9 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "admin", "quiz_list.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
-		path.Join("quiz", "ui", "templates", "pagination.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_list.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -111,8 +111,8 @@ func GetQuizReportByPersonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	funcMap := quiz_switch.GetTemplateFuncMapForQuizParseResult()
-	mainTemplate := path.Join("quiz", "ui", "templates", "admin", "quiz_report_by_person.html")
-	header := path.Join("quiz", "ui", "templates", "admin", "header.html")
+	mainTemplate := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_report_by_person.html")
+	header := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
 	files := quiz_switch.GetFilesForParseReport(mainTemplate, header)
 	tmpl, err := template.New("quiz_report_by_person.html").Funcs(funcMap).ParseFiles(files...)
 	if err != nil {
@@ -155,8 +155,8 @@ func GetQuizReportByPersonHandler(w http.ResponseWriter, r *http.Request) {
 func GetQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	log.Print(common.DebugRequest(r))
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "admin", "report_by_date.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "report_by_date.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -215,8 +215,8 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	funcMap := quiz_switch.GetTemplateFuncMapForQuizParseResult()
-	mainTemplate := path.Join("quiz", "ui", "templates", "admin", "report_by_date_result.html")
-	header := path.Join("quiz", "ui", "templates", "admin", "header.html")
+	mainTemplate := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "report_by_date_result.html")
+	header := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
 	files := quiz_switch.GetFilesForParseReport(mainTemplate, header)
 	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(files...)
 	if err != nil {

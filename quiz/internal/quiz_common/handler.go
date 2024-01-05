@@ -5,13 +5,14 @@ import (
 	"log"
 	"net/http"
 	"path"
+	"quiz/internal/common"
 	"quiz/internal/person"
 )
 
 func QuizGreetingHandler(w http.ResponseWriter, personId int64, quizShortLabel string) {
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "greeting.html"),
-		path.Join("quiz", "ui", "templates", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "greeting.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "header.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())

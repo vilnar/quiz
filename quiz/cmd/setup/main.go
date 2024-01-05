@@ -11,17 +11,8 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
+	"quiz/internal/common"
 )
-
-func getDotEnvVariable(key string) string {
-	err := godotenv.Load("quiz/.env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	return os.Getenv(key)
-}
 
 func main() {
 	fmt.Printf("run setup\n\n")
@@ -30,11 +21,11 @@ func main() {
 
 func runMigrate() {
 	cfg := mysqlDriver.Config{
-		User:                 getDotEnvVariable("DBUSER"),
-		Passwd:               getDotEnvVariable("DBPASS"),
+		User:                 common.GetDotEnvVariable("DBUSER"),
+		Passwd:               common.GetDotEnvVariable("DBPASS"),
 		Net:                  "tcp",
-		Addr:                 getDotEnvVariable("DBADDR"),
-		DBName:               getDotEnvVariable("DBNAME"),
+		Addr:                 common.GetDotEnvVariable("DBADDR"),
+		DBName:               common.GetDotEnvVariable("DBNAME"),
 		AllowNativePasswords: true,
 	}
 	log.Printf("DSN %+v\n", cfg.FormatDSN())

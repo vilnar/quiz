@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"path/filepath"
 	"strconv"
 )
 
@@ -41,8 +42,8 @@ func getClientIpAddr(req *http.Request) string {
 }
 
 func GetDotEnvVariable(key string) string {
-	err := godotenv.Load("quiz/.env")
-
+	pathEnv := path.Join(GetProjectRootPath(), "quiz", ".env")
+	err := godotenv.Load(pathEnv)
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
@@ -51,5 +52,17 @@ func GetDotEnvVariable(key string) string {
 }
 
 func GetDumpFilePath() string {
-	return path.Join("quiz", "dump", "quiz.sql")
+	return path.Join(GetProjectRootPath(), "quiz", "dump", "quiz.sql")
+}
+
+func GetExPath() string {
+	ex, err := os.Executable()
+	if err != nil {
+		panic(err)
+	}
+	return filepath.Dir(ex)
+}
+
+func GetProjectRootPath() string {
+	return filepath.Dir(GetExPath())
 }

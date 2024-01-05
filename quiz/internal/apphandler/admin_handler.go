@@ -5,13 +5,14 @@ import (
 	"log"
 	"net/http"
 	"path"
+	"quiz/internal/common"
 	"time"
 )
 
 func GetAdminDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(
-		path.Join("quiz", "ui", "templates", "admin", "dashboard.html"),
-		path.Join("quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "dashboard.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())

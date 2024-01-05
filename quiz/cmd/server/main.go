@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"quiz/internal/apphandler"
 	"quiz/internal/common"
 	"quiz/internal/person"
@@ -76,18 +77,20 @@ func main() {
 }
 
 func staticHandler(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path
-	if strings.HasSuffix(path, "js") {
+	urlPath := r.URL.Path
+	if strings.HasSuffix(urlPath, "js") {
 		w.Header().Set("Content-Type", "text/javascript")
-	} else if strings.HasSuffix(path, "css") {
+	} else if strings.HasSuffix(urlPath, "css") {
 		w.Header().Set("Content-Type", "text/css")
-	} else if strings.HasSuffix(path, "png") {
+	} else if strings.HasSuffix(urlPath, "png") {
 		w.Header().Set("Content-Type", "image/png")
-	} else if strings.HasSuffix(path, "svg") {
+	} else if strings.HasSuffix(urlPath, "svg") {
 		w.Header().Set("Content-Type", "image/svg+xml")
 	}
-	// fmt.Printf("debug %+v\n", path[1:])
-	data, err := ioutil.ReadFile(path[1:])
+	// fmt.Printf("debug %+v\n", urlPath[1:])
+	truePath := path.Join(common.GetProjectRootPath(), urlPath[1:])
+	// fmt.Printf("debug %+v\n", truePath)
+	data, err := ioutil.ReadFile(truePath)
 	if err != nil {
 		log.Print(err)
 		http.Error(w, err.Error(), http.StatusNotFound)
