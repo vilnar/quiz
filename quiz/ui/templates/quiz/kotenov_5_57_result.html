@@ -14,7 +14,8 @@
             <div class="col-md-8">
                 <h4 class="text-center">Результати {{.QuizLabel}}</h4>
                 <div class="row">
-                    <p class="text-center fs-3">{{.Person.MilitaryName}} {{.Person.GetFullName}}</p>
+                    <a href="/admin/person?id={{.Person.Id}}" class="fs-4 text-black">{{.Person.MilitaryName}} {{.Person.GetFullName}}</a>
+                    <p>Підрозділ: {{.Person.Unit}}</p>
                 </div>
             </div>
         </div>

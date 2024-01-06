@@ -42,9 +42,11 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	pr := pagination.NewPaginator(list.TotalAmount, list.PerPage, list.CurrentPage, baseUrl).Generate()
 
 	data := struct {
+		Title              string
 		QuizWithPersonList []quiz.QuizWithPersonDb
 		Paginator          pagination.Paginator
 	}{
+		"",
 		list.List,
 		pr,
 	}
@@ -80,15 +82,24 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list := quiz.FindQuizListByPersonId(personId, page)
+	p := person.FindPersonById(personId)
+	if p.Id < 1 {
+		log.Print("query param person_id not correct")
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
+	list := quiz.FindQuizListByPersonId(p.Id, page)
 
 	baseUrl := common.GetServerInfo(r) + "/admin/quiz_list_by_person"
 	pr := pagination.NewPaginator(list.TotalAmount, list.PerPage, list.CurrentPage, baseUrl).Generate()
 
 	data := struct {
+		Title              string
 		QuizWithPersonList []quiz.QuizWithPersonDb
 		Paginator          pagination.Paginator
 	}{
+		p.GetFullName(),
 		list.List,
 		pr,
 	}
@@ -153,7 +164,7 @@ func GetQuizReportByPersonHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
-	log.Print(common.DebugRequest(r))
+	// log.Print(common.DebugRequest(r))
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "report_by_date.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
@@ -204,7 +215,7 @@ func getDateFromRequest(r *http.Request) (string, string, error) {
 }
 
 func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
-	log.Print(common.DebugRequest(r))
+	// log.Print(common.DebugRequest(r))
 	r.ParseForm()
 
 	start, end, err := getDateFromRequest(r)

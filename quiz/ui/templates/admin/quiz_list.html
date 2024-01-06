@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row mb-3 justify-content-center p-3">
             <div class="col-md-8">
-                <h3 class="text-center">Пройдені тести</h3>
+                <h3 class="text-center">Пройдені тести {{.Title}}</h3>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -23,6 +23,7 @@
                       <th scope="col">#</th>
                       <th scope="col">Назва тесту</th>
                       <th scope="col">Респондент</th>
+                      <th scope="col">Підрозділ</th>
                       <th scope="col">Дата проходження</th>
                     </tr>
                   </thead>
@@ -32,6 +33,7 @@
                           <th scope="row">{{$element.Id}}</th>
                           <td><a href="/admin/quiz?id={{$element.Id}}">{{$element.Label}}</a></td>
                           <td><a href="/admin/person?id={{$element.PersonId}}">{{$element.GetPersonFullName}}</a></td>
+                          <td>{{$element.PersonUnit}}</td>
                           <td>{{$element.CreateAt}}</td>
                       </tr>
                       {{end}}

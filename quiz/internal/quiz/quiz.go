@@ -76,7 +76,7 @@ func FindQuizListByPersonId(personId int64, page int) QuizWithPersonDbList {
 	}
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.last_name, p.first_name, p.patronymic FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ? ORDER BY q.id DESC LIMIT ? OFFSET ?", personId, pr.Limit, pr.Offset)
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ? ORDER BY q.id DESC LIMIT ? OFFSET ?", personId, pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -85,7 +85,7 @@ func FindQuizListByPersonId(personId int64, page int) QuizWithPersonDbList {
 	var result []QuizWithPersonDb
 	for rows.Next() {
 		var q QuizWithPersonDb
-		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic)
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic, &q.PersonUnit)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -134,6 +134,7 @@ type QuizWithPersonDb struct {
 	PersonLastName   string
 	PersonFirstName  string
 	PersonPatronymic string
+	PersonUnit       string
 }
 
 func (q QuizWithPersonDb) GetPersonFullName() string {
@@ -155,7 +156,7 @@ func FindQuizWithPersonList(page int) QuizWithPersonDbList {
 	count := appdb.GetCountRowsInTable(db, "quiz")
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.last_name, p.first_name, p.patronymic FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -164,7 +165,7 @@ func FindQuizWithPersonList(page int) QuizWithPersonDbList {
 	var result []QuizWithPersonDb
 	for rows.Next() {
 		var q QuizWithPersonDb
-		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic)
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic, &q.PersonUnit)
 		if err != nil {
 			log.Fatal(err)
 		}
