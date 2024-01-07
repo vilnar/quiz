@@ -18,8 +18,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                     <div class="mb-5">
-                        <div class="row">
-                            <a href="/admin/person?id={{.Person.Id}}" class="p-3 bg-secondary text-white">{{.Person.MilitaryName}} {{.Person.GetFullName}}</a>
+                        <div class="row p-3 bg-secondary text-white">
+                            <a href="/admin/person?id={{.Person.Id}}" class="text-white col-auto me-auto">{{.Person.MilitaryName}} {{.Person.GetFullName}}</a>
+                            <div class="col-auto">Підрозділ: {{.Person.Unit}}</div>
                         </div>
                         {{range $quiz := .QuizList}}
                             <div class="row mb-3 p-3 border">
