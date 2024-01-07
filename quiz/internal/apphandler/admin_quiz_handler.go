@@ -25,7 +25,8 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	page := common.GetPageFromRequest(r)
 
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),
@@ -71,7 +72,8 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),
@@ -165,7 +167,8 @@ func GetQuizReportByPersonHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	// log.Print(common.DebugRequest(r))
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("report_by_date.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "report_by_date.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 	)

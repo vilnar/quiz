@@ -59,7 +59,8 @@ func GetPersonHandler(w http.ResponseWriter, r *http.Request) {
 	id := common.StringToInt64(r.URL.Query().Get("id"))
 	p := FindPersonById(id)
 
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("person.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "person.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 	)
@@ -96,7 +97,8 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 		list = FindPersonListByLastName(sq, 100)
 	}
 
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("person_list.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "person_list.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),

@@ -233,7 +233,8 @@ func getAnswersFromRequest(r *http.Request) Answers {
 }
 
 func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("minimult_result.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "minimult_result.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),

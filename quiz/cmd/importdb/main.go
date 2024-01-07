@@ -15,6 +15,12 @@ func main() {
 	fileName := common.GetDumpFilePath()
 	fmt.Printf("Get data from file dump: %s\n", fileName)
 
+	c := askForConfirmation("Do you really want import data?")
+	if !c {
+		fmt.Printf("Exit")
+		return
+	}
+
 	arg := fmt.Sprintf(
 		`%s --user %s --password=%s --database %s < %s`,
 		common.GetDotEnvVariable("MYSQL_BIN"),

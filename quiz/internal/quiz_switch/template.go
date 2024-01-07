@@ -41,6 +41,7 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 		"GetQuizParseResultStai": func(q quiz.QuizDb) quiz_stai.QuizResult {
 			return quiz_stai.GetQuizParseResult(q)
 		},
+		"GetAdminName": common.GetAdminName,
 		// TODO: find in template quiz_switch_todo
 	}
 }

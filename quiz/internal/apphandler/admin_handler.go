@@ -10,7 +10,8 @@ import (
 )
 
 func GetAdminDashboardHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("dashboard.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "dashboard.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
 	)

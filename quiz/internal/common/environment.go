@@ -3,6 +3,7 @@ package common
 import (
 	"fmt"
 	"github.com/joho/godotenv"
+	"html/template"
 	"log"
 	"net"
 	"net/http"
@@ -52,7 +53,7 @@ func GetDotEnvVariable(key string) string {
 }
 
 func GetDumpFilePath() string {
-	return path.Join(GetProjectRootPath(), "quiz", "dump", "quiz.sql")
+	return path.Join(GetProjectRootPath(), "dump", "quiz.sql")
 }
 
 func GetExPath() string {
@@ -65,4 +66,14 @@ func GetExPath() string {
 
 func GetProjectRootPath() string {
 	return filepath.Dir(GetExPath())
+}
+
+func GetAdminName() string {
+	return GetDotEnvVariable("ADMIN_NAME")
+}
+
+func GetTemplateFuncMapForAdminHeader() template.FuncMap {
+	return template.FuncMap{
+		"GetAdminName": GetAdminName,
+	}
 }

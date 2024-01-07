@@ -198,7 +198,8 @@ func getAnswersFromRequest(r *http.Request) Answers {
 }
 
 func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
-	tmpl, err := template.ParseFiles(
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("iso_result.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "iso_result.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "iso_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),

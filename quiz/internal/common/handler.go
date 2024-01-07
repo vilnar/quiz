@@ -14,7 +14,8 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request, message string, isA
 	}
 
 	w.WriteHeader(http.StatusNotFound)
-	tmp, err := template.ParseFiles(
+	funcMap := GetTemplateFuncMapForAdminHeader()
+	tmpl, err := template.New("404.html").Funcs(funcMap).ParseFiles(
 		path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "404.html"),
 		headerPath,
 	)
@@ -28,7 +29,7 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request, message string, isA
 	}{
 		message,
 	}
-	if err := tmp.Execute(w, data); err != nil {
+	if err := tmpl.Execute(w, data); err != nil {
 		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
