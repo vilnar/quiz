@@ -1,1 +1,1 @@
-DROP TABLE quiz_kotenov_5_57;
+DROP TABLE quiz;
