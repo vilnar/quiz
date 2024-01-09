@@ -1,0 +1,6 @@
+<div class="mb-3">
+    <p class="{{if .IsHighAnxiety}} text-danger {{end}}">{{.AnxietyDescription}} ({{ .Anxiety }})</p>
+    <p class="{{if .IsHighFrustration}} text-danger {{end}}">{{.FrustrationDescription}} ({{ .Frustration }})</p>
+    <p class="{{if .IsHighAggressiveness}} text-danger {{end}}">{{.AggressivenessDescription}} ({{ .Aggressiveness }})</p>
+    <p class="{{if .IsHighRigidity}} text-danger {{end}}">{{.RigidityDescription}} ({{ .Rigidity }})</p>
+</div>

@@ -5,6 +5,7 @@ import (
 	"path"
 	"quiz/internal/common"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_eysenck"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
 	"quiz/internal/quiz_ies_r_5_54"
@@ -41,6 +42,9 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 		"GetQuizParseResultStai": func(q quiz.QuizDb) quiz_stai.QuizResult {
 			return quiz_stai.GetQuizParseResult(q)
 		},
+		"GetQuizParseResultEysenck": func(q quiz.QuizDb) quiz_eysenck.QuizResult {
+			return quiz_eysenck.GetQuizParseResult(q)
+		},
 		"GetAdminName": common.GetAdminName,
 		// TODO: find in template quiz_switch_todo
 	}
@@ -57,6 +61,7 @@ func GetFilesForParseReport(main, header string) []string {
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "iso_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "stai_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "eysenck_result_content.html"),
 		header,
 	}
 }

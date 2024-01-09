@@ -11,6 +11,7 @@ import (
 	"quiz/internal/apphandler"
 	"quiz/internal/common"
 	"quiz/internal/person"
+	"quiz/internal/quiz_eysenck"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
 	"quiz/internal/quiz_ies_r_5_54"
@@ -53,6 +54,9 @@ func main() {
 
 	mux.HandleFunc(quiz_stai.GetQuizUrl(), quiz_stai.GetQuizHandler)
 	mux.HandleFunc(quiz_stai.GetCheckQuizUrl(), quiz_stai.CheckQuizHandler)
+
+	mux.HandleFunc(quiz_eysenck.GetQuizUrl(), quiz_eysenck.GetQuizHandler)
+	mux.HandleFunc(quiz_eysenck.GetCheckQuizUrl(), quiz_eysenck.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 	mux.HandleFunc("/test", apphandler.GetTestUiHandler)

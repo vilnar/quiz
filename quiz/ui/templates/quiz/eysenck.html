@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.QuizShortLabel}}</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center p-3">
+            <div class="col-md-8">
+                <h4 class="text-center">{{.QuizShortLabel}}</h4>
+                <em>Дата: {{ .Date }}</em>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="testForm" action="{{ .FormAction }}" method="POST">
+                    <div class="mb-3 p-3 border">
+                        {{template "person_blank.html" .Person}}
+                        <div class="mb-5">
+                            <em>Інструкція: Уважно прочитайте опис різних психічних станів. Оберіть відповідь, яка найбільше відповідає Вашому стану.</em>
+                        </div>
+                        <fieldset id="group1" class="mb-3">
+                            <legend class="col-form-label">1. Не відчуваю у собі впевненості</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="2" required>
+                                <label class="form-check-label" for="A1">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="1">
+                                <label class="form-check-label" for="A1">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="0">
+                                <label class="form-check-label" for="A1">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group2" class="mb-3">
+                            <legend class="col-form-label">2. Часто червонію без причини</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A2" value="2" required>
+                                <label class="form-check-label" for="A2">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A2" value="1">
+                                <label class="form-check-label" for="A2">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A2" value="0">
+                                <label class="form-check-label" for="A2">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group3" class="mb-3">
+                            <legend class="col-form-label">3. Мій сон мене непокоїть</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A3" value="2" required>
+                                <label class="form-check-label" for="A3">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A3" value="1">
+                                <label class="form-check-label" for="A3">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A3" value="0">
+                                <label class="form-check-label" for="A3">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group4" class="mb-3">
+                            <legend class="col-form-label">4. Легко починаю нудьгувати</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A4" value="2" required>
+                                <label class="form-check-label" for="A4">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A4" value="1">
+                                <label class="form-check-label" for="A4">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A4" value="0">
+                                <label class="form-check-label" for="A4">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group5" class="mb-3">
+                            <legend class="col-form-label">5. Непокоюся через уявні неприємності</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A5" value="2" required>
+                                <label class="form-check-label" for="A5">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A5" value="1">
+                                <label class="form-check-label" for="A5">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A5" value="0">
+                                <label class="form-check-label" for="A5">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group6" class="mb-3">
+                            <legend class="col-form-label">6. Мене лякають труднощі</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A6" value="2" required>
+                                <label class="form-check-label" for="A6">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A6" value="1">
+                                <label class="form-check-label" for="A6">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A6" value="0">
+                                <label class="form-check-label" for="A6">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group7" class="mb-3">
+                            <legend class="col-form-label">7. Люблю аналізувати свої недоліки</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A7" value="2" required>
+                                <label class="form-check-label" for="A7">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A7" value="1">
+                                <label class="form-check-label" for="A7">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A7" value="0">
+                                <label class="form-check-label" for="A7">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group8" class="mb-3">
+                            <legend class="col-form-label">8. Мене легко переконати</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A8" value="2" required>
+                                <label class="form-check-label" for="A8">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A8" value="1">
+                                <label class="form-check-label" for="A8">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A8" value="0">
+                                <label class="form-check-label" for="A8">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group9" class="mb-3">
+                            <legend class="col-form-label">9. Я підозріливий</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A9" value="2" required>
+                                <label class="form-check-label" for="A9">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A9" value="1">
+                                <label class="form-check-label" for="A9">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A9" value="0">
+                                <label class="form-check-label" for="A9">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group10" class="mb-3">
+                            <legend class="col-form-label">10. Важко переношу час очікування</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A10" value="2" required>
+                                <label class="form-check-label" for="A10">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A10" value="1">
+                                <label class="form-check-label" for="A10">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A10" value="0">
+                                <label class="form-check-label" for="A10">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group11" class="mb-3">
+                            <legend class="col-form-label">11. Нерідко мені здаються безвихідними ситуації, із яких можна знайти вихід</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A11" value="2" required>
+                                <label class="form-check-label" for="A11">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A11" value="1">
+                                <label class="form-check-label" for="A11">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A11" value="0">
+                                <label class="form-check-label" for="A11">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group12" class="mb-3">
+                            <legend class="col-form-label">12. Неприємності мене сильно засмучують, я падаю духом</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A12" value="2" required>
+                                <label class="form-check-label" for="A12">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A12" value="1">
+                                <label class="form-check-label" for="A12">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A12" value="0">
+                                <label class="form-check-label" for="A12">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group13" class="mb-3">
+                            <legend class="col-form-label">13. У неприємних ситуаціях я схильний без поважних причин звинувачувати себе</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A13" value="2" required>
+                                <label class="form-check-label" for="A13">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A13" value="1">
+                                <label class="form-check-label" for="A13">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A13" value="0">
+                                <label class="form-check-label" for="A13">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group14" class="mb-3">
+                            <legend class="col-form-label">14. Нещастя та невдачі нічому мене не вчать</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A14" value="2" required>
+                                <label class="form-check-label" for="A14">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A14" value="1">
+                                <label class="form-check-label" for="A14">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A14" value="0">
+                                <label class="form-check-label" for="A14">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group15" class="mb-3">
+                            <legend class="col-form-label">15. Я часто відмовляюся від боротьби, вважаю її даремною</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A15" value="2" required>
+                                <label class="form-check-label" for="A15">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A15" value="1">
+                                <label class="form-check-label" for="A15">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A15" value="0">
+                                <label class="form-check-label" for="A15">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group16" class="mb-3">
+                            <legend class="col-form-label">16. Я часто почуваюся себе беззахисним</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A16" value="2" required>
+                                <label class="form-check-label" for="A16">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A16" value="1">
+                                <label class="form-check-label" for="A16">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A16" value="0">
+                                <label class="form-check-label" for="A16">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group17" class="mb-3">
+                            <legend class="col-form-label">17. Іноді у мене буває стан відчаю</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A17" value="2" required>
+                                <label class="form-check-label" for="A17">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A17" value="1">
+                                <label class="form-check-label" for="A17">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A17" value="0">
+                                <label class="form-check-label" for="A17">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group18" class="mb-3">
+                            <legend class="col-form-label">18. Відчуваю розгубленість, коли виникають труднощами</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A18" value="2" required>
+                                <label class="form-check-label" for="A18">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A18" value="1">
+                                <label class="form-check-label" for="A18">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A18" value="0">
+                                <label class="form-check-label" for="A18">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group19" class="mb-3">
+                            <legend class="col-form-label">19. У важкі хвилини життя іноді поводжуся, як дитина, хочу, щоб мене пожаліли</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A19" value="2" required>
+                                <label class="form-check-label" for="A19">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A19" value="1">
+                                <label class="form-check-label" for="A19">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A19" value="0">
+                                <label class="form-check-label" for="A19">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group20" class="mb-3">
+                            <legend class="col-form-label">20. Вважаю недоліки свого характеру невиправними</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A20" value="2" required>
+                                <label class="form-check-label" for="A20">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A20" value="1">
+                                <label class="form-check-label" for="A20">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A20" value="0">
+                                <label class="form-check-label" for="A20">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group21" class="mb-3">
+                            <legend class="col-form-label">21. Залишаю за собою право вирішального голосу</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A21" value="2" required>
+                                <label class="form-check-label" for="A21">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A21" value="1">
+                                <label class="form-check-label" for="A21">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A21" value="0">
+                                <label class="form-check-label" for="A21">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group22" class="mb-3">
+                            <legend class="col-form-label">22. Часто у ході розмови перебиваю співрозмовника</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A22" value="2" required>
+                                <label class="form-check-label" for="A22">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A22" value="1">
+                                <label class="form-check-label" for="A22">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A22" value="0">
+                                <label class="form-check-label" for="A22">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group23" class="mb-3">
+                            <legend class="col-form-label">23. Мене легко розсердити</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A23" value="2" required>
+                                <label class="form-check-label" for="A23">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A23" value="1">
+                                <label class="form-check-label" for="A23">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A23" value="0">
+                                <label class="form-check-label" for="A23">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group24" class="mb-3">
+                            <legend class="col-form-label">24. Люблю робити зауваження іншим</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A24" value="2" required>
+                                <label class="form-check-label" for="A24">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A24" value="1">
+                                <label class="form-check-label" for="A24">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A24" value="0">
+                                <label class="form-check-label" for="A24">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group25" class="mb-3">
+                            <legend class="col-form-label">25. Хочу бути авторитетом для інших</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A25" value="2" required>
+                                <label class="form-check-label" for="A25">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A25" value="1">
+                                <label class="form-check-label" for="A25">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A25" value="0">
+                                <label class="form-check-label" for="A25">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group26" class="mb-3">
+                            <legend class="col-form-label">26. Не задовольняюсь малим, хочу більшого</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A26" value="2" required>
+                                <label class="form-check-label" for="A26">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A26" value="1">
+                                <label class="form-check-label" for="A26">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A26" value="0">
+                                <label class="form-check-label" for="A26">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group27" class="mb-3">
+                            <legend class="col-form-label">27. Коли розгніваюсь, погано себе стримую</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A27" value="2" required>
+                                <label class="form-check-label" for="A27">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A27" value="1">
+                                <label class="form-check-label" for="A27">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A27" value="0">
+                                <label class="form-check-label" for="A27">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group28" class="mb-3">
+                            <legend class="col-form-label">28. Більше люблю керувати, ніж підкорятися</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A28" value="2" required>
+                                <label class="form-check-label" for="A28">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A28" value="1">
+                                <label class="form-check-label" for="A28">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A28" value="0">
+                                <label class="form-check-label" for="A28">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group29" class="mb-3">
+                            <legend class="col-form-label">29. У мене різка, грубувата жестикуляція</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A29" value="2" required>
+                                <label class="form-check-label" for="A29">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A29" value="1">
+                                <label class="form-check-label" for="A29">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A29" value="0">
+                                <label class="form-check-label" for="A29">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group30" class="mb-3">
+                            <legend class="col-form-label">30. Я злопам’ятний</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A30" value="2" required>
+                                <label class="form-check-label" for="A30">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A30" value="1">
+                                <label class="form-check-label" for="A30">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A30" value="0">
+                                <label class="form-check-label" for="A30">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group31" class="mb-3">
+                            <legend class="col-form-label">31. Мені важко змінювати звички</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A31" value="2" required>
+                                <label class="form-check-label" for="A31">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A31" value="1">
+                                <label class="form-check-label" for="A31">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A31" value="0">
+                                <label class="form-check-label" for="A31">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group32" class="mb-3">
+                            <legend class="col-form-label">32. Нелегко переключати увагу</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A32" value="2" required>
+                                <label class="form-check-label" for="A32">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A32" value="1">
+                                <label class="form-check-label" for="A32">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A32" value="0">
+                                <label class="form-check-label" for="A32">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group33" class="mb-3">
+                            <legend class="col-form-label">33. Із пересторогами ставлюся до всього нового</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A33" value="2" required>
+                                <label class="form-check-label" for="A33">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A33" value="1">
+                                <label class="form-check-label" for="A33">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A33" value="0">
+                                <label class="form-check-label" for="A33">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group34" class="mb-3">
+                            <legend class="col-form-label">34. Мене важко переконати</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A34" value="2" required>
+                                <label class="form-check-label" for="A34">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A34" value="1">
+                                <label class="form-check-label" for="A34">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A34" value="0">
+                                <label class="form-check-label" for="A34">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group35" class="mb-3">
+                            <legend class="col-form-label">35. Нерідко у мене з голови не виходять думки, яких потрібно позбутися</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A35" value="2" required>
+                                <label class="form-check-label" for="A35">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A35" value="1">
+                                <label class="form-check-label" for="A35">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A35" value="0">
+                                <label class="form-check-label" for="A35">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group36" class="mb-3">
+                            <legend class="col-form-label">36. Нелегко зближуюся з людьми</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A36" value="2" required>
+                                <label class="form-check-label" for="A36">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A36" value="1">
+                                <label class="form-check-label" for="A36">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A36" value="0">
+                                <label class="form-check-label" for="A36">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group37" class="mb-3">
+                            <legend class="col-form-label">37. Мене розчаровують навіть незначні зміни плану</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A37" value="2" required>
+                                <label class="form-check-label" for="A37">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A37" value="1">
+                                <label class="form-check-label" for="A37">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A37" value="0">
+                                <label class="form-check-label" for="A37">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group38" class="mb-3">
+                            <legend class="col-form-label">38. Я проявляю впертість</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A38" value="2" required>
+                                <label class="form-check-label" for="A38">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A38" value="1">
+                                <label class="form-check-label" for="A38">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A38" value="0">
+                                <label class="form-check-label" for="A38">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group39" class="mb-3">
+                            <legend class="col-form-label">39. Неохоче йду на ризик</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A39" value="2" required>
+                                <label class="form-check-label" for="A39">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A39" value="1">
+                                <label class="form-check-label" for="A39">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A39" value="0">
+                                <label class="form-check-label" for="A39">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group40" class="mb-3">
+                            <legend class="col-form-label">40. Різко реагую на відхилення від прийнятого мною режиму</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A40" value="2" required>
+                                <label class="form-check-label" for="A40">Відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A40" value="1">
+                                <label class="form-check-label" for="A40">Не зовсім відповідає</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A40" value="0">
+                                <label class="form-check-label" for="A40">Не відповідає</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Відправити</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/quiz/ui/static/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/quiz/ui/static/js/bootstrap.min.js"></script>
+</body>
+</html>
+
