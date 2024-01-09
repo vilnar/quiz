@@ -74,14 +74,14 @@ func (i *Answers) setProperty(propName string, propValue int) *Answers {
 }
 
 type QuizResult struct {
-	Anxiety int
-	AnxietyDescription string
-	Frustration int
-	FrustrationDescription string
-	Aggressiveness int
+	Anxiety                   int
+	AnxietyDescription        string
+	Frustration               int
+	FrustrationDescription    string
+	Aggressiveness            int
 	AggressivenessDescription string
-	Rigidity int
-	RigidityDescription string
+	Rigidity                  int
+	RigidityDescription       string
 }
 
 func (q QuizResult) IsHighAnxiety() bool {
@@ -99,7 +99,6 @@ func (q QuizResult) IsHighAggressiveness() bool {
 func (q QuizResult) IsHighRigidity() bool {
 	return q.Rigidity >= 15
 }
-
 
 type Quiz struct {
 	Id       int64
