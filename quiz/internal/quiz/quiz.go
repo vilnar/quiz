@@ -209,6 +209,32 @@ func FindQuizByDateRange(start, end string) []QuizDb {
 	return result
 }
 
+func FindQuizByDateRangeAndUnit(personUnit, start, end string) []QuizDb {
+	db := appdb.CreateDbConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.result, q.score, q.create_at FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE (q.create_at BETWEEN ? AND ?) AND LOWER(p.unit) LIKE ?", start, end, "%"+personUnit+"%")
+	defer rows.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result []QuizDb
+	for rows.Next() {
+		var q QuizDb
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Result, &q.Score, &q.CreateAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, q)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return result
+}
+
 func GetPersonIdsFromList(list []QuizDb) []int64 {
 	var result []int64
 	for _, i := range list {

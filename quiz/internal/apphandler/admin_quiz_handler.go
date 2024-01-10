@@ -12,6 +12,7 @@ import (
 	"quiz/internal/quiz"
 	"quiz/internal/quiz_switch"
 	"time"
+	"unicode/utf8"
 )
 
 func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
@@ -221,6 +222,8 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	// log.Print(common.DebugRequest(r))
 	r.ParseForm()
 
+	personUnit := r.Form.Get("person_unit")
+	isEmptyPersonUnit := utf8.RuneCountInString(personUnit) < 1
 	start, end, err := getDateFromRequest(r)
 	if err != nil {
 		log.Print(err.Error())
@@ -239,9 +242,17 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list := quiz.FindQuizByDateRange(start, end)
+	var list []quiz.QuizDb
+	if isEmptyPersonUnit {
+		list = quiz.FindQuizByDateRange(start, end)
+	} else {
+		list = quiz.FindQuizByDateRangeAndUnit(personUnit, start, end)
+	}
 	if len(list) < 1 {
-		message := fmt.Sprintf("Не знайдено тестів за період з %s по %s", start, end)
+		message := fmt.Sprintf("Не знайдено тестів за період з %s по %s, підрозділ %s", start, end, personUnit)
+		if isEmptyPersonUnit {
+			message = fmt.Sprintf("Не знайдено тестів за період з %s по %s", start, end, personUnit)
+		}
 		log.Print(message)
 		common.NotFoundHandler(w, r, message, true)
 		return
@@ -251,17 +262,21 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	personList := person.FindPersonListByIds(personIds)
 
 	data := struct {
-		FormAction    string
-		StartDate     string
-		EndDate       string
-		GroupQuizList map[int64][]quiz.QuizDb
-		PersonList    person.PersonDbList
+		FormAction        string
+		StartDate         string
+		EndDate           string
+		GroupQuizList     map[int64][]quiz.QuizDb
+		PersonList        person.PersonDbList
+		SearchUnit        string
+		IsEmptyPersonUnit bool
 	}{
 		common.GetServerInfo(r) + "/admin/quiz_report_by_date",
 		start,
 		end,
 		groupQuizList,
 		personList,
+		personUnit,
+		isEmptyPersonUnit,
 	}
 
 	err = tmpl.Execute(w, data)
