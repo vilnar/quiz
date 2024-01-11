@@ -7,6 +7,7 @@ import (
 	"quiz/internal/quiz_ies_r_5_54"
 	"quiz/internal/quiz_iso"
 	"quiz/internal/quiz_kotenov_5_57"
+	"quiz/internal/quiz_lnp"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
 	"quiz/internal/quiz_stai"
@@ -54,6 +55,10 @@ func GetQuizLinkList() []QuizLink {
 		{
 			quiz_eysenck.QUIZ_SHORT_LABEL,
 			quiz_eysenck.GetQuizUrl(),
+		},
+		{
+			quiz_lnp.QUIZ_SHORT_LABEL,
+			quiz_lnp.GetQuizUrl(),
 		},
 	}
 }

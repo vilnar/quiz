@@ -10,6 +10,7 @@ import (
 	"quiz/internal/quiz_ies_r_5_54"
 	"quiz/internal/quiz_iso"
 	"quiz/internal/quiz_kotenov_5_57"
+	"quiz/internal/quiz_lnp"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
 	"quiz/internal/quiz_stai"
@@ -43,6 +44,9 @@ func RedirectToQuizByQuizName(w http.ResponseWriter, r *http.Request, quizName s
 		return
 	case quiz_eysenck.QUIZ_NAME:
 		quiz_eysenck.GetQuizHandler(w, r)
+		return
+	case quiz_lnp.QUIZ_NAME:
+		quiz_lnp.GetQuizHandler(w, r)
 		return
 	default:
 		log.Printf("Not found quiz name")
@@ -79,6 +83,9 @@ func RedirectToQuizResultByQuiz(w http.ResponseWriter, r *http.Request, q quiz.Q
 		return
 	case quiz_eysenck.QUIZ_NAME:
 		quiz_eysenck.GetAdminQuizResultHandler(w, r, q)
+		return
+	case quiz_lnp.QUIZ_NAME:
+		quiz_lnp.GetAdminQuizResultHandler(w, r, q)
 		return
 	default:
 		log.Printf("Not found quiz by name")

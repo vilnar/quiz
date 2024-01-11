@@ -54,6 +54,9 @@
                                 {{if eq $quiz.Name "quiz_eysenck"}}
                                     {{template "eysenck_result_content.html" GetQuizParseResultEysenck $quiz}}
                                 {{end}}
+                                {{if eq $quiz.Name "quiz_lnp"}}
+                                    {{template "lnp_result_content.html" GetQuizParseResultLnp $quiz}}
+                                {{end}}
                             </div>
                         {{end}}
                     </div>
