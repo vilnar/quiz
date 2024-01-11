@@ -1,5 +1,9 @@
+<div class="mb-4 small">
+    невротизація – дратівливість, відчуття власної неповноцінності, нерішучість, іпохондричність та ін.;
+    психопатизація – конфліктність, експлозивність, антисоціальна поведінка, неконформність та ін.
+</div>
 <div class="mb-3">
-    <p class="{{if .IsHighLie}} text-danger {{end}}">{{.LieDescription}} ({{ .Lie }})</p>
+    <p class="{{if .IsHighLie}} text-danger {{else}} text-success {{end}}">{{.LieDescription}} ({{ .Lie }})</p>
     <p class="{{if .IsHighNeuroticization}} text-danger {{end}}">{{.NeuroticizationDescription}} ({{ .Neuroticization }})</p>
     <p class="{{if .IsHighPsychopathization}} text-danger {{end}}">{{.PsychopathizationDescription}} ({{ .Psychopathization }})</p>
 </div>

@@ -13,3 +13,7 @@
     vertical-align: -.125em;
     fill: currentcolor;
 }
+
+.form-check-input {
+    border-color: #8f8787;
+}
