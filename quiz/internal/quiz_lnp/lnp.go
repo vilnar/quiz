@@ -2,7 +2,7 @@ package quiz_lnp
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -558,288 +558,285 @@ func (q *QuizResult) setNeuroticization(a Answers) {
 		a89 = 2
 	}
 
-	fmt.Printf("debug %+v\n", a)
-	fmt.Printf("debug %+v\n", a1, a3, a5, a7, a11, a13, a15, a17, a19, a21, a23, a25, a29, a31, a33, a35, a37, a39, a41, a43, a47, a49, a51, a53, a55, a57, a59, a61, a65, a67, a69, a71, a73, a75, a77, a79, a83, a85, a87, a89)
-
 	q.Neuroticization = a1 + a3 + a5 + a7 + a11 + a13 + a15 + a17 + a19 + a21 + a23 + a25 + a29 + a31 + a33 + a35 + a37 + a39 + a41 + a43 + a47 + a49 + a51 + a53 + a55 + a57 + a59 + a61 + a65 + a67 + a69 + a71 + a73 + a75 + a77 + a79 + a83 + a85 + a87 + a89
 }
 
 func (q *QuizResult) setPsychopathization(a Answers) {
 	var a2 int
-	if a2 == 1 {
+	if a.A2 == 1 {
 		a2 = -2
 	} else {
 		a2 = 4
 	}
 
 	var a4 int
-	if a4 == 1 {
+	if a.A4 == 1 {
 		a4 = -10
 	} else {
 		a4 = 0
 	}
 
 	var a6 int
-	if a6 == 1 {
+	if a.A6 == 1 {
 		a6 = -1
 	} else {
 		a6 = 3
 	}
 
 	var a8 int
-	if a8 == 1 {
+	if a.A8 == 1 {
 		a8 = -9
 	} else {
 		a8 = 0
 	}
 
 	var a10 int
-	if a10 == 1 {
+	if a.A10 == 1 {
 		a10 = -2
 	} else {
 		a10 = 2
 	}
 
 	var a12 int
-	if a12 == 1 {
+	if a.A12 == 1 {
 		a12 = -2
 	} else {
 		a12 = 1
 	}
 
 	var a14 int
-	if a14 == 1 {
+	if a.A14 == 1 {
 		a14 = 1
 	} else {
 		a14 = -4
 	}
 
 	var a16 int
-	if a16 == 1 {
+	if a.A16 == 1 {
 		a16 = 0
 	} else {
 		a16 = -1
 	}
 
 	var a20 int
-	if a20 == 1 {
+	if a.A20 == 1 {
 		a20 = 2
 	} else {
 		a20 = -1
 	}
 
 	var a22 int
-	if a22 == 1 {
+	if a.A22 == 1 {
 		a22 = -1
 	} else {
 		a22 = 1
 	}
 
 	var a24 int
-	if a24 == 1 {
+	if a.A24 == 1 {
 		a24 = -3
 	} else {
 		a24 = 1
 	}
 
 	var a26 int
-	if a26 == 1 {
+	if a.A26 == 1 {
 		a26 = 0
 	} else {
 		a26 = 0
 	}
 
 	var a28 int
-	if a28 == 1 {
+	if a.A28 == 1 {
 		a28 = 0
 	} else {
 		a28 = 0
 	}
 
 	var a30 int
-	if a30 == 1 {
+	if a.A30 == 1 {
 		a30 = -2
 	} else {
 		a30 = 0
 	}
 
 	var a32 int
-	if a32 == 1 {
+	if a.A32 == 1 {
 		a32 = 0
 	} else {
 		a32 = 1
 	}
 
 	var a34 int
-	if a34 == 1 {
+	if a.A34 == 1 {
 		a34 = -1
 	} else {
 		a34 = 3
 	}
 
 	var a38 int
-	if a38 == 1 {
+	if a.A38 == 1 {
 		a38 = 1
 	} else {
 		a38 = -4
 	}
 
 	var a40 int
-	if a40 == 1 {
+	if a.A40 == 1 {
 		a40 = -2
 	} else {
 		a40 = 1
 	}
 
 	var a42 int
-	if a42 == 1 {
+	if a.A42 == 1 {
 		a42 = -2
 	} else {
 		a42 = 2
 	}
 
 	var a44 int
-	if a44 == 1 {
+	if a.A44 == 1 {
 		a44 = -1
 	} else {
 		a44 = 1
 	}
 
 	var a46 int
-	if a46 == 1 {
+	if a.A46 == 1 {
 		a46 = -2
 	} else {
 		a46 = 1
 	}
 
 	var a48 int
-	if a48 == 1 {
+	if a.A48 == 1 {
 		a48 = 1
 	} else {
 		a48 = -4
 	}
 
 	var a50 int
-	if a50 == 1 {
+	if a.A50 == 1 {
 		a50 = 0
 	} else {
 		a50 = -3
 	}
 
 	var a52 int
-	if a52 == 1 {
+	if a.A52 == 1 {
 		a52 = -1
 	} else {
 		a52 = 2
 	}
 
 	var a56 int
-	if a56 == 1 {
+	if a.A56 == 1 {
 		a56 = -1
 	} else {
 		a56 = 2
 	}
 
 	var a58 int
-	if a58 == 1 {
+	if a.A58 == 1 {
 		a58 = 0
 	} else {
 		a58 = 1
 	}
 
 	var a60 int
-	if a60 == 1 {
+	if a.A60 == 1 {
 		a60 = -5
 	} else {
 		a60 = 1
 	}
 
 	var a62 int
-	if a62 == 1 {
+	if a.A62 == 1 {
 		a62 = -3
 	} else {
 		a62 = 1
 	}
 
 	var a64 int
-	if a64 == 1 {
+	if a.A64 == 1 {
 		a64 = 1
 	} else {
 		a64 = 0
 	}
 
 	var a66 int
-	if a66 == 1 {
+	if a.A66 == 1 {
 		a66 = -1
 	} else {
 		a66 = 2
 	}
 
 	var a68 int
-	if a68 == 1 {
+	if a.A68 == 1 {
 		a68 = 1
 	} else {
 		a68 = -1
 	}
 
 	var a70 int
-	if a70 == 1 {
+	if a.A70 == 1 {
 		a70 = -1
 	} else {
 		a70 = 1
 	}
 
 	var a74 int
-	if a74 == 1 {
+	if a.A74 == 1 {
 		a74 = 0
 	} else {
 		a74 = 1
 	}
 
 	var a76 int
-	if a76 == 1 {
+	if a.A76 == 1 {
 		a76 = -2
 	} else {
 		a76 = 2
 	}
 
 	var a78 int
-	if a78 == 1 {
+	if a.A78 == 1 {
 		a78 = 1
 	} else {
 		a78 = -2
 	}
 
 	var a80 int
-	if a80 == 1 {
+	if a.A80 == 1 {
 		a80 = 0
 	} else {
 		a80 = 0
 	}
 
 	var a82 int
-	if a82 == 1 {
+	if a.A82 == 1 {
 		a82 = 1
 	} else {
 		a82 = -2
 	}
 
 	var a84 int
-	if a84 == 1 {
+	if a.A84 == 1 {
 		a84 = -2
 	} else {
 		a84 = 1
 	}
 
 	var a86 int
-	if a86 == 1 {
+	if a.A86 == 1 {
 		a86 = -1
 	} else {
 		a86 = 1
 	}
 
 	var a88 int
-	if a88 == 1 {
+	if a.A88 == 1 {
 		a88 = -5
 	} else {
 		a88 = 1
