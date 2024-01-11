@@ -100,9 +100,9 @@ func TestCalcQuizResult(t *testing.T) {
 	}
 	result := calcQuizResult(a)
 	if result.Neuroticization != -91 {
-    		t.Errorf("Result was incorrect, got: %+v", result)
-    	}
+		t.Errorf("Result was incorrect, got: %+v", result)
+	}
 	if result.Psychopathization != -2 {
-    		t.Errorf("Result was incorrect, got: %+v", result)
-    	}
+		t.Errorf("Result was incorrect, got: %+v", result)
+	}
 }
