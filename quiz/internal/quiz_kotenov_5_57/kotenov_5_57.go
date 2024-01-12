@@ -265,7 +265,7 @@ func calcQuizResult(a Answers) QuizResult {
 	// gray points
 	A1 := a.A19 + a.A39 + a.A79
 	B := a.A33 + a.A48 + a.A14 + a.A35 + a.A52 + getAnswerRevers(a.A21) + a.A9 + a.A49 + a.A90 + a.A5
-	C := a.A29 + a.A79 + a.A17 + a.A43 + a.A26 + getAnswerRevers(a.A66) + getAnswerRevers(a.A74) + a.A31 + a.A42 + a.A81 + getAnswerRevers(a.A53) + getAnswerRevers(a.A53) + getAnswerRevers(a.A78)
+	C := a.A29 + a.A79 + a.A17 + a.A43 + a.A26 + getAnswerRevers(a.A66) + getAnswerRevers(a.A74) + a.A31 + a.A42 + a.A81 + getAnswerRevers(a.A53) + getAnswerRevers(a.A78)
 	D := a.A41 + getAnswerRevers(a.A20) + getAnswerRevers(a.A51) + a.A16 + a.A27 + a.A32 + a.A96 + a.A85 + a.A108 + getAnswerRevers(a.A13) + a.A8 + a.A104 + a.A12 + a.A107
 	F := a.A3 + a.A36 + a.A57 + a.A91 + getAnswerRevers(a.A11) + getAnswerRevers(a.A68)
 	L := a.A71 + getAnswerRevers(a.A30) + getAnswerRevers(a.A54) + getAnswerRevers(a.A84) + getAnswerRevers(a.A89)

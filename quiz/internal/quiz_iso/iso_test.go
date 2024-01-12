@@ -1,4 +1,4 @@
-package quiz_lnp
+package quiz_iso
 
 import (
 	// "fmt"
@@ -10,42 +10,24 @@ func TestCalcQuizResult(t *testing.T) {
 	a := Answers{
 		1,
 		0,
-		0,
-		0,
-		1,
-		1,
-		1,
-		0,
-		1,
-		1,
-		1,
-		0,
-		0,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
 		1,
 		0,
 		1,
 		1,
 		0,
 		1,
+		0,
 		1,
-		1,
-		1,
-		1,
-		1,
+		0,
+		0,
+		0,
 		0,
 		1,
 		1,
 		0,
 		1,
-		1,
-		1,
+		0,
+		0,
 		1,
 		0,
 		1,
@@ -54,20 +36,16 @@ func TestCalcQuizResult(t *testing.T) {
 		0,
 		1,
 		1,
-		1,
-		1,
-		1,
-		1,
-		0,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
 		0,
 		1,
 		0,
+		0,
+		1,
+		1,
+		0,
+		0,
+		0,
+		1,
 		1,
 		1,
 		1,
@@ -76,13 +54,8 @@ func TestCalcQuizResult(t *testing.T) {
 		1,
 		1,
 		1,
-		1,
-		1,
 		0,
-		1,
-		1,
-		1,
-		1,
+		0,
 		1,
 		1,
 		0,
@@ -91,20 +64,37 @@ func TestCalcQuizResult(t *testing.T) {
 		0,
 		1,
 		1,
-		1,
 		0,
 		0,
 		1,
 		0,
+		1,
+		1,
+		1,
+		1,
+		0,
+		0,
+		0,
+		1,
+		0,
+		0,
+		0,
+		1,
 		1,
 		1,
 	}
 	result := calcQuizResult(a)
 	json := common.StructToJsonString(result)
-	if result.Neuroticization != -91 {
-		t.Errorf("Result was incorrect, got: %+v", json)
+	if result.Sincerity != 2 {
+		t.Errorf("Result was incorrect, got: %s", json)
 	}
-	if result.Psychopathization != -2 {
-		t.Errorf("Result was incorrect, got: %+v", json)
+	if result.Depression != 13 {
+		t.Errorf("Result was incorrect, got: %s", json)
+	}
+	if result.Neuroticism != 19 {
+		t.Errorf("Result was incorrect, got: %s", json)
+	}
+	if result.Communication != 4 {
+		t.Errorf("Result was incorrect, got: %s", json)
 	}
 }

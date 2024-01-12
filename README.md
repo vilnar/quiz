@@ -9,6 +9,13 @@ go build -o ./bin/dump-db.exe quiz/cmd/exportdb
 go build -o ./bin/import-db.exe quiz/cmd/importdb
 ```
 
+## Test examples
+
+```
+go test quiz/internal/*
+```
+
+
 ## Recursively update packages in any subdirectories
 
 ```
