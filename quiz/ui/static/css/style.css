@@ -17,3 +17,14 @@
 .form-check-input {
     border-color: #8f8787;
 }
+
+@media screen and (max-width: 767px) {
+    .nav-mobile-link-item-important {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .nav-mobile-link-item-important .nav-link {
+        text-decoration: underline;
+        text-transform: uppercase;
+    }
+}
