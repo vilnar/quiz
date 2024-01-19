@@ -77,3 +77,21 @@ func GetTemplateFuncMapForAdminHeader() template.FuncMap {
 		"GetAdminName": GetAdminName,
 	}
 }
+
+func GetDotEnvVariableForWifi(key string) string {
+	pathEnv := path.Join(GetExPath(), ".env")
+	err := godotenv.Load(pathEnv)
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	return os.Getenv(key)
+}
+
+func GetWifiName() string {
+	return GetDotEnvVariableForWifi("SSID")
+}
+
+func GetWifiPassword() string {
+	return GetDotEnvVariableForWifi("PASSPHRASE")
+}

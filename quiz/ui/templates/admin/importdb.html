@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Результати {{.QuizLabel}} для {{.Person.MilitaryName}} {{.Person.GetFullName}}</title>
+    <title>в базу дані завантажені</title>
     <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
 </head>
@@ -12,17 +12,16 @@
     <div class="container">
         <div class="row mb-3 justify-content-center p-3">
             <div class="col-md-8">
-                <h4 class="text-center">Результати {{.QuizLabel}}</h4>
-                <div class="row">
-                    <a href="/admin/person?id={{.Person.Id}}" class="fs-4 text-black">{{.Person.MilitaryName}} {{.Person.GetFullName}}</a>
-                    <p>Підрозділ: {{.Person.Unit}}</p>
-                </div>
+                <h3 class="text-center">в базу дані завантажені</h3>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="mb-3 p-3 border">
-                    {{template "kotenov_5_57_result_content.html" .QuizResult}}
+                    <div class="row mb-3">
+                        <p>в базу дані завантажені з файлу:</p>
+                        <p class="fs-2">{{.DumpFilePath}}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -31,3 +30,4 @@
     {{template "footer.html"}}
 </body>
 </html>
+

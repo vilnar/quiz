@@ -238,6 +238,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "minimult_result.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "minimult_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())

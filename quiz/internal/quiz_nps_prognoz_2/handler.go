@@ -27,6 +27,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "nps_prognoz_2.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "footer.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "person_blank.html"),
 	)
 	if err != nil {

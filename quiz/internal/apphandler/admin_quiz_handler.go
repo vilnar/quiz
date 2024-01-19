@@ -30,6 +30,7 @@ func GetQuizListHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
@@ -77,6 +78,7 @@ func GetQuizListByPersonIdHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.New("quiz_list.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_list.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
@@ -127,7 +129,8 @@ func GetQuizReportByPersonHandler(w http.ResponseWriter, r *http.Request) {
 	funcMap := quiz_switch.GetTemplateFuncMapForQuizParseResult()
 	mainTemplate := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_report_by_person.html")
 	header := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
-	files := quiz_switch.GetFilesForParseReport(mainTemplate, header)
+	footer := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html")
+	files := quiz_switch.GetFilesForParseReport(mainTemplate, header, footer)
 	tmpl, err := template.New("quiz_report_by_person.html").Funcs(funcMap).ParseFiles(files...)
 	if err != nil {
 		log.Print(err.Error())
@@ -172,6 +175,7 @@ func GetQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.New("report_by_date.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "report_by_date.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -234,7 +238,8 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	funcMap := quiz_switch.GetTemplateFuncMapForQuizParseResult()
 	mainTemplate := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "report_by_date_result.html")
 	header := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
-	files := quiz_switch.GetFilesForParseReport(mainTemplate, header)
+	footer := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html")
+	files := quiz_switch.GetFilesForParseReport(mainTemplate, header, footer)
 	tmpl, err := template.New("report_by_date_result.html").Funcs(funcMap).ParseFiles(files...)
 	if err != nil {
 		log.Print(err.Error())

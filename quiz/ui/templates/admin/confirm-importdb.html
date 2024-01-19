@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Підтвредження завантаження даних в базу</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center p-3">
+            <div class="col-md-8">
+                <h3 class="text-center">Підтвредження завантаження даних в базу</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="confirmImportdbForm" action="{{ .FormAction }}" method="POST" class="mb-4">
+                    <div class="mb-3 p-3 border">
+                        <div class="mb-5">
+                            <em>Обережно!!! Дані перезаписуються, перевірте перед завантаженням, що файл бекапу актуальний!</em>
+                            <p>Шлях до файлу:</p>
+                            <p class="fs-2">{{.DumpFilePath}}</p>
+                        </div>
+                        <fieldset id="group1" class="mb-3">
+                            <legend class="col-form-label">Ви впевнені, що хочете завантажити дані в базу?</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="1" required>
+                                <label class="form-check-label" for="A1">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="0">
+                                <label class="form-check-label" for="A1">Ні</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-outline-success" type="submit">Відправити</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{template "footer.html"}}
+</body>
+</html>
+

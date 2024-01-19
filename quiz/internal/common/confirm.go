@@ -1,4 +1,4 @@
-package main
+package common
 
 import (
 	"bufio"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func askForConfirmation(s string) bool {
+func AskForConfirmation(s string) bool {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {

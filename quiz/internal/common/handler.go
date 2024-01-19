@@ -9,8 +9,10 @@ import (
 
 func NotFoundHandler(w http.ResponseWriter, r *http.Request, message string, isAdmin bool) {
 	headerPath := path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "header.html")
+	footerPath := path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "footer.html")
 	if isAdmin {
 		headerPath = path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
+		footerPath = path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html")
 	}
 
 	w.WriteHeader(http.StatusNotFound)
@@ -18,6 +20,7 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request, message string, isA
 	tmpl, err := template.New("404.html").Funcs(funcMap).ParseFiles(
 		path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "404.html"),
 		headerPath,
+		footerPath,
 	)
 	if err != nil {
 		log.Print(err.Error())

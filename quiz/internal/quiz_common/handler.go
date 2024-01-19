@@ -13,6 +13,7 @@ func QuizGreetingHandler(w http.ResponseWriter, personId int64, quizShortLabel s
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "greeting.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())

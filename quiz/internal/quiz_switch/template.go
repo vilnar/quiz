@@ -54,7 +54,7 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 	}
 }
 
-func GetFilesForParseReport(main, header string) []string {
+func GetFilesForParseReport(main, header, footer string) []string {
 	return []string{
 		main,
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "kotenov_5_57_result_content.html"),
@@ -68,5 +68,6 @@ func GetFilesForParseReport(main, header string) []string {
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "eysenck_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "lnp_result_content.html"),
 		header,
+		footer,
 	}
 }

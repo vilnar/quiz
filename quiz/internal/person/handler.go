@@ -63,6 +63,7 @@ func GetPersonHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.New("person.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "person.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -101,6 +102,7 @@ func PersonListHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.New("person_list.html").Funcs(funcMap).ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "person_list.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "pagination.html"),
 	)
 	if err != nil {
@@ -137,6 +139,7 @@ func GetPersonNameFormHandler(w http.ResponseWriter, r *http.Request, quizNameTo
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "first_person_blank.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())

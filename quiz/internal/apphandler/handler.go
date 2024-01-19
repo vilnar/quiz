@@ -29,6 +29,7 @@ func FindPersonForQuizHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "find_person_list.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -66,6 +67,7 @@ func GetDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "dashboard.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
@@ -90,6 +92,7 @@ func GetTestUiHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "test_ui.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "header.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "footer.html"),
 	)
 	if err != nil {
 		log.Print(err.Error())
