@@ -78,6 +78,7 @@ func main() {
 	mux.HandleFunc("/admin/run-exportdb", apphandler.BasicAuth(apphandler.RunExportDbHandler))
 	mux.HandleFunc("/admin/confirm-importdb", apphandler.BasicAuth(apphandler.ConfirmImportDbHandler))
 	mux.HandleFunc("/admin/run-importdb", apphandler.BasicAuth(apphandler.RunImportDbHandler))
+	mux.HandleFunc("/admin/open-explorer-dbdumpdir", apphandler.BasicAuth(apphandler.RunOpenExplorerDbDumpDirHandler))
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {

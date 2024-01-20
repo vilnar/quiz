@@ -8,7 +8,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"path"
 	"path/filepath"
 	"strconv"
 )
@@ -43,7 +42,7 @@ func getClientIpAddr(req *http.Request) string {
 }
 
 func GetDotEnvVariable(key string) string {
-	pathEnv := path.Join(GetProjectRootPath(), "quiz", ".env")
+	pathEnv := filepath.Join(GetProjectRootPath(), "quiz", ".env")
 	err := godotenv.Load(pathEnv)
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -53,11 +52,11 @@ func GetDotEnvVariable(key string) string {
 }
 
 func GetDbDumpDir() string {
-	return path.Join(GetProjectRootPath(), "dump")
+	return filepath.Join(GetProjectRootPath(), "dump")
 }
 
 func GetDumpFilePath() string {
-	return path.Join(GetDbDumpDir(), "quiz.sql")
+	return filepath.Join(GetDbDumpDir(), "quiz.sql")
 }
 
 func GetExPath() string {
@@ -83,7 +82,7 @@ func GetTemplateFuncMapForAdminHeader() template.FuncMap {
 }
 
 func GetDotEnvVariableForWifi(key string) string {
-	pathEnv := path.Join(GetExPath(), ".env")
+	pathEnv := filepath.Join(GetExPath(), ".env")
 	err := godotenv.Load(pathEnv)
 	if err != nil {
 		log.Fatalf("Error loading .env file")

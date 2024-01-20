@@ -1,11 +1,12 @@
 package apphandler
 
 import (
+	"encoding/json"
 	"html/template"
 	"log"
 	"net/http"
 	"path"
-	"quiz/internal/appwifi"
+	"quiz/internal/apprun"
 	"quiz/internal/common"
 	"quiz/internal/exportdb"
 	"quiz/internal/importdb"
@@ -13,7 +14,7 @@ import (
 )
 
 func RunMobileHotspotHandler(w http.ResponseWriter, r *http.Request) {
-	appwifi.RunMobileHotspot()
+	apprun.RunMobileHotspot()
 
 	funcMap := common.GetTemplateFuncMapForAdminHeader()
 	tmpl, err := template.New("wifi.html").Funcs(funcMap).ParseFiles(
@@ -131,4 +132,16 @@ func RunImportDbHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func RunOpenExplorerDbDumpDirHandler(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Result string
+	}
+
+	apprun.RunOpenExplorerDbDumpDir()
+	data.Result = "ok"
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(data)
 }
