@@ -59,9 +59,9 @@ func RunExportDbHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		DumpFilePath string
+		DbDumpDir string
 	}{
-		common.GetDumpFilePath(),
+		common.GetDbDumpDir(),
 	}
 	if err := tmpl.Execute(w, data); err != nil {
 		log.Print(err.Error())
@@ -84,10 +84,10 @@ func ConfirmImportDbHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		DumpFilePath string
-		FormAction   string
+		DbDumpDir  string
+		FormAction string
 	}{
-		common.GetDumpFilePath(),
+		common.GetDbDumpDir(),
 		common.GetServerInfo(r) + "/admin/run-importdb",
 	}
 	if err := tmpl.Execute(w, data); err != nil {
@@ -101,9 +101,12 @@ func RunImportDbHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	isConfirm, _ := strconv.ParseBool(r.Form.Get("is_confirm_importdb"))
 	if !isConfirm {
-		// TODO: add html
-		log.Fatalf("is not confirm importdb")
+		message := "Ви не підтвердили завантаження даних в базу, змін не відбулося"
+		log.Print(message)
+		common.PrintMessageHandler(w, r, message, true)
+		return
 	}
+
 	importdb.RunImportDb()
 
 	funcMap := common.GetTemplateFuncMapForAdminHeader()
@@ -119,9 +122,9 @@ func RunImportDbHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		DumpFilePath string
+		DbDumpDir string
 	}{
-		common.GetDumpFilePath(),
+		common.GetDbDumpDir(),
 	}
 	if err := tmpl.Execute(w, data); err != nil {
 		log.Print(err.Error())

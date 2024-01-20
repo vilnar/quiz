@@ -52,8 +52,12 @@ func GetDotEnvVariable(key string) string {
 	return os.Getenv(key)
 }
 
+func GetDbDumpDir() string {
+	return path.Join(GetProjectRootPath(), "dump")
+}
+
 func GetDumpFilePath() string {
-	return path.Join(GetProjectRootPath(), "dump", "quiz.sql")
+	return path.Join(GetDbDumpDir(), "quiz.sql")
 }
 
 func GetExPath() string {
