@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"quiz/internal/common"
 	"quiz/internal/importdb"
 )
@@ -8,7 +9,7 @@ import (
 func main() {
 	c := common.AskForConfirmation("Do you really want import data?")
 	if !c {
-		fmt.Printf("Exit")
+		log.Printf("Exit")
 		return
 	}
 

@@ -22,3 +22,9 @@ go test quiz/internal/*
 cd quiz
 go get -u ./...
 ```
+
+## Dependencies
+
+- MariaDB >= 11.2.1
+- golang >= 1.21.0
+- MobileHotspot (https://github.com/vilnar/mobile-hotspot)
