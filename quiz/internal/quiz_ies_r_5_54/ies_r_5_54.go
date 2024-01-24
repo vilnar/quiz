@@ -92,25 +92,14 @@ func QuizDeserialization(q quiz.QuizDb) Quiz {
 	}
 	r.Answers = a
 
-	qr := QuizResult{}
-	err = json.Unmarshal([]byte(q.Result), &qr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	r.Result = qr
-
 	r.Score = q.Score
 	r.CreateAt = q.CreateAt
 	return r
 }
 
 func GetQuizParseResult(q quiz.QuizDb) QuizResult {
-	qr := QuizResult{}
-	err := json.Unmarshal([]byte(q.Result), &qr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return qr
+	qd := QuizDeserialization(q)
+	return calcQuizResult(qd.Answers)
 }
 
 func getAnswersFromRequest(r *http.Request) Answers {
@@ -140,6 +129,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	}
 	p := person.FindPersonById(q.PersonId)
 	qd := QuizDeserialization(q)
+	qResult := calcQuizResult(qd.Answers)
 
 	data := struct {
 		QuizLabel  string
@@ -148,7 +138,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	}{
 		QUIZ_LABEL,
 		p,
-		qd.Result,
+		qResult,
 	}
 
 	err = tmpl.Execute(w, data)

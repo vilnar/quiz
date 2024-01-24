@@ -144,25 +144,14 @@ func QuizDeserialization(q quiz.QuizDb) Quiz {
 	}
 	r.Answers = a
 
-	qr := QuizResult{}
-	err = json.Unmarshal([]byte(q.Result), &qr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	r.Result = qr
-
 	r.Score = q.Score
 	r.CreateAt = q.CreateAt
 	return r
 }
 
 func GetQuizParseResult(q quiz.QuizDb) QuizResult {
-	qr := QuizResult{}
-	err := json.Unmarshal([]byte(q.Result), &qr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return qr
+	qd := QuizDeserialization(q)
+	return calcQuizResult(qd.Answers)
 }
 
 func getAnswersFromRequest(r *http.Request) Answers {
@@ -192,6 +181,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	}
 	p := person.FindPersonById(q.PersonId)
 	qd := QuizDeserialization(q)
+	qResult := calcQuizResult(qd.Answers)
 
 	data := struct {
 		QuizLabel  string
@@ -200,7 +190,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	}{
 		QUIZ_LABEL,
 		p,
-		qd.Result,
+		qResult,
 	}
 
 	err = tmpl.Execute(w, data)
@@ -214,31 +204,31 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 func calcQuizResult(a Answers) QuizResult {
 	var res QuizResult
 	res.Demonstrativeness = (float64(a.A12) + float64(a.A14) + float64(a.A20) + float64(a.A22) + float64(a.A27)) * 1.2
-	res.DemonstrativenessDescription = fmt.Sprintf("%f/6", res.Demonstrativeness)
+	res.DemonstrativenessDescription = fmt.Sprintf("%.2f/6", res.Demonstrativeness)
 
 	res.Affectivity = (float64(a.A1) + float64(a.A10) + float64(a.A20) + float64(a.A23) + float64(a.A28) + float64(a.A29)) * 1.1
-	res.AffectivityDescription = fmt.Sprintf("%f/6.6", res.Affectivity)
+	res.AffectivityDescription = fmt.Sprintf("%.2f/6.6", res.Affectivity)
 
 	res.Uniqueness = (float64(a.A1) + float64(a.A12) + float64(a.A14) + float64(a.A22) + float64(a.A27)) * 1.2
-	res.UniquenessDescription = fmt.Sprintf("%f/6", res.Uniqueness)
+	res.UniquenessDescription = fmt.Sprintf("%.2f/6", res.Uniqueness)
 
 	res.Insolvency = (float64(a.A2) + float64(a.A3) + float64(a.A6) + float64(a.A7) + float64(a.A21)) * 1.5
-	res.InsolvencyDescription = fmt.Sprintf("%f/7.5", res.Insolvency)
+	res.InsolvencyDescription = fmt.Sprintf("%.2f/7.5", res.Insolvency)
 
 	res.SocialPessimism = (float64(a.A5) + float64(a.A11) + float64(a.A13) + float64(a.A15) + float64(a.A22) + float64(a.A25)) * 1.0
-	res.SocialPessimismDescription = fmt.Sprintf("%f/6", res.SocialPessimism)
+	res.SocialPessimismDescription = fmt.Sprintf("%.2f/6", res.SocialPessimism)
 
 	res.BreakingCulturalBarriers = (float64(a.A8) + float64(a.A9) + float64(a.A18)) * 2.3
-	res.BreakingCulturalBarriersDescription = fmt.Sprintf("%f/6.9", res.BreakingCulturalBarriers)
+	res.BreakingCulturalBarriersDescription = fmt.Sprintf("%.2f/6.9", res.BreakingCulturalBarriers)
 
 	res.Maximalism = (float64(a.A4) + float64(a.A16)) * 3.2
-	res.MaximalismDescription = fmt.Sprintf("%f/6.4", res.Maximalism)
+	res.MaximalismDescription = fmt.Sprintf("%.2f/6.4", res.Maximalism)
 
 	res.TemporaryPerspective = (float64(a.A2) + float64(a.A3) + float64(a.A12) + float64(a.A24) + float64(a.A26) + float64(a.A27)) * 1.1
-	res.TemporaryPerspectiveDescription = fmt.Sprintf("%f/6.6", res.TemporaryPerspective)
+	res.TemporaryPerspectiveDescription = fmt.Sprintf("%.2f/6.6", res.TemporaryPerspective)
 
 	res.AntisuicidalFactor = (float64(a.A17) + float64(a.A19)) * 3.2
-	res.AntisuicidalFactorDescription = fmt.Sprintf("%f/6.4", res.AntisuicidalFactor)
+	res.AntisuicidalFactorDescription = fmt.Sprintf("%.2f/6.4", res.AntisuicidalFactor)
 
 	return res
 }

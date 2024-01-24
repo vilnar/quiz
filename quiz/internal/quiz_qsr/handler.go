@@ -68,8 +68,7 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	answers := getAnswersFromRequest(r)
 
 	personId := person.UpdateOrSavePerson(p)
-	quizResult := calcQuizResult(answers)
-	quizId := quiz.SaveQuiz(personId, QUIZ_NAME, QUIZ_LABEL, common.StructToJsonString(answers), common.StructToJsonString(quizResult), 0)
+	quizId := quiz.SaveQuiz(personId, QUIZ_NAME, QUIZ_LABEL, common.StructToJsonString(answers), 0)
 	if quizId < 1 {
 		log.Printf("Not save quiz")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
