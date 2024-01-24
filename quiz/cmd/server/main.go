@@ -20,6 +20,7 @@ import (
 	"quiz/internal/quiz_lnp"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_qsr"
 	"quiz/internal/quiz_stai"
 	"strings"
 )
@@ -61,6 +62,9 @@ func main() {
 
 	mux.HandleFunc(quiz_lnp.GetQuizUrl(), quiz_lnp.GetQuizHandler)
 	mux.HandleFunc(quiz_lnp.GetCheckQuizUrl(), quiz_lnp.CheckQuizHandler)
+
+	mux.HandleFunc(quiz_qsr.GetQuizUrl(), quiz_qsr.GetQuizHandler)
+	mux.HandleFunc(quiz_qsr.GetCheckQuizUrl(), quiz_qsr.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 	mux.HandleFunc("/test", apphandler.GetTestUiHandler)

@@ -10,6 +10,7 @@ import (
 	"quiz/internal/quiz_lnp"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_qsr"
 	"quiz/internal/quiz_stai"
 )
 
@@ -59,6 +60,10 @@ func GetQuizLinkList() []QuizLink {
 		{
 			quiz_lnp.QUIZ_SHORT_LABEL,
 			quiz_lnp.GetQuizUrl(),
+		},
+		{
+			quiz_qsr.QUIZ_SHORT_LABEL,
+			quiz_qsr.GetQuizUrl(),
 		},
 	}
 }
