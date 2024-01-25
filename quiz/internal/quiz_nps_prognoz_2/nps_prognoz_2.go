@@ -161,7 +161,7 @@ func QuizDeserialization(q quiz.QuizDb) Quiz {
 	return r
 }
 
-func GetQuizParseResult(q quiz.QuizDb) QuizResult {
+func GetQuizResultFromQuizDb(q quiz.QuizDb) QuizResult {
 	qd := QuizDeserialization(q)
 	return calcQuizResult(qd.Answers)
 }
@@ -193,8 +193,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	}
 
 	p := person.FindPersonById(q.PersonId)
-	qd := QuizDeserialization(q)
-	qResult := calcQuizResult(qd.Answers)
+	qResult := GetQuizResultFromQuizDb(q)
 
 	data := struct {
 		QuizLabel  string
