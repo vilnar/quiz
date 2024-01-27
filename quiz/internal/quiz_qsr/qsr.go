@@ -119,6 +119,10 @@ func (q QuizResult) IsHighAntisuicidalFactor() bool {
 	return q.AntisuicidalFactor > 5
 }
 
+func (q QuizResult) IsLowAntisuicidalFactor() bool {
+	return q.AntisuicidalFactor >= 2
+}
+
 type Quiz struct {
 	Id       int64
 	PersonId int64
