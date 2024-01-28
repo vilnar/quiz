@@ -5,6 +5,7 @@ import (
 	"path"
 	"quiz/internal/common"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_dfp"
 	"quiz/internal/quiz_eysenck"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
@@ -53,6 +54,9 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 		"GetQuizResultFromQuizDbQsr": func(q quiz.QuizDb) quiz_qsr.QuizResult {
 			return quiz_qsr.GetQuizResultFromQuizDb(q)
 		},
+		"GetQuizResultFromQuizDbDfp": func(q quiz.QuizDb) quiz_dfp.QuizResult {
+			return quiz_dfp.GetQuizResultFromQuizDb(q)
+		},
 		"GetAdminName": common.GetAdminName,
 		// TODO: find in template quiz_switch_todo
 	}
@@ -72,6 +76,7 @@ func GetFilesForParseReport(main, header, footer string) []string {
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "eysenck_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "lnp_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "qsr_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "dfp_result_content.html"),
 		header,
 		footer,
 	}

@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_dfp"
 	"quiz/internal/quiz_eysenck"
 	"quiz/internal/quiz_first_ptsd"
 	"quiz/internal/quiz_hads"
@@ -52,6 +53,9 @@ func RedirectToQuizByQuizName(w http.ResponseWriter, r *http.Request, quizName s
 	case quiz_qsr.QUIZ_NAME:
 		quiz_qsr.GetQuizHandler(w, r)
 		return
+	case quiz_dfp.QUIZ_NAME:
+		quiz_dfp.GetQuizHandler(w, r)
+		return
 	default:
 		log.Printf("Not found quiz name")
 		http.Error(w, "Not found quiz name", http.StatusNotFound)
@@ -93,6 +97,9 @@ func RedirectToQuizResultByQuiz(w http.ResponseWriter, r *http.Request, q quiz.Q
 		return
 	case quiz_qsr.QUIZ_NAME:
 		quiz_qsr.GetAdminQuizResultHandler(w, r, q)
+		return
+	case quiz_dfp.QUIZ_NAME:
+		quiz_dfp.GetAdminQuizResultHandler(w, r, q)
 		return
 	default:
 		log.Printf("Not found quiz by name")
