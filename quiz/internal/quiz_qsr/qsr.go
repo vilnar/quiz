@@ -120,7 +120,7 @@ func (q QuizResult) IsHighAntisuicidalFactor() bool {
 }
 
 func (q QuizResult) IsLowAntisuicidalFactor() bool {
-	return q.AntisuicidalFactor >= 2
+	return q.AntisuicidalFactor <= 2
 }
 
 type Quiz struct {
