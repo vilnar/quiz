@@ -42,7 +42,7 @@ func getClientIpAddr(req *http.Request) string {
 }
 
 func GetDotEnvVariable(key string) string {
-	pathEnv := filepath.Join(GetProjectRootPath(), "quiz", ".env")
+	pathEnv := filepath.Join(GetExPath(), ".env")
 	err := godotenv.Load(pathEnv)
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -81,20 +81,10 @@ func GetTemplateFuncMapForAdminHeader() template.FuncMap {
 	}
 }
 
-func GetDotEnvVariableForWifi(key string) string {
-	pathEnv := filepath.Join(GetExPath(), ".env")
-	err := godotenv.Load(pathEnv)
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	return os.Getenv(key)
-}
-
 func GetWifiName() string {
-	return GetDotEnvVariableForWifi("SSID")
+	return GetDotEnvVariable("SSID")
 }
 
 func GetWifiPassword() string {
-	return GetDotEnvVariableForWifi("PASSPHRASE")
+	return GetDotEnvVariable("PASSPHRASE")
 }
