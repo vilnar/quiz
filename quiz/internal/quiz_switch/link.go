@@ -31,10 +31,6 @@ func GetQuizLinkList() []QuizLink {
 			quiz_kotenov_5_57.GetQuizUrl(),
 		},
 		{
-			quiz_nps_prognoz_2.QUIZ_SHORT_LABEL,
-			quiz_nps_prognoz_2.GetQuizUrl(),
-		},
-		{
 			quiz_hads.QUIZ_SHORT_LABEL,
 			quiz_hads.GetQuizUrl(),
 		},
@@ -43,12 +39,12 @@ func GetQuizLinkList() []QuizLink {
 			quiz_ies_r_5_54.GetQuizUrl(),
 		},
 		{
-			quiz_minimult.QUIZ_SHORT_LABEL,
-			quiz_minimult.GetQuizUrl(),
+			quiz_nps_prognoz_2.QUIZ_SHORT_LABEL,
+			quiz_nps_prognoz_2.GetQuizUrl(),
 		},
 		{
-			quiz_iso.QUIZ_SHORT_LABEL,
-			quiz_iso.GetQuizUrl(),
+			quiz_minimult.QUIZ_SHORT_LABEL,
+			quiz_minimult.GetQuizUrl(),
 		},
 		{
 			quiz_stai.QUIZ_SHORT_LABEL,
@@ -61,6 +57,10 @@ func GetQuizLinkList() []QuizLink {
 		{
 			quiz_lnp.QUIZ_SHORT_LABEL,
 			quiz_lnp.GetQuizUrl(),
+		},
+		{
+			quiz_iso.QUIZ_SHORT_LABEL,
+			quiz_iso.GetQuizUrl(),
 		},
 		{
 			quiz_qsr.QUIZ_SHORT_LABEL,

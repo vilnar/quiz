@@ -15,7 +15,7 @@ import (
 
 const QUIZ_NAME = "quiz_first_ptsd"
 const QUIZ_LABEL = "опитувальник для первинного скринінгу ПТСР"
-const QUIZ_SHORT_LABEL = "опитувальник для первинного скринінгу ПТСР"
+const QUIZ_SHORT_LABEL = "первинний скринінг ПТСР"
 
 func GetQuizUrl() string {
 	return "/" + QUIZ_NAME
