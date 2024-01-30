@@ -257,14 +257,10 @@ func calcQuizResult(a Answers) QuizResult {
 }
 
 func getAnswerRevers(a int) int {
-	switch a {
-	case 1:
-		return 0
-	case 0:
+	if a == 0 {
 		return 1
-	default:
-		return 0
 	}
+	return 0
 }
 
 func (q *QuizResult) setNeuroticization(a Answers) {

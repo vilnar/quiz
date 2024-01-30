@@ -63,6 +63,9 @@
                                 {{if eq $quiz.Name "quiz_dfp"}}
                                     {{template "dfp_result_content.html" GetQuizResultFromQuizDbDfp $quiz}}
                                 {{end}}
+                                {{if eq $quiz.Name "quiz_adaptability_200"}}
+                                    {{template "adaptability_200_result_content.html" GetQuizResultFromQuizDbAdaptability200 $quiz}}
+                                {{end}}
                             </div>
                         {{end}}
                     </div>

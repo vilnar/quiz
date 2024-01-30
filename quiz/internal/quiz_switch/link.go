@@ -1,6 +1,7 @@
 package quiz_switch
 
 import (
+	"quiz/internal/quiz_adaptability_200"
 	"quiz/internal/quiz_dfp"
 	"quiz/internal/quiz_eysenck"
 	"quiz/internal/quiz_first_ptsd"
@@ -45,6 +46,10 @@ func GetQuizLinkList() []QuizLink {
 		{
 			quiz_minimult.QUIZ_SHORT_LABEL,
 			quiz_minimult.GetQuizUrl(),
+		},
+		{
+			quiz_adaptability_200.QUIZ_SHORT_LABEL,
+			quiz_adaptability_200.GetQuizUrl(),
 		},
 		{
 			quiz_stai.QUIZ_SHORT_LABEL,

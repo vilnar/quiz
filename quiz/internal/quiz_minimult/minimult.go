@@ -256,14 +256,10 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 }
 
 func getAnswerRevers(a int) float64 {
-	switch a {
-	case 1:
-		return 0.0
-	case 0:
+	if a == 0 {
 		return 1.0
-	default:
-		return 0.0
 	}
+	return 0.0
 }
 
 func calcQuizResult(a Answers) QuizResult {
