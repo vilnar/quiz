@@ -9,6 +9,7 @@ import (
 	"os"
 	"path"
 	"quiz/internal/apphandler"
+	"quiz/internal/apprun"
 	"quiz/internal/common"
 	"quiz/internal/person"
 	"quiz/internal/quiz_adaptability_200"
@@ -91,6 +92,8 @@ func main() {
 	mux.HandleFunc("/admin/confirm-importdb", apphandler.BasicAuth(apphandler.ConfirmImportDbHandler))
 	mux.HandleFunc("/admin/run-importdb", apphandler.BasicAuth(apphandler.RunImportDbHandler))
 	mux.HandleFunc("/admin/open-explorer-dbdumpdir", apphandler.BasicAuth(apphandler.RunOpenExplorerDbDumpDirHandler))
+
+	apprun.OpenUrl(common.GetServerUrlDefault())
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", common.GetPort()), mux)
 	if errors.Is(err, http.ErrServerClosed) {

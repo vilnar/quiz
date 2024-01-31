@@ -41,3 +41,20 @@ func RunOpenExplorerDbDumpDir() {
 	}
 	log.Printf("Subprocess %d, exiting\n", cmd.Process.Pid)
 }
+
+func OpenUrl(url string) {
+	if runtime.GOOS != "windows" {
+		log.Fatalf("needs to be implemented for other platforms")
+	}
+	log.Printf("open browser with URL %s", url)
+	cmd := exec.Command("cmd", "/C", "start", url)
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+	err := cmd.Start()
+	if err != nil {
+		log.Fatalf("cmd.Start() failed: %v\nStdErr: %s\nOutput: %s", err, stderr.String(), out.String())
+	}
+	log.Printf("Subprocess %d, exiting\n", cmd.Process.Pid)
+}
