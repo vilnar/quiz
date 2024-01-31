@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	log.Printf("\nServer URL:\n%s\n\nRouter URL:\n%s\n", common.GetServerUrlDefault(), common.GetServerUrlRouter())
+	log.Printf("\nURL застосунку:\n%s\n\nURL застосунку з WIFI:\n%s\n\n", common.GetServerUrlDefault(), common.GetServerUrlRouter())
 
 	mux := http.NewServeMux()
 	// routes
