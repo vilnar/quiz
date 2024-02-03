@@ -20,8 +20,8 @@
                 {{range $key, $elements := .GroupQuizList}}
                     <div class="mb-5">
                         {{$person := $.PersonList.FindPersonInList $key}}
-                        <div class="row p-3 bg-secondary text-white">
-                            <a href="/admin/person?id={{$person.Id}}" class="text-white col-auto me-auto">{{$person.MilitaryName}} {{$person.GetFullName}}</a>
+                        <div class="row p-3 bg-warning">
+                            <a href="/admin/person?id={{$person.Id}}" class="text-black link-underline link-underline-opacity-0 col-auto me-auto">{{$person.MilitaryName}} {{$person.GetFullName}}</a>
                             <div class="col-auto">Підрозділ: {{$person.Unit}}</div>
                         </div>
                         {{range $quiz := $elements}}

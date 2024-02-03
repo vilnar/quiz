@@ -1,20 +1,27 @@
 <div class="mb-3">
-    <p class="mb-4 small">L - достовірність. ПТСР - посттравматичний стресовий розлад. ГСР - гострий стресовий розлад</p>
-    <p class="mb-3 {{if gt .L 69}} text-danger {{else}} text-success {{end}}">L ({{ .L }}): {{ .Lie_description }}</p>
-    <p class="{{if gt .PTSD 69}} text-danger {{end}}">ПТСР ({{ .PTSD }}): {{ .PTSD_description }}</p>
-    <p class="{{if gt .GSR 69}} text-danger {{end}}">ГСР ({{ .GSR }}): {{ .GSR_description }}</p>
-    <p class="mb-3 {{if gt .Depression 69}} text-danger {{end}}">Депресія ({{ .Depression }}): {{ .Depression_description }}</p>
-    <p class="">A1: {{.A1}}</p>
-    <p class="">B: {{.B_}}</p>
-    <p class="">C: {{.C_}}</p>
-    <p class="">D: {{.D_}}</p>
-    <p class="">F: {{.F_}}</p>
-    <p class="">L: {{.L}}</p>
-    <p class="">Ag: {{.Ag}}</p>
-    <p class="mb-3">Di: {{.Di}}</p>
-    <p class="">b: {{.B}}</p>
-    <p class="">c: {{.C}}</p>
-    <p class="">d: {{.D}}</p>
-    <p class="">e: {{.E}}</p>
-    <p class="">f: {{.F}}</p>
+    <div class="mb-4">
+        <p class="mb-4 small">L - достовірність. ПТСР - посттравматичний стресовий розлад. ГСР - гострий стресовий розлад</p>
+        <p class="mb-3 {{if gt .L 69}} text-danger {{else}} text-success {{end}}">L ({{ .L }}): {{ .Lie_description }}</p>
+        <p class="{{if gt .PTSD 69}} text-danger {{end}}">ПТСР ({{ .PTSD }}): {{ .PTSD_description }}</p>
+        <p class="{{if gt .GSR 69}} text-danger {{end}}">ГСР ({{ .GSR }}): {{ .GSR_description }}</p>
+        <p class="{{if gt .Depression 69}} text-danger {{end}}">Депресія ({{ .Depression }}): {{ .Depression_description }}</p>
+    </div>
+    <div class="row">
+        <div class="col-auto me-auto">
+            <p class="{{if gt .A1 69}} text-danger {{end}}">A1: {{.A1}}</p>
+            <p class="{{if gt .B_ 69}} text-danger {{end}}">B: {{.B_}}</p>
+            <p class="{{if gt .C_ 69}} text-danger {{end}}">C: {{.C_}}</p>
+            <p class="{{if gt .D_ 69}} text-danger {{end}}">D: {{.D_}}</p>
+            <p class="{{if gt .F_ 69}} text-danger {{end}}">F: {{.F_}}</p>
+            <p class="{{if gt .Ag 69}} text-danger {{end}}">Ag: {{.Ag}}</p>
+        </div>
+        <div class="col-auto me-auto">
+            <p class="{{if gt .Di 69}} text-danger {{end}}">Di: {{.Di}}</p>
+            <p class="{{if gt .B 69}} text-danger {{end}}">b: {{.B}}</p>
+            <p class="{{if gt .C 69}} text-danger {{end}}">c: {{.C}}</p>
+            <p class="{{if gt .D 69}} text-danger {{end}}">d: {{.D}}</p>
+            <p class="{{if gt .E 69}} text-danger {{end}}">e: {{.E}}</p>
+            <p class="{{if gt .F 69}} text-danger {{end}}">f: {{.F}}</p>
+        </div>
+    </div>
 </div>
