@@ -17,6 +17,10 @@ copyButtons.forEach(el => el.addEventListener("click", event => {
     }
 
     navigator.clipboard.writeText(`${text}`);
+
+    if (!alertCopy) {
+        return;
+    }
     alertCopy.classList.remove("d-none");
     alertCopy.classList.add("show");
     setTimeout(function() {
