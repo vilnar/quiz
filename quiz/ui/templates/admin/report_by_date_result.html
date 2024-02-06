@@ -23,71 +23,65 @@
                         <div class="row justify-content-center d-print-none">
                             <div class="text-end">
                                 <button class="btn copy-result-btn">
-                                    Копіювати
+                                    Копіювати дані по респонденту
                                     <img class="bi" src="/quiz/ui/static/icons/clipboard.svg" alt="clipboard" width="24" height="24">
                                 </button>
                             </div>
                         </div>
-                        <div class="row p-3 bg-warning copy-wrap">
-                            <div class="result-text">
-                                <a href="/admin/person?id={{$person.Id}}" class="text-black link-underline link-underline-opacity-0 col-auto me-auto">{{$person.MilitaryName}} {{$person.GetFullName}}</a>
-                                <div class="col-auto">Підрозділ: {{$person.Unit}}</div>
-                            </div>
-                        </div>
-                        {{range $quiz := $elements}}
-                            <div class="row justify-content-center d-print-none">
-                                <div class="text-end">
-                                    <button class="btn copy-result-btn">
-                                        Копіювати
-                                        <img class="bi" src="/quiz/ui/static/icons/clipboard.svg" alt="clipboard" width="24" height="24">
-                                    </button>
+                        <div class="copy-wrap">
+                            <div class="row p-3 bg-warning">
+                                <div class="result-text">
+                                    <a href="/admin/person?id={{$person.Id}}" class="text-black link-underline link-underline-opacity-0 col-auto me-auto">{{$person.MilitaryName}} {{$person.GetFullName}}</a>
+                                    <div class="col-auto">Підрозділ: {{$person.Unit}}</div>
                                 </div>
                             </div>
-                            <div class="row mb-3 p-3 border copy-wrap">
-                                <p class="small text-end"><em>Дата: {{$quiz.CreateAt}}</em></p>
-                                <p class="fw-bold result-text">{{$quiz.Label}}</p> 
-                                <!-- quiz_switch_todo -->
-                                {{if eq $quiz.Name "quiz_kotenov_5_57"}}
-                                    {{template "kotenov_5_57_result_content.html" GetQuizResultFromQuizDbKotenov557 $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_first_ptsd"}}
-                                    {{template "first_ptsd_result_content.html" GetQuizResultFromQuizDbFirstPtsd $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_nps_prognoz_2"}}
-                                    {{template "nps_prognoz_2_result_content.html" GetQuizResultFromQuizDbNpsPrognoz2 $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_hads"}}
-                                    {{template "hads_result_content.html" GetQuizResultFromQuizDbHads $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_ies_r_5_54"}}
-                                    {{template "ies_r_5_54_result_content.html" GetQuizResultFromQuizDbIesR554 $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_minimult"}}
-                                    {{template "minimult_result_content.html" GetQuizResultFromQuizDbMinimult $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_iso"}}
-                                    {{template "iso_result_content.html" GetQuizResultFromQuizDbIso $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_stai"}}
-                                    {{template "stai_result_content.html" GetQuizResultFromQuizDbStai $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_eysenck"}}
-                                    {{template "eysenck_result_content.html" GetQuizResultFromQuizDbEysenck $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_lnp"}}
-                                    {{template "lnp_result_content.html" GetQuizResultFromQuizDbLnp $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_qsr"}}
-                                    {{template "qsr_result_content.html" GetQuizResultFromQuizDbQsr $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_dfp"}}
-                                    {{template "dfp_result_content.html" GetQuizResultFromQuizDbDfp $quiz}}
-                                {{end}}
-                                {{if eq $quiz.Name "quiz_adaptability_200"}}
-                                    {{template "adaptability_200_result_content.html" GetQuizResultFromQuizDbAdaptability200 $quiz}}
-                                {{end}}
-                            </div>
-                        {{end}}
+                            {{range $quiz := $elements}}
+                                <div class="row mb-3 p-3 border">
+                                    <p class="small text-end"><em>Дата: {{$quiz.CreateAt}}</em></p>
+                                    <p class="fw-bold result-text">{{$quiz.Label}}</p> 
+                                    <!-- quiz_switch_todo -->
+                                    {{if eq $quiz.Name "quiz_kotenov_5_57"}}
+                                        {{template "kotenov_5_57_result_content.html" GetQuizResultFromQuizDbKotenov557 $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_first_ptsd"}}
+                                        {{template "first_ptsd_result_content.html" GetQuizResultFromQuizDbFirstPtsd $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_nps_prognoz_2"}}
+                                        {{template "nps_prognoz_2_result_content.html" GetQuizResultFromQuizDbNpsPrognoz2 $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_hads"}}
+                                        {{template "hads_result_content.html" GetQuizResultFromQuizDbHads $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_ies_r_5_54"}}
+                                        {{template "ies_r_5_54_result_content.html" GetQuizResultFromQuizDbIesR554 $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_minimult"}}
+                                        {{template "minimult_result_content.html" GetQuizResultFromQuizDbMinimult $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_iso"}}
+                                        {{template "iso_result_content.html" GetQuizResultFromQuizDbIso $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_stai"}}
+                                        {{template "stai_result_content.html" GetQuizResultFromQuizDbStai $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_eysenck"}}
+                                        {{template "eysenck_result_content.html" GetQuizResultFromQuizDbEysenck $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_lnp"}}
+                                        {{template "lnp_result_content.html" GetQuizResultFromQuizDbLnp $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_qsr"}}
+                                        {{template "qsr_result_content.html" GetQuizResultFromQuizDbQsr $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_dfp"}}
+                                        {{template "dfp_result_content.html" GetQuizResultFromQuizDbDfp $quiz}}
+                                    {{end}}
+                                    {{if eq $quiz.Name "quiz_adaptability_200"}}
+                                        {{template "adaptability_200_result_content.html" GetQuizResultFromQuizDbAdaptability200 $quiz}}
+                                    {{end}}
+                                </div>
+                            {{end}}
+                        </div>
                     </div>
                 {{end}}
             </div>

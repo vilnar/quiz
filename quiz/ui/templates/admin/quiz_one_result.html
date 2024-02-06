@@ -13,71 +13,65 @@
         <div class="row justify-content-center d-print-none">
             <div class="col-md-8 text-end">
                 <button class="btn copy-result-btn">
-                    Копіювати
+                    Копіювати все
                     <img class="bi" src="/quiz/ui/static/icons/clipboard.svg" alt="clipboard" width="24" height="24">
                 </button>
             </div>
         </div>
-        <div class="row mb-3 justify-content-center p-3 copy-wrap">
-            <div class="col-md-8 result-text">
-                <h4 class="text-center">{{.QuizLabel}}</h4>
-                <div class="row">
-                    <a href="/admin/person?id={{.Person.Id}}" class="fs-4 text-black">{{.Person.MilitaryName}} {{.Person.GetFullName}}</a>
-                    <p>Підрозділ: {{.Person.Unit}}</p>
+        <div class="copy-wrap">
+            <div class="row mb-3 justify-content-center p-3">
+                <div class="col-md-8 result-text">
+                    <h4 class="text-center">{{.QuizLabel}}</h4>
+                    <div class="row">
+                        <a href="/admin/person?id={{.Person.Id}}" class="fs-4 text-black">{{.Person.MilitaryName}} {{.Person.GetFullName}}</a>
+                        <p>Підрозділ: {{.Person.Unit}}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-center d-print-none">
-            <div class="col-md-8 text-end">
-                <button class="btn copy-result-btn">
-                    Копіювати
-                    <img class="bi" src="/quiz/ui/static/icons/clipboard.svg" alt="clipboard" width="24" height="24">
-                </button>
-            </div>
-        </div>
-        <div class="row justify-content-center copy-wrap">
-            <div class="col-md-8">
-                <div class="mb-3 p-3 border">
-                    <!-- quiz_switch_todo -->
-                    {{if eq .QuizName "quiz_kotenov_5_57"}}
-                        {{template "kotenov_5_57_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_first_ptsd"}}
-                        {{template "first_ptsd_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_nps_prognoz_2"}}
-                        {{template "nps_prognoz_2_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_hads"}}
-                        {{template "hads_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_ies_r_5_54"}}
-                        {{template "ies_r_5_54_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_minimult"}}
-                        {{template "minimult_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_iso"}}
-                        {{template "iso_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_stai"}}
-                        {{template "stai_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_eysenck"}}
-                        {{template "eysenck_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_lnp"}}
-                        {{template "lnp_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_qsr"}}
-                        {{template "qsr_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_dfp"}}
-                        {{template "dfp_result_content.html" .QuizResult}}
-                    {{end}}
-                    {{if eq .QuizName "quiz_adaptability_200"}}
-                        {{template "adaptability_200_result_content.html" .QuizResult}}
-                    {{end}}
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="mb-3 p-3 border">
+                        <!-- quiz_switch_todo -->
+                        {{if eq .QuizName "quiz_kotenov_5_57"}}
+                            {{template "kotenov_5_57_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_first_ptsd"}}
+                            {{template "first_ptsd_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_nps_prognoz_2"}}
+                            {{template "nps_prognoz_2_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_hads"}}
+                            {{template "hads_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_ies_r_5_54"}}
+                            {{template "ies_r_5_54_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_minimult"}}
+                            {{template "minimult_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_iso"}}
+                            {{template "iso_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_stai"}}
+                            {{template "stai_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_eysenck"}}
+                            {{template "eysenck_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_lnp"}}
+                            {{template "lnp_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_qsr"}}
+                            {{template "qsr_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_dfp"}}
+                            {{template "dfp_result_content.html" .QuizResult}}
+                        {{end}}
+                        {{if eq .QuizName "quiz_adaptability_200"}}
+                            {{template "adaptability_200_result_content.html" .QuizResult}}
+                        {{end}}
+                    </div>
                 </div>
             </div>
         </div>
