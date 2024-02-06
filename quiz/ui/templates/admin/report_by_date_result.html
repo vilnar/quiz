@@ -20,14 +20,32 @@
                 {{range $key, $elements := .GroupQuizList}}
                     <div class="mb-5">
                         {{$person := $.PersonList.FindPersonInList $key}}
-                        <div class="row p-3 bg-warning">
-                            <a href="/admin/person?id={{$person.Id}}" class="text-black link-underline link-underline-opacity-0 col-auto me-auto">{{$person.MilitaryName}} {{$person.GetFullName}}</a>
-                            <div class="col-auto">Підрозділ: {{$person.Unit}}</div>
+                        <div class="row justify-content-center d-print-none">
+                            <div class="text-end">
+                                <button class="btn copy-result-btn">
+                                    Копіювати
+                                    <img class="bi" src="/quiz/ui/static/icons/clipboard.svg" alt="clipboard" width="24" height="24">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row p-3 bg-warning copy-wrap">
+                            <div class="result-text">
+                                <a href="/admin/person?id={{$person.Id}}" class="text-black link-underline link-underline-opacity-0 col-auto me-auto">{{$person.MilitaryName}} {{$person.GetFullName}}</a>
+                                <div class="col-auto">Підрозділ: {{$person.Unit}}</div>
+                            </div>
                         </div>
                         {{range $quiz := $elements}}
-                            <div class="row mb-3 p-3 border">
+                            <div class="row justify-content-center d-print-none">
+                                <div class="text-end">
+                                    <button class="btn copy-result-btn">
+                                        Копіювати
+                                        <img class="bi" src="/quiz/ui/static/icons/clipboard.svg" alt="clipboard" width="24" height="24">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row mb-3 p-3 border copy-wrap">
                                 <p class="small text-end"><em>Дата: {{$quiz.CreateAt}}</em></p>
-                                <p class="fw-bold">{{$quiz.Label}}</p> 
+                                <p class="fw-bold result-text">{{$quiz.Label}}</p> 
                                 <!-- quiz_switch_todo -->
                                 {{if eq $quiz.Name "quiz_kotenov_5_57"}}
                                     {{template "kotenov_5_57_result_content.html" GetQuizResultFromQuizDbKotenov557 $quiz}}
@@ -77,6 +95,7 @@
     </div>
 
     {{template "footer.html"}}
+    <script src="/quiz/ui/static/js/report.js"></script>
 </body>
 </html>
 

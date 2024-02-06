@@ -10,6 +10,7 @@ import (
 	"quiz/internal/common"
 	"quiz/internal/person"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_template"
 	"reflect"
 )
 
@@ -218,12 +219,11 @@ func getAnswersFromRequest(r *http.Request) Answers {
 
 func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 	funcMap := common.GetTemplateFuncMapForAdminHeader()
-	tmpl, err := template.New("kotenov_5_57_result.html").Funcs(funcMap).ParseFiles(
-		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "kotenov_5_57_result.html"),
-		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "kotenov_5_57_result_content.html"),
-		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html"),
-		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html"),
-	)
+	mainTemplate := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_one_result.html")
+	header := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
+	footer := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html")
+	files := quiz_template.GetFilesForParseReport(mainTemplate, header, footer)
+	tmpl, err := template.New("quiz_one_result.html").Funcs(funcMap).ParseFiles(files...)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -236,10 +236,12 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 		QuizLabel  string
 		Person     person.PersonDb
 		QuizResult QuizResult
+		QuizName   string
 	}{
 		QUIZ_LABEL,
 		p,
 		qResult,
+		q.Name,
 	}
 
 	err = tmpl.Execute(w, data)
