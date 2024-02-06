@@ -20,6 +20,10 @@
                 {{range $key, $elements := .GroupQuizList}}
                     <div class="mb-5">
                         {{$person := $.PersonList.FindPersonInList $key}}
+                        <div class="d-print-none alert alert-success alert-dismissible d-none">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>Успішно!</strong> Дані скопійовано
+                        </div>
                         <div class="row justify-content-center d-print-none">
                             <div class="text-end">
                                 <button class="btn copy-result-btn">
