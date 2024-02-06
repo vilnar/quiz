@@ -10,5 +10,5 @@ async function fetchOpenExplorerDbDumpDir() {
         console.error(error);
     }
 }
-let openExplorerBtn = document.getElementById("open-explorer-dbdumpdir");
+const openExplorerBtn = document.getElementById("open-explorer-dbdumpdir");
 openExplorerBtn.addEventListener("click", fetchOpenExplorerDbDumpDir);

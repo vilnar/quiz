@@ -1,4 +1,5 @@
-let copyButtons = document.querySelectorAll(".copy-result-btn");
+const copyButtons = document.querySelectorAll(".copy-result-btn");
+const alertCopy = document.querySelector("#alert-copy");
 copyButtons.forEach(el => el.addEventListener("click", event => {
     let quizWrap = event.target.parentNode.parentNode.parentNode.nextElementSibling;
     if (quizWrap.classList.contains("copy-wrap") == false) {
@@ -14,7 +15,16 @@ copyButtons.forEach(el => el.addEventListener("click", event => {
         let t = resultText[i].innerText.replace(/^\s*$(?:\r\n?|\n)/gm, "");
         text = text + t + "\n";
     }
-    // console.log(text);
+
     navigator.clipboard.writeText(`${text}`);
+    alertCopy.classList.remove("d-none");
+    alertCopy.classList.add("show");
+    setTimeout(function() {
+        alertCopy.classList.remove("show");
+        alertCopy.classList.add("d-none");
+    }, 2000);
 }));
+
+
+
 
