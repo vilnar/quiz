@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.QuizShortLabel}}</title>
+    <link href="/quiz/ui/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/quiz/ui/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {{template "header.html"}}
+    <div class="container">
+        <div class="row mb-3 justify-content-center p-3">
+            <div class="col-md-8">
+                <h4 class="text-center">{{.QuizShortLabel}}</h4>
+                <em>Дата: {{ .Date }}</em>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="testForm" action="{{ .FormAction }}" method="POST">
+                    <div class="mb-3 p-3 border">
+                        {{template "person_blank.html" .Person}}
+                        <div class="mb-5">
+                            <em>Інструкція: Уважно читаючи кожне твердження, виберіть той варіант відповіді, який найбільше відповідає Вашому стану або поглядам у даний час.</em>
+                        </div>
+                        <fieldset id="group1" class="mb-3">
+                            <legend class="col-form-label">1. Сьогодні я задоволений своєю професією не менше, ніж на початку кар’єри.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="1" required>
+                                <label class="form-check-label" for="A1">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A1" value="0">
+                                <label class="form-check-label" for="A1">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group2" class="mb-3">
+                            <legend class="col-form-label">2. Я допустив помилку у виборі професії або профілю діяльності (займаю не своє місце).</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A2" value="1" required>
+                                <label class="form-check-label" for="A2">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A2" value="0">
+                                <label class="form-check-label" for="A2">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group3" class="mb-3">
+                            <legend class="col-form-label">3. Коли я відчуваю втому або напруження, намагаюся якнайшвидше “згорнути” діяльність (завершити роботу).</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A3" value="1" required>
+                                <label class="form-check-label" for="A3">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A3" value="0">
+                                <label class="form-check-label" for="A3">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group4" class="mb-3">
+                            <legend class="col-form-label">4. Моя діяльність притупляє емоції.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A4" value="1" required>
+                                <label class="form-check-label" for="A4">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A4" value="0">
+                                <label class="form-check-label" for="A4">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group5" class="mb-3">
+                            <legend class="col-form-label">5. Я відверто втомився від проблем, з якими мені доводиться мати справу під час виконання службових обов’язків.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A5" value="1" required>
+                                <label class="form-check-label" for="A5">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A5" value="0">
+                                <label class="form-check-label" for="A5">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group6" class="mb-3">
+                            <legend class="col-form-label">6. Службова діяльність все менше мене задовольняє.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A6" value="1" required>
+                                <label class="form-check-label" for="A6">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A6" value="0">
+                                <label class="form-check-label" for="A6">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group7" class="mb-3">
+                            <legend class="col-form-label">7. Я б змінив роботу, якби була така можливість.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A7" value="1" required>
+                                <label class="form-check-label" for="A7">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A7" value="0">
+                                <label class="form-check-label" for="A7">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group8" class="mb-3">
+                            <legend class="col-form-label">8. Через втому або напруження я приділяю своїм справам менше уваги, ніж повинен.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A8" value="1" required>
+                                <label class="form-check-label" for="A8">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A8" value="0">
+                                <label class="form-check-label" for="A8">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group9" class="mb-3">
+                            <legend class="col-form-label">9. Я спокійно сприймаю претензії начальства і колег по службі до мене.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A9" value="1" required>
+                                <label class="form-check-label" for="A9">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A9" value="0">
+                                <label class="form-check-label" for="A9">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group10" class="mb-3">
+                            <legend class="col-form-label">10. Спілкування з колегами призводить до того, що я цураюся людей.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A10" value="1" required>
+                                <label class="form-check-label" for="A10">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A10" value="0">
+                                <label class="form-check-label" for="A10">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group11" class="mb-3">
+                            <legend class="col-form-label">11. Мені все складніше налагоджувати і підтримувати контакти з колегами.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A11" value="1" required>
+                                <label class="form-check-label" for="A11">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A11" value="0">
+                                <label class="form-check-label" for="A11">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group12" class="mb-3">
+                            <legend class="col-form-label">12. Ситуація на службі мені здається дуже складною.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A12" value="1" required>
+                                <label class="form-check-label" for="A12">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A12" value="0">
+                                <label class="form-check-label" for="A12">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group13" class="mb-3">
+                            <legend class="col-form-label">13. Бувають дні, коли мій емоційний стан погано позначається на результатах службової діяльності.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A13" value="1" required>
+                                <label class="form-check-label" for="A13">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A13" value="0">
+                                <label class="form-check-label" for="A13">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group14" class="mb-3">
+                            <legend class="col-form-label">14. Я дуже вболіваю (переживаю) за свою роботу.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A14" value="1" required>
+                                <label class="form-check-label" for="A14">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A14" value="0">
+                                <label class="form-check-label" for="A14">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group15" class="mb-3">
+                            <legend class="col-form-label">15. Я приділяю своїм колегам по службі більше уваги, ніж отримую від них.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A15" value="1" required>
+                                <label class="form-check-label" for="A15">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A15" value="0">
+                                <label class="form-check-label" for="A15">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group16" class="mb-3">
+                            <legend class="col-form-label">16. Я часто радий бачити, що моя діяльність приносить користь людям.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A16" value="1" required>
+                                <label class="form-check-label" for="A16">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A16" value="0">
+                                <label class="form-check-label" for="A16">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group17" class="mb-3">
+                            <legend class="col-form-label">17. Останнім часом мене переслідують службові невдачі.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A17" value="1" required>
+                                <label class="form-check-label" for="A17">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A17" value="0">
+                                <label class="form-check-label" for="A17">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group18" class="mb-3">
+                            <legend class="col-form-label">18. Зазвичай я виявляю інтерес до колег і за межами служби.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A18" value="1" required>
+                                <label class="form-check-label" for="A18">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A18" value="0">
+                                <label class="form-check-label" for="A18">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group19" class="mb-3">
+                            <legend class="col-form-label">19. Я іноді ловлю себе на думці, що працюю автоматично, не вкладаючи душу.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A19" value="1" required>
+                                <label class="form-check-label" for="A19">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A19" value="0">
+                                <label class="form-check-label" for="A19">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group20" class="mb-3">
+                            <legend class="col-form-label">20. На службі трапляються такі люди, що мимоволі бажаєш їм чогось поганого.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A20" value="1" required>
+                                <label class="form-check-label" for="A20">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A20" value="0">
+                                <label class="form-check-label" for="A20">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group21" class="mb-3">
+                            <legend class="col-form-label">21. Службові успіхи надихають мене.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A21" value="1" required>
+                                <label class="form-check-label" for="A21">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A21" value="0">
+                                <label class="form-check-label" for="A21">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group22" class="mb-3">
+                            <legend class="col-form-label">22. Службова ситуація, в якій я опинився, здається майже безнадійною.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A22" value="1" required>
+                                <label class="form-check-label" for="A22">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A22" value="0">
+                                <label class="form-check-label" for="A22">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group23" class="mb-3">
+                            <legend class="col-form-label">23. Я часто працюю через силу.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A23" value="1" required>
+                                <label class="form-check-label" for="A23">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A23" value="0">
+                                <label class="form-check-label" for="A23">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group24" class="mb-3">
+                            <legend class="col-form-label">24. У роботі з людьми я керуюся принципом: не витрачайте нерви даремно, бережіть своє здоров’я.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A24" value="1" required>
+                                <label class="form-check-label" for="A24">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A24" value="0">
+                                <label class="form-check-label" for="A24">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group25" class="mb-3">
+                            <legend class="col-form-label">25. Іноді я іду на службу з важким почуттям: як все набридло, краще нікого не бачити і не чути.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A25" value="1" required>
+                                <label class="form-check-label" for="A25">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A25" value="0">
+                                <label class="form-check-label" for="A25">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group26" class="mb-3">
+                            <legend class="col-form-label">26. Іноді мені здається, що результати моєї діяльності не варті тих зусиль, які я витрачаю.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A26" value="1" required>
+                                <label class="form-check-label" for="A26">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A26" value="0">
+                                <label class="form-check-label" for="A26">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group27" class="mb-3">
+                            <legend class="col-form-label">27. Якби мені пощастило з професією, я був би щасливішим.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A27" value="1" required>
+                                <label class="form-check-label" for="A27">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A27" value="0">
+                                <label class="form-check-label" for="A27">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group28" class="mb-3">
+                            <legend class="col-form-label">28. Я зазвичай пришвидшую час: швидше б закінчився робочий день.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A28" value="1" required>
+                                <label class="form-check-label" for="A28">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A28" value="0">
+                                <label class="form-check-label" for="A28">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group29" class="mb-3">
+                            <legend class="col-form-label">29. Працюючи з людьми, я зазвичай ставлю “екран”, який захищає мене від чужих страждань і негативних емоцій.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A29" value="1" required>
+                                <label class="form-check-label" for="A29">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A29" value="0">
+                                <label class="form-check-label" for="A29">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group30" class="mb-3">
+                            <legend class="col-form-label">30. Моя робота мене дуже розчарувала.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A30" value="1" required>
+                                <label class="form-check-label" for="A30">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A30" value="0">
+                                <label class="form-check-label" for="A30">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group31" class="mb-3">
+                            <legend class="col-form-label">31. Мої вимоги до виконання завдань значно вищі, ніж те, чого я досягнув у силу обставин.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A31" value="1" required>
+                                <label class="form-check-label" for="A31">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A31" value="0">
+                                <label class="form-check-label" for="A31">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group32" class="mb-3">
+                            <legend class="col-form-label">32. Моя кар’єра склалась успішно.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A32" value="1" required>
+                                <label class="form-check-label" for="A32">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A32" value="0">
+                                <label class="form-check-label" for="A32">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group33" class="mb-3">
+                            <legend class="col-form-label">33. Якщо трапляється можливість, я приділяю менше уваги роботі, але так, щоб ніхто цього не помічав.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A33" value="1" required>
+                                <label class="form-check-label" for="A33">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A33" value="0">
+                                <label class="form-check-label" for="A33">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group34" class="mb-3">
+                            <legend class="col-form-label">34. Я втратив інтерес до всього, що відбувається на службі.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A34" value="1" required>
+                                <label class="form-check-label" for="A34">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A34" value="0">
+                                <label class="form-check-label" for="A34">Ні</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="group35" class="mb-3">
+                            <legend class="col-form-label">35. Mоя робота погано вплинула на мене, озлобила, притупила емоції, зробила нервовим.</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A35" value="1" required>
+                                <label class="form-check-label" for="A35">Так</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="A35" value="0">
+                                <label class="form-check-label" for="A35">Ні</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-lg mb-5">Відправити</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{template "footer.html"}}
+</body>
+</html>
+

@@ -12,6 +12,7 @@ import (
 	"quiz/internal/quiz_lnp"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_occupational_burnout"
 	"quiz/internal/quiz_qsr"
 	"quiz/internal/quiz_stai"
 )
@@ -74,6 +75,10 @@ func GetQuizLinkList() []QuizLink {
 		{
 			quiz_dfp.QUIZ_SHORT_LABEL,
 			quiz_dfp.GetQuizUrl(),
+		},
+		{
+			quiz_occupational_burnout.QUIZ_SHORT_LABEL,
+			quiz_occupational_burnout.GetQuizUrl(),
 		},
 	}
 }

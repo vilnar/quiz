@@ -23,6 +23,7 @@ import (
 	"quiz/internal/quiz_lnp"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_occupational_burnout"
 	"quiz/internal/quiz_qsr"
 	"quiz/internal/quiz_stai"
 	"strings"
@@ -74,6 +75,9 @@ func main() {
 
 	mux.HandleFunc(quiz_adaptability_200.GetQuizUrl(), quiz_adaptability_200.GetQuizHandler)
 	mux.HandleFunc(quiz_adaptability_200.GetCheckQuizUrl(), quiz_adaptability_200.CheckQuizHandler)
+
+	mux.HandleFunc(quiz_occupational_burnout.GetQuizUrl(), quiz_occupational_burnout.GetQuizHandler)
+	mux.HandleFunc(quiz_occupational_burnout.GetCheckQuizUrl(), quiz_occupational_burnout.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 	mux.HandleFunc("/test", apphandler.GetTestUiHandler)

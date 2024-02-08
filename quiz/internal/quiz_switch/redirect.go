@@ -15,6 +15,7 @@ import (
 	"quiz/internal/quiz_lnp"
 	"quiz/internal/quiz_minimult"
 	"quiz/internal/quiz_nps_prognoz_2"
+	"quiz/internal/quiz_occupational_burnout"
 	"quiz/internal/quiz_qsr"
 	"quiz/internal/quiz_stai"
 )
@@ -59,6 +60,9 @@ func RedirectToQuizByQuizName(w http.ResponseWriter, r *http.Request, quizName s
 		return
 	case quiz_adaptability_200.QUIZ_NAME:
 		quiz_adaptability_200.GetQuizHandler(w, r)
+		return
+	case quiz_occupational_burnout.QUIZ_NAME:
+		quiz_occupational_burnout.GetQuizHandler(w, r)
 		return
 	default:
 		log.Printf("Not found quiz name")
@@ -107,6 +111,9 @@ func RedirectToQuizResultByQuiz(w http.ResponseWriter, r *http.Request, q quiz.Q
 		return
 	case quiz_adaptability_200.QUIZ_NAME:
 		quiz_adaptability_200.GetAdminQuizResultHandler(w, r, q)
+		return
+	case quiz_occupational_burnout.QUIZ_NAME:
+		quiz_occupational_burnout.GetAdminQuizResultHandler(w, r, q)
 		return
 	default:
 		log.Printf("Not found quiz by name")

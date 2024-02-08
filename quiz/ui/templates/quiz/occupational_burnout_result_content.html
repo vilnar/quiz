@@ -1,0 +1,8 @@
+<div class="mb-3">
+    <p class="{{if .IsHighDissatisfactionWithOneself}} text-danger {{end}}">Симптом "Невдоволення собою": {{.DissatisfactionWithOneself}}</p>
+    <p class="{{if .IsHighCaged}} text-danger {{end}}">Симптом "Загнаний у клітку": {{.Caged}}</p>
+    <p class="{{if .IsHighReductionOfProfessionalDuties}} text-danger {{end}}">Симптом "Редукція професійних обов’язків": {{.ReductionOfProfessionalDuties}}</p>
+    <p class="{{if .IsHighEmotionalDetachment}} text-danger {{end}}">Симптом "Емоційне відсторонення": {{.EmotionalDetachment}}</p>
+    <p class="{{if .IsHighPersonalDetachment}} text-danger {{end}}">Симптом "Особистісна відстороненість (деперсоналізація)": {{.PersonalDetachment}}</p>
+    <p class="{{if .IsHighScore}} text-danger {{end}} result-text"><b>Висновок: {{.Summary}}</b></p>
+</div>
