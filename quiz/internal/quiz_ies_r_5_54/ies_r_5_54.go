@@ -16,7 +16,7 @@ import (
 
 const QUIZ_NAME = "quiz_ies_r_5_54"
 const QUIZ_LABEL = "Дослідження впливу травмівної події (IES-R) 5.54"
-const QUIZ_SHORT_LABEL = "Методика 5.54"
+const QUIZ_SHORT_LABEL = "5.54 IES-R"
 
 func GetQuizUrl() string {
 	return "/" + QUIZ_NAME

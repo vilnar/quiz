@@ -16,8 +16,8 @@ import (
 )
 
 const QUIZ_NAME = "quiz_minimult"
-const QUIZ_LABEL = "міні-мульт"
-const QUIZ_SHORT_LABEL = "міні-мульт"
+const QUIZ_LABEL = "Скорочений багатофакторний опитувальник для дослідження особистості «міні-мульт»"
+const QUIZ_SHORT_LABEL = "Міні-мульт"
 
 func GetQuizUrl() string {
 	return "/" + QUIZ_NAME

@@ -15,8 +15,8 @@ import (
 )
 
 const QUIZ_NAME = "quiz_eysenck"
-const QUIZ_LABEL = "дослідження психічний станів Г. Айзенк"
-const QUIZ_SHORT_LABEL = "дослідження Г. Айзенк"
+const QUIZ_LABEL = "Дослідження психічний станів Г. Айзенк"
+const QUIZ_SHORT_LABEL = "Дослідження Г. Айзенк"
 
 func GetQuizUrl() string {
 	return "/" + QUIZ_NAME

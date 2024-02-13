@@ -15,7 +15,7 @@ import (
 )
 
 const QUIZ_NAME = "quiz_nps_prognoz_2"
-const QUIZ_LABEL = "дослідження рівня нервово-психічної стійкості військовослужбовців – Прогноз 2 (В. Рибніков)"
+const QUIZ_LABEL = "Дослідження рівня нервово-психічної стійкості військовослужбовців – Прогноз 2 (В. Рибніков)"
 const QUIZ_SHORT_LABEL = "5.48 НПС"
 
 func GetQuizUrl() string {

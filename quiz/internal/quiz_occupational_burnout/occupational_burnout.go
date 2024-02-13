@@ -15,8 +15,8 @@ import (
 )
 
 const QUIZ_NAME = "quiz_occupational_burnout"
-const QUIZ_LABEL = "дослідження емоційного вигорання"
-const QUIZ_SHORT_LABEL = "5.45"
+const QUIZ_LABEL = "Дослідження емоційного вигорання"
+const QUIZ_SHORT_LABEL = "5.45 Емоційне вигорання"
 
 func GetQuizUrl() string {
 	return "/" + QUIZ_NAME

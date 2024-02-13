@@ -15,7 +15,7 @@ import (
 )
 
 const QUIZ_NAME = "quiz_lnp"
-const QUIZ_LABEL = "визначення рівня невротизації та психопатизаці (РНП)"
+const QUIZ_LABEL = "Визначення рівня невротизації та психопатизаці (РНП)"
 const QUIZ_SHORT_LABEL = "РНП"
 
 func GetQuizUrl() string {

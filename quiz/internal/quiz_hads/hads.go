@@ -15,7 +15,7 @@ import (
 )
 
 const QUIZ_NAME = "quiz_hads"
-const QUIZ_LABEL = "госпітальна шкала тривоги та депресії (HADS)"
+const QUIZ_LABEL = "Госпітальна шкала тривоги та депресії (HADS)"
 const QUIZ_SHORT_LABEL = "HADS"
 
 func GetQuizUrl() string {

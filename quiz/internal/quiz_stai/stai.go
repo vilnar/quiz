@@ -15,8 +15,8 @@ import (
 )
 
 const QUIZ_NAME = "quiz_stai"
-const QUIZ_LABEL = "Шкала тривоги Спілбергера – Ханіна 5.51"
-const QUIZ_SHORT_LABEL = "Шкала Спілбергера – Ханіна"
+const QUIZ_LABEL = "Шкала тривоги Спілбергера – Ханіна"
+const QUIZ_SHORT_LABEL = "5.51 Шкала Спілбергера – Ханіна"
 
 func GetQuizUrl() string {
 	return "/" + QUIZ_NAME
