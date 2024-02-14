@@ -11,20 +11,31 @@ import (
 	"quiz/internal/common"
 	"quiz/internal/person"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_label"
 	"quiz/internal/quiz_template"
 	"reflect"
 )
 
-const QUIZ_NAME = "quiz_minimult"
-const QUIZ_LABEL = "Скорочений багатофакторний опитувальник для дослідження особистості «міні-мульт»"
-const QUIZ_SHORT_LABEL = "Міні-мульт"
+const QUIZ_LABEL_ID = 6
+
+func GetQuizName() string {
+	return quiz_label.GetQuizLabelById(QUIZ_LABEL_ID).Name
+}
+
+func GetQuizLabel() string {
+	return quiz_label.GetQuizLabelById(QUIZ_LABEL_ID).Label
+}
+
+func GetQuizShortLabel() string {
+	return quiz_label.GetQuizLabelById(QUIZ_LABEL_ID).ShortLabel
+}
 
 func GetQuizUrl() string {
-	return "/" + QUIZ_NAME
+	return "/" + GetQuizName()
 }
 
 func GetCheckQuizUrl() string {
-	return "/check_" + QUIZ_NAME
+	return "/check_" + GetQuizName()
 }
 
 type Answers struct {
@@ -243,7 +254,7 @@ func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
 		QuizResult QuizResult
 		QuizName   string
 	}{
-		QUIZ_LABEL,
+		GetQuizLabel(),
 		p,
 		qResult,
 		q.Name,

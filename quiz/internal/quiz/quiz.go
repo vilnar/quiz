@@ -5,6 +5,7 @@ import (
 	"log"
 	"quiz/internal/appdb"
 	"quiz/internal/common"
+	"quiz/internal/quiz_label"
 	"time"
 )
 
@@ -18,17 +19,21 @@ type QuizDb struct {
 	CreateAt string
 }
 
-func SaveQuiz(personId int64, name string, label string, answers string, score int) int64 {
+func (q *QuizDb) SetLabelByName() {
+	q.Label = quiz_label.GetQuizLabelByName(q.Name).Label
+}
+
+func SaveQuiz(personId int64, name string, answers string, score int) int64 {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT INTO quiz(person_id, name, label, answers, score, create_at) VALUES (?, ?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO quiz(person_id, name, answers, score, create_at) VALUES (?, ?, ?, ?, ?)")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	date := time.Now().Format("2006-01-02 15:04:05")
-	res, err := stmt.Exec(personId, name, label, answers, score, date)
+	res, err := stmt.Exec(personId, name, answers, score, date)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,7 +50,7 @@ func FindQuizById(id int64) QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	res, err := db.Query("SELECT id, person_id, name, label, answers, score, create_at FROM quiz WHERE id = ?", id)
+	res, err := db.Query("SELECT id, person_id, name, answers, score, create_at FROM quiz WHERE id = ?", id)
 	defer res.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -53,10 +58,11 @@ func FindQuizById(id int64) QuizDb {
 
 	var q QuizDb
 	if res.Next() {
-		err := res.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Score, &q.CreateAt)
+		err := res.Scan(&q.Id, &q.PersonId, &q.Name, &q.Answers, &q.Score, &q.CreateAt)
 		if err != nil {
 			log.Fatal(err)
 		}
+		q.SetLabelByName()
 	} else {
 		log.Printf("No quiz found")
 	}
@@ -75,7 +81,7 @@ func FindQuizListByPersonId(personId int64, page int) QuizWithPersonDbList {
 	}
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ? ORDER BY q.id DESC LIMIT ? OFFSET ?", personId, pr.Limit, pr.Offset)
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE q.person_id = ? ORDER BY q.id DESC LIMIT ? OFFSET ?", personId, pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -84,10 +90,11 @@ func FindQuizListByPersonId(personId int64, page int) QuizWithPersonDbList {
 	var result []QuizWithPersonDb
 	for rows.Next() {
 		var q QuizWithPersonDb
-		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic, &q.PersonUnit)
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Answers, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic, &q.PersonUnit)
 		if err != nil {
 			log.Fatal(err)
 		}
+		q.SetLabelByName()
 		result = append(result, q)
 	}
 	if err = rows.Err(); err != nil {
@@ -106,7 +113,7 @@ func FindAllQuizByPersonId(personId int64) []QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, person_id, name, label, answers, score, create_at FROM quiz WHERE person_id = ?", personId)
+	rows, err := db.Query("SELECT id, person_id, name, answers, score, create_at FROM quiz WHERE person_id = ?", personId)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -115,10 +122,11 @@ func FindAllQuizByPersonId(personId int64) []QuizDb {
 	var result []QuizDb
 	for rows.Next() {
 		var q QuizDb
-		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Score, &q.CreateAt)
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Answers, &q.Score, &q.CreateAt)
 		if err != nil {
 			log.Fatal(err)
 		}
+		q.SetLabelByName()
 		result = append(result, q)
 	}
 	if err = rows.Err(); err != nil {
@@ -155,7 +163,7 @@ func FindQuizWithPersonList(page int) QuizWithPersonDbList {
 	count := appdb.GetCountRowsInTable(db, "quiz")
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -164,10 +172,11 @@ func FindQuizWithPersonList(page int) QuizWithPersonDbList {
 	var result []QuizWithPersonDb
 	for rows.Next() {
 		var q QuizWithPersonDb
-		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic, &q.PersonUnit)
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Answers, &q.Score, &q.CreateAt, &q.PersonLastName, &q.PersonFirstName, &q.PersonPatronymic, &q.PersonUnit)
 		if err != nil {
 			log.Fatal(err)
 		}
+		q.SetLabelByName()
 		result = append(result, q)
 	}
 	if err = rows.Err(); err != nil {
@@ -186,7 +195,7 @@ func FindQuizByDateRange(start, end string) []QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, person_id, name, label, answers, score, create_at FROM quiz WHERE create_at BETWEEN ? AND ?", start, end)
+	rows, err := db.Query("SELECT id, person_id, name, answers, score, create_at FROM quiz WHERE create_at BETWEEN ? AND ?", start, end)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -195,10 +204,11 @@ func FindQuizByDateRange(start, end string) []QuizDb {
 	var result []QuizDb
 	for rows.Next() {
 		var q QuizDb
-		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Score, &q.CreateAt)
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Answers, &q.Score, &q.CreateAt)
 		if err != nil {
 			log.Fatal(err)
 		}
+		q.SetLabelByName()
 		result = append(result, q)
 	}
 	if err = rows.Err(); err != nil {
@@ -212,7 +222,7 @@ func FindQuizByDateRangeAndUnit(personUnit, start, end string) []QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.label, q.answers, q.score, q.create_at FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE (q.create_at BETWEEN ? AND ?) AND LOWER(p.unit) LIKE ?", start, end, "%"+personUnit+"%")
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE (q.create_at BETWEEN ? AND ?) AND LOWER(p.unit) LIKE ?", start, end, "%"+personUnit+"%")
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -221,10 +231,11 @@ func FindQuizByDateRangeAndUnit(personUnit, start, end string) []QuizDb {
 	var result []QuizDb
 	for rows.Next() {
 		var q QuizDb
-		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Label, &q.Answers, &q.Score, &q.CreateAt)
+		err := rows.Scan(&q.Id, &q.PersonId, &q.Name, &q.Answers, &q.Score, &q.CreateAt)
 		if err != nil {
 			log.Fatal(err)
 		}
+		q.SetLabelByName()
 		result = append(result, q)
 	}
 	if err = rows.Err(); err != nil {

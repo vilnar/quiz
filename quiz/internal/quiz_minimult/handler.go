@@ -16,7 +16,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	if person.IsEmpyPersonNameFromRequest(r) {
-		person.GetPersonNameFormHandler(w, r, QUIZ_NAME)
+		person.GetPersonNameFormHandler(w, r, GetQuizName())
 		return
 	}
 	p := person.GetPersonDbFromRequest(r)
@@ -42,7 +42,7 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 		FormAction     string
 		Person         person.PersonDb
 	}{
-		QUIZ_SHORT_LABEL,
+		GetQuizShortLabel(),
 		time.Now().Format("02.01.2006"),
 		common.GetServerInfo(r) + GetCheckQuizUrl(),
 		p,
@@ -67,13 +67,13 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	answers := getAnswersFromRequest(r)
 
 	personId := person.UpdateOrSavePerson(p)
-	quizId := quiz.SaveQuiz(personId, QUIZ_NAME, QUIZ_LABEL, common.StructToJsonString(answers), 0)
+	quizId := quiz.SaveQuiz(personId, GetQuizName(), common.StructToJsonString(answers), 0)
 	if quizId < 1 {
 		log.Printf("Not save quiz")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	quiz_common.QuizGreetingHandler(w, personId, QUIZ_SHORT_LABEL)
+	quiz_common.QuizGreetingHandler(w, personId, GetQuizShortLabel())
 }
 
 func GetAdminQuizResultHandler(w http.ResponseWriter, r *http.Request, q quiz.QuizDb) {

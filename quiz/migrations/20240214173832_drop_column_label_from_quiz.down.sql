@@ -1,0 +1,1 @@
+ALTER TABLE `quiz` ADD `label` VARCHAR(255) NOT NULL;
