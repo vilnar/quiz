@@ -13,7 +13,7 @@ type QuizDb struct {
 	Id       int64
 	PersonId int64
 	Name     string
-	Label    string
+	Label    string // take data not from db
 	Answers  string
 	Score    int
 	CreateAt string
