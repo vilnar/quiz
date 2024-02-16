@@ -47,45 +47,46 @@ func (p PersonDb) GetGenderLabel() string {
 	}
 }
 
-func (p PersonDb) IsValidData() bool {
-	if utf8.RuneCountInString(p.LastName) < 1 {
-		log.Printf("not valid person last name")
-		return false
+func (p PersonDb) CheckNames() error {
+	if utf8.RuneCountInString(p.LastName) < 2 {
+		return fmt.Errorf("Не вірно введено призвіще: %s", p.LastName)
 	}
-	if utf8.RuneCountInString(p.FirstName) < 1 {
-		log.Printf("not valid person first name")
-		return false
+	if utf8.RuneCountInString(p.FirstName) < 2 {
+		return fmt.Errorf("Не вірно введено ім'я: %s", p.FirstName)
 	}
-	if utf8.RuneCountInString(p.Patronymic) < 1 {
-		log.Printf("not valid person patronymic")
-		return false
-	}
-	if p.Age < 1 {
-		log.Printf("not valid person age")
-		return false
-	}
-	if utf8.RuneCountInString(p.MilitaryName) < 2 {
-		log.Printf("not valid person military name")
-		return false
-	}
-	if utf8.RuneCountInString(p.Gender) < 2 {
-		log.Printf("not valid person gender by count in string")
-		return false
-	}
-	if p.Gender != "male" && p.Gender != "female" {
-		log.Printf("not valid person gender")
-		return false
-	}
-	if utf8.RuneCountInString(p.Unit) < 2 {
-		log.Printf("not valid person unit")
-		return false
-	}
-	if utf8.RuneCountInString(p.Specialty) < 2 {
-		log.Printf("not valid person specialty")
-		return false
+	if utf8.RuneCountInString(p.Patronymic) < 2 {
+		return fmt.Errorf("Не вірно введено по батькові: %s", p.Patronymic)
 	}
 
-	return true
+	return nil
+}
+
+func (p PersonDb) CheckAll() error {
+	err := p.CheckNames()
+	if err != nil {
+		return err
+	}
+
+	if p.Age < 1 {
+		return fmt.Errorf("Не вірно введено вік: %s", p.Age)
+	}
+	if utf8.RuneCountInString(p.MilitaryName) < 2 {
+		return fmt.Errorf("Не вірно введено військове звання: %s", p.MilitaryName)
+	}
+	if utf8.RuneCountInString(p.Gender) < 2 {
+		return fmt.Errorf("Не вірно введено стать: %s", p.Gender)
+	}
+	if p.Gender != "male" && p.Gender != "female" {
+		return fmt.Errorf("Не вірно вибрано стать: %s", p.Gender)
+	}
+	if utf8.RuneCountInString(p.Unit) < 2 {
+		return fmt.Errorf("Не вірно введено підрозділ: %s", p.Unit)
+	}
+	if utf8.RuneCountInString(p.Specialty) < 2 {
+		return fmt.Errorf("Не вірно введено спеціальність: %s", p.Specialty)
+	}
+
+	return nil
 }
 
 type PersonDbList struct {

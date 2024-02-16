@@ -23,6 +23,11 @@ func GetQuizHandler(w http.ResponseWriter, r *http.Request) {
 	if p.CheckId() {
 		p = person.FindPersonById(p.Id)
 	}
+	err := p.CheckNames()
+	if err != nil {
+		common.BadRequestHandler(w, r, err.Error(), false)
+		return
+	}
 
 	tmpl, err := template.ParseFiles(
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "kotenov_5_57.html"),
@@ -60,8 +65,9 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	p := person.GetPersonDbFromRequest(r)
-	if !p.IsValidData() {
-		http.Error(w, "Bad request", http.StatusBadRequest)
+	err := p.CheckAll()
+	if err != nil {
+		common.BadRequestHandler(w, r, err.Error(), false)
 		return
 	}
 	answers := getAnswersFromRequest(r)
