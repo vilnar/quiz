@@ -1,4 +1,4 @@
 <div class="mb-3 result-text">
-    <p class="{{if .IsHighAnxiety}} text-danger {{end}} text-success">Тривога ({{ .Anxiety }}) {{.AnxietyDescription}}</p>
-    <p class="{{if .IsHighDepression}} text-danger {{end}} text-success">Депресія ({{ .Depression }}) {{.DepressionDescription}}</p>
+    <p class="{{if .IsHighAnxiety}} text-danger {{else}} text-success {{end}}">Тривога ({{ .Anxiety }}) {{.AnxietyDescription}}</p>
+    <p class="{{if .IsHighDepression}} text-danger {{else}} text-success {{end}}">Депресія ({{ .Depression }}) {{.DepressionDescription}}</p>
 </div>
