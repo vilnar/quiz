@@ -2,6 +2,6 @@
     <p class="">вторгнення: {{.Intrusion}}</p>
     <p class="">уникнення: {{.Avoidance}}</p>
     <p class="">фізіологічна збудливість: {{.PhysiologicalExcitability}}</p>
-    <p class="{{if .IsHighReaction}} text-danger {{end}}">загальна оцінка {{.TotalScore}}</p>
-    <p class="{{if .IsHighReaction}} text-danger {{end}}">{{.Summary}}</p>
+    <p class="{{if .IsHighReaction}} text-danger {{end}}">загальна оцінка: {{.TotalScore}}</p>
+    <p class="{{if .IsHighReaction}} text-danger {{end}}"><b>{{.Summary}}</b></p>
 </div>

@@ -1,5 +1,5 @@
 <div class="mb-3 result-text">
-    <p class="mb-3 {{if .IsLie }} text-danger {{else}} text-success {{end}}">Достовірність: ({{ .Lie }}) {{ .LieDescription }}</p>
-    <p class="{{if lt .NPS 4}} text-danger {{end}}">Нервово-психічна стійкість: ({{ .NPS }}) рівень {{.NPSLevelDescription}}</p>
-    <p class="{{if lt .NPS 4}} text-danger {{end}}">Заключення: {{.NPSDescription}}</p>
+    <p class="mb-3 {{if .IsLie }} text-danger {{else}} text-success {{end}}"><b>Достовірність ({{ .Lie }}):</b> {{ .LieDescription }}</p>
+    <p class="{{if lt .NPS 4}} text-danger {{end}}"><b>Нервово-психічна стійкість ({{ .NPS }}):</b> рівень {{.NPSLevelDescription}}</p>
+    <p class="{{if lt .NPS 4}} text-danger {{end}}"><b>Заключення:</b> {{.NPSDescription}}</p>
 </div>

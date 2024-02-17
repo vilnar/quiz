@@ -1,26 +1,26 @@
 <div class="mb-3">
     <div class="mb-4 result-text">
-        <p class="mb-3 {{if gt .L 69}} text-danger {{else}} text-success {{end}}">Достовірність: ({{ .L }}) {{ .Lie_description }}</p>
-        <p class="{{if gt .PTSD 69}} text-danger {{end}}">ПТСР (посттравматичний стресовий розлад): ({{ .PTSD }}) {{ .PTSD_description }}</p>
-        <p class="{{if gt .GSR 69}} text-danger {{end}}">ГСР (гострий стресовий розлад): ({{ .GSR }}) {{ .GSR_description }}</p>
-        <p class="{{if gt .Depression 69}} text-danger {{end}}">Депресія: ({{ .Depression }}) {{ .Depression_description }}</p>
+        <p class="mb-3 {{if gt .L 69}} text-danger {{else}} text-success {{end}}"><b>Достовірність ({{ .L }}):</b> {{ .Lie_description }}</p>
+        <p class="{{if gt .PTSD 69}} text-danger {{end}}"><b>ПТСР (посттравматичний стресовий розлад) ({{ .PTSD }}):</b> {{ .PTSD_description }}</p>
+        <p class="{{if gt .GSR 69}} text-danger {{end}}"><b>ГСР (гострий стресовий розлад) ({{ .GSR }}):</b> {{ .GSR_description }}</p>
+        <p class="{{if gt .Depression 69}} text-danger {{end}}"><b>Депресія ({{ .Depression }}):</b> {{ .Depression_description }}</p>
     </div>
     <div class="row d-print-none">
         <div class="col-auto me-auto">
-            <p class="{{if gt .A1 69}} text-danger {{end}}">A1: {{.A1}}</p>
-            <p class="{{if gt .B_ 69}} text-danger {{end}}">B: {{.B_}}</p>
-            <p class="{{if gt .C_ 69}} text-danger {{end}}">C: {{.C_}}</p>
-            <p class="{{if gt .D_ 69}} text-danger {{end}}">D: {{.D_}}</p>
-            <p class="{{if gt .F_ 69}} text-danger {{end}}">F: {{.F_}}</p>
-            <p class="{{if gt .Ag 69}} text-danger {{end}}">Ag: {{.Ag}}</p>
+            <p class="{{if gt .A1 69}} text-danger {{end}}">A1 (подія травми): {{.A1}}</p>
+            <p class="{{if gt .B_ 69}} text-danger {{end}}">B (повторне переживання травми): {{.B_}}</p>
+            <p class="{{if gt .C_ 69}} text-danger {{end}}">C (симптоми "уникнення"): {{.C_}}</p>
+            <p class="{{if gt .D_ 69}} text-danger {{end}}">D (симптоми гіперактивації): {{.D_}}</p>
+            <p class="{{if gt .F_ 69}} text-danger {{end}}">F (дистрес і дезадаптація): {{.F_}}</p>
+            <p class="{{if gt .Ag 69}} text-danger {{end}}">Ag (агравація): {{.Ag}}</p>
         </div>
         <div class="col-auto me-auto">
-            <p class="{{if gt .Di 69}} text-danger {{end}}">Di: {{.Di}}</p>
-            <p class="{{if gt .B 69}} text-danger {{end}}">b: {{.B}}</p>
-            <p class="{{if gt .C 69}} text-danger {{end}}">c: {{.C}}</p>
-            <p class="{{if gt .D 69}} text-danger {{end}}">d: {{.D}}</p>
-            <p class="{{if gt .E 69}} text-danger {{end}}">e: {{.E}}</p>
-            <p class="{{if gt .F 69}} text-danger {{end}}">f: {{.F}}</p>
+            <p class="{{if gt .Di 69}} text-danger {{end}}">Di (дисимуляція): {{.Di}}</p>
+            <p class="{{if gt .B 69}} text-danger {{end}}">b (дисоціативні симптоми): {{.B}}</p>
+            <p class="{{if gt .C 69}} text-danger {{end}}">c (повторне переживання травми "вторгнення"): {{.C}}</p>
+            <p class="{{if gt .D 69}} text-danger {{end}}">d (симптоми "уникнення"): {{.D}}</p>
+            <p class="{{if gt .E 69}} text-danger {{end}}">e (симптоми гіперактивації): {{.E}}</p>
+            <p class="{{if gt .F 69}} text-danger {{end}}">f (дистрес і дезадаптація): {{.F}}</p>
         </div>
     </div>
 </div>
