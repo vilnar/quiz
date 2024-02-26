@@ -1,12 +1,10 @@
 REM @echo off
 echo update...
-git pull origin master
+git pull origin master || echo ERROR && pause && exit /b
 git log -1 --oneline
 echo build...
-go build -o ./bin/SERVER.exe quiz/cmd/server
-go build -o ./bin/setup.exe quiz/cmd/setup
-go build -o ./bin/dump-db.exe quiz/cmd/exportdb
-go build -o ./bin/import-db.exe quiz/cmd/importdb
+go build -o ./bin/RUN.exe quiz/cmd/server || echo ERROR && pause && exit /b
+go build -o ./bin/setup.exe quiz/cmd/setup || echo ERROR && pause && exit /b
 echo:
 echo Done!
 pause
