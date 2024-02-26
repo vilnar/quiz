@@ -92,6 +92,8 @@ func main() {
 	mux.HandleFunc("/admin/check_quiz_report_by_date", apphandler.BasicAuth(apphandler.CheckQuizReportByDateHandler))
 	mux.HandleFunc("/admin/quiz_report_by_person", apphandler.BasicAuth(apphandler.GetQuizReportByPersonHandler))
 	mux.HandleFunc("/admin/run-mobilehotspot", apphandler.BasicAuth(apphandler.RunMobileHotspotHandler))
+	mux.HandleFunc("/admin/database", apphandler.BasicAuth(apphandler.DatabaseHandler))
+	mux.HandleFunc("/admin/open-explorer-dbdir", apphandler.BasicAuth(apphandler.RunOpenExplorerDbDirHandler))
 
 	apprun.OpenUrl(common.GetServerUrlDefault())
 

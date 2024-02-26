@@ -1,6 +1,7 @@
-async function fetchOpenExplorerDbDumpDir() {
+async function fetchOpenExplorer(e) {
     try {
-        const response = await fetch("/admin/open-explorer-dbdumpdir");
+        url = e.target.getAttribute("data-url")
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
@@ -10,5 +11,5 @@ async function fetchOpenExplorerDbDumpDir() {
         console.error(error);
     }
 }
-const openExplorerBtn = document.getElementById("open-explorer-dbdumpdir");
-openExplorerBtn.addEventListener("click", fetchOpenExplorerDbDumpDir);
+const openExplorerBtn = document.getElementById("open-explorer");
+openExplorerBtn.addEventListener("click", fetchOpenExplorer);

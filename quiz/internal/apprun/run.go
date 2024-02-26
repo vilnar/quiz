@@ -25,12 +25,12 @@ func RunMobileHotspot() {
 	log.Printf("Subprocess %d, exiting\n", cmd.Process.Pid)
 }
 
-func RunOpenExplorerDbDumpDir() {
+func RunOpenExplorer(dir string) {
 	if runtime.GOOS != "windows" {
 		log.Fatalf("needs to be implemented for other platforms")
 	}
-	log.Printf("open dir %s", common.GetDbDumpDir())
-	cmd := exec.Command("cmd", "/C", "start", "explorer.exe", common.GetDbDumpDir())
+	log.Printf("open dir %s", dir)
+	cmd := exec.Command("cmd", "/C", "start", "explorer.exe", dir)
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &out
