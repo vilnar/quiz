@@ -1,1 +1,0 @@
-ALTER TABLE `quiz` ADD `result` JSON NOT NULL;

@@ -59,6 +59,10 @@ func GetDumpFilePath() string {
 	return filepath.Join(GetDbDumpDir(), "quiz.sql")
 }
 
+func GetDbPath() string {
+	return filepath.Join(GetProjectRootPath(), "db", "quiz.db")
+}
+
 func GetExPath() string {
 	ex, err := os.Executable()
 	if err != nil {

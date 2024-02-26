@@ -161,7 +161,7 @@ func FindPersonById(id int64) PersonDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	res, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE id = ?", id)
+	res, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE id = ?", id)
 	defer res.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -184,7 +184,7 @@ func FindPersonListByIds(ids []int64) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	query := fmt.Sprintf("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE id IN (%s)", appdb.Placeholders(len(ids)))
+	query := fmt.Sprintf("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE id IN (%s)", appdb.Placeholders(len(ids)))
 
 	args := appdb.IdsToArgs(ids)
 	rows, err := db.Query(query, args...)
@@ -222,7 +222,7 @@ func GetPersonList(page int) PersonDbList {
 
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-	rows, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
+	rows, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -253,7 +253,7 @@ func FindPersonListByFullName(sqLastName, sqFirstName, sqPatronymic string, limi
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(last_name) LIKE ? AND LOWER(first_name) LIKE ? AND LOWER(patronymic) LIKE ? LIMIT ?", "%"+sqLastName+"%", "%"+sqFirstName+"%", "%"+sqPatronymic+"%", limit)
+	rows, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE LOWER(last_name) LIKE LOWER(?) AND LOWER(first_name) LIKE LOWER(?) AND LOWER(patronymic) LIKE LOWER(?) LIMIT ?", "%"+sqLastName+"%", "%"+sqFirstName+"%", "%"+sqPatronymic+"%", limit)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -284,7 +284,7 @@ func FindPersonListByLastName(sqLastName string, limit int) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, last_name, first_name, patronymic, military_name, age, gender, unit, specialty, create_at, update_at FROM person WHERE LOWER(last_name) LIKE ? LIMIT ?", "%"+sqLastName+"%", limit)
+	rows, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE LOWER(last_name) LIKE LOWER(?) LIMIT ?", "%"+sqLastName+"%", limit)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)

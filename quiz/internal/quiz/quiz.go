@@ -50,7 +50,7 @@ func FindQuizById(id int64) QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	res, err := db.Query("SELECT id, person_id, name, answers, score, create_at FROM quiz WHERE id = ?", id)
+	res, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q WHERE id = ?", id)
 	defer res.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -113,7 +113,7 @@ func FindAllQuizByPersonId(personId int64) []QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, person_id, name, answers, score, create_at FROM quiz WHERE person_id = ?", personId)
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q  WHERE person_id = ?", personId)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -163,7 +163,7 @@ func FindQuizWithPersonList(page int) QuizWithPersonDbList {
 	count := appdb.GetCountRowsInTable(db, "quiz")
 	pr := appdb.NewPaginator(count, common.PAGE_SIZE_DEFAULT, page)
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at, p.last_name, p.first_name, p.patronymic, p.unit FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id ORDER BY q.id DESC LIMIT ? OFFSET ?", pr.Limit, pr.Offset)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -195,7 +195,7 @@ func FindQuizByDateRange(start, end string) []QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, person_id, name, answers, score, create_at FROM quiz WHERE create_at BETWEEN ? AND ?", start, end)
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q  WHERE create_at BETWEEN ? AND ?", start, end)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -222,7 +222,7 @@ func FindQuizByDateRangeAndUnit(personUnit, start, end string) []QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE (q.create_at BETWEEN ? AND ?) AND LOWER(p.unit) LIKE ?", start, end, "%"+personUnit+"%")
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE (q.create_at BETWEEN ? AND ?) AND LOWER(p.unit) LIKE LOWER(?)", start, end, "%"+personUnit+"%")
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)

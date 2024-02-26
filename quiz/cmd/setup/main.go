@@ -1,40 +1,67 @@
 package main
 
 import (
-	// "database/sql"
+	"database/sql"
 	"errors"
+	"flag"
 	"fmt"
-	mysqlDriver "github.com/go-sql-driver/mysql"
+	_ "github.com/mattn/go-sqlite3"
+	// mysqlDriver "github.com/go-sql-driver/mysql"
 	"github.com/golang-migrate/migrate/v4"
-	_ "github.com/golang-migrate/migrate/v4/database/mysql"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/golang-migrate/migrate/v4/database/sqlite3"
+	"github.com/golang-migrate/migrate/v4/source/file"
 	"log"
 	"quiz/internal/common"
 )
 
 func main() {
 	fmt.Printf("run setup\n\n")
-	runMigrate()
+
+	isDrop := flag.Bool("drop", false, "drop db")
+	flag.Parse()
+
+	runMigrate(*isDrop)
 }
 
-func runMigrate() {
-	cfg := mysqlDriver.Config{
-		User:                 common.GetDotEnvVariable("DBUSER"),
-		Passwd:               common.GetDotEnvVariable("DBPASS"),
-		Net:                  "tcp",
-		Addr:                 common.GetDotEnvVariable("DBADDR"),
-		DBName:               common.GetDotEnvVariable("DBNAME"),
-		AllowNativePasswords: true,
-	}
-	log.Printf("DSN %+v\n", cfg.FormatDSN())
-	log.Printf("start migration!\n")
-	m, err := migrate.New("file://quiz/migrations", fmt.Sprintf("mysql://%s", cfg.FormatDSN()))
+func runMigrate(isDrop bool) {
+	// log.Printf("DSN %+v\n", cfg.FormatDSN())
+	//Create a new SQLite database
+	db, err := sql.Open("sqlite3", common.GetDbPath())
 	if err != nil {
-		log.Fatalf("Error loading migrations: %v", err)
+		log.Fatalf("Error open sqlite3: %v", err)
 	}
-	err = m.Up()
+	defer db.Close()
+
+	driver, err := sqlite3.WithInstance(db, &sqlite3.Config{})
+	if err != nil {
+		log.Fatalf("Error load driver sqlite3: %v", err)
+	}
+
+	fSrc, err := (&file.File{}).Open("./quiz/migrations")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	m, err := migrate.NewWithInstance(
+		"file",
+		fSrc,
+		"sqlite3",
+		driver,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("start migration!\n")
+	if isDrop {
+		err = m.Drop()
+		log.Printf("run drop!\n")
+	} else {
+		err = m.Up()
+		log.Printf("run up!\n")
+	}
 	if err != nil && !errors.Is(err, migrate.ErrNoChange) {
-		log.Printf("Error migrating Up: %v", err)
+		log.Fatalf("Error migrating Up: %v", err)
 	}
 	log.Printf("migratation done!\n")
 }

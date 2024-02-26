@@ -2,7 +2,7 @@ package appdb
 
 import (
 	"database/sql"
-	"github.com/go-sql-driver/mysql"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"quiz/internal/common"
 )
@@ -10,18 +10,8 @@ import (
 var dbConnection *sql.DB
 
 func CreateDbConnection() *sql.DB {
-	// connection
-	cfg := mysql.Config{
-		User:                 common.GetDotEnvVariable("DBUSER"),
-		Passwd:               common.GetDotEnvVariable("DBPASS"),
-		Net:                  "tcp",
-		Addr:                 common.GetDotEnvVariable("DBADDR"),
-		DBName:               common.GetDotEnvVariable("DBNAME"),
-		AllowNativePasswords: true,
-	}
-
 	var err error
-	dbConnection, err = sql.Open("mysql", cfg.FormatDSN())
+	dbConnection, err = sql.Open("sqlite3", common.GetDbPath())
 	if err != nil {
 		log.Fatal(err)
 	}
