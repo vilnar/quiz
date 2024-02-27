@@ -227,7 +227,7 @@ func CheckQuizReportByDateHandler(w http.ResponseWriter, r *http.Request) {
 	// log.Print(common.DebugRequest(r))
 	r.ParseForm()
 
-	personUnit := r.Form.Get("person_unit")
+	personUnit := common.NormalizeString(r.Form.Get("person_unit"))
 	isEmptyPersonUnit := utf8.RuneCountInString(personUnit) < 1
 	start, end, err := getDateFromRequest(r)
 	if err != nil {

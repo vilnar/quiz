@@ -61,7 +61,7 @@ func runMigrate(isDrop bool) {
 		log.Printf("run up!\n")
 	}
 	if err != nil && !errors.Is(err, migrate.ErrNoChange) {
-		log.Fatalf("Error migrating Up: %v", err)
+		log.Fatalf("Error migrating: %v", err)
 	}
 	log.Printf("migratation done!\n")
 }

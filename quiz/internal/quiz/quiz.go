@@ -145,7 +145,7 @@ type QuizWithPersonDb struct {
 }
 
 func (q QuizWithPersonDb) GetPersonFullName() string {
-	return fmt.Sprintf("%s %s %s", q.PersonLastName, q.PersonFirstName, q.PersonPatronymic)
+	return fmt.Sprintf("%s %s %s", common.TitleString(q.PersonLastName), common.TitleString(q.PersonFirstName), common.TitleString(q.PersonPatronymic))
 }
 
 type QuizWithPersonDbList struct {
@@ -222,7 +222,7 @@ func FindQuizByDateRangeAndUnit(personUnit, start, end string) []QuizDb {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE (q.create_at BETWEEN ? AND ?) AND LOWER(p.unit) LIKE LOWER(?)", start, end, "%"+personUnit+"%")
+	rows, err := db.Query("SELECT q.id, q.person_id, q.name, q.answers, q.score, q.create_at FROM quiz AS q LEFT JOIN person AS p ON q.person_id = p.id WHERE (q.create_at BETWEEN ? AND ?) AND p.unit LIKE ?", start, end, "%"+personUnit+"%")
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)

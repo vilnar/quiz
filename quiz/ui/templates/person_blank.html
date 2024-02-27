@@ -5,15 +5,15 @@
 <input class="form-control" type="hidden" name="person_patronymic" value="{{.Patronymic}}">
 <div class="mb-3">
     <label class="form-check-label" for="person_last_name_d">Прізвище</label>
-    <input class="form-control" type="text" name="person_last_name_d" value="{{.LastName}}" disabled>
+    <input class="form-control" type="text" name="person_last_name_d" value="{{.GetLastName}}" disabled>
 </div>
 <div class="mb-3">
     <label class="form-check-label" for="person_last_name_d">Ім'я</label>
-    <input class="form-control" type="text" name="person_first_name_d" value="{{.FirstName}}" disabled>
+    <input class="form-control" type="text" name="person_first_name_d" value="{{.GetFirstName}}" disabled>
 </div>
 <div class="mb-3">
     <label class="form-check-label" for="person_last_name_d">По батькові</label>
-    <input class="form-control" type="text" name="person_patronymic_d" value="{{.Patronymic}}" disabled>
+    <input class="form-control" type="text" name="person_patronymic_d" value="{{.GetPatronymic}}" disabled>
 </div>
 
 {{if .CheckId }}

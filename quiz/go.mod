@@ -13,4 +13,5 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.16 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )

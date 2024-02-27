@@ -25,6 +25,7 @@ func GetSearchQueryFromRequest(r *http.Request) string {
 		return ""
 	}
 	sq = strings.Trim(sq, "\"")
+	sq = NormalizeString(sq)
 	return sq
 }
 

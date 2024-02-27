@@ -108,7 +108,19 @@ func (p PersonDbList) FindPersonInList(id int64) PersonDb {
 }
 
 func (p Person) GetFullName() string {
-	return fmt.Sprintf("%s %s %s", p.LastName, p.FirstName, p.Patronymic)
+	return fmt.Sprintf("%s %s %s", common.TitleString(p.LastName), common.TitleString(p.FirstName), common.TitleString(p.Patronymic))
+}
+
+func (p Person) GetLastName() string {
+	return common.TitleString(p.LastName)
+}
+
+func (p Person) GetFirstName() string {
+	return common.TitleString(p.FirstName)
+}
+
+func (p Person) GetPatronymic() string {
+	return common.TitleString(p.Patronymic)
 }
 
 func SavePerson(p PersonDb) int64 {
@@ -253,7 +265,7 @@ func FindPersonListByFullName(sqLastName, sqFirstName, sqPatronymic string, limi
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE LOWER(last_name) LIKE LOWER(?) AND LOWER(first_name) LIKE LOWER(?) AND LOWER(patronymic) LIKE LOWER(?) LIMIT ?", "%"+sqLastName+"%", "%"+sqFirstName+"%", "%"+sqPatronymic+"%", limit)
+	rows, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE last_name LIKE ? AND first_name LIKE ? AND patronymic LIKE ? LIMIT ?", "%"+sqLastName+"%", "%"+sqFirstName+"%", "%"+sqPatronymic+"%", limit)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -284,7 +296,7 @@ func FindPersonListByLastName(sqLastName string, limit int) PersonDbList {
 	db := appdb.CreateDbConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE LOWER(last_name) LIKE LOWER(?) LIMIT ?", "%"+sqLastName+"%", limit)
+	rows, err := db.Query("SELECT p.id, p.last_name, p.first_name, p.patronymic, p.military_name, p.age, p.gender, p.unit, p.specialty, p.create_at, p.update_at FROM person AS p WHERE last_name LIKE ? LIMIT ?", "%"+sqLastName+"%", limit)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)

@@ -13,36 +13,36 @@ import (
 
 func GetPersonFromRequest(r *http.Request) Person {
 	var person Person
-	person.LastName = r.Form.Get("person_last_name")
-	person.FirstName = r.Form.Get("person_first_name")
-	person.Patronymic = r.Form.Get("person_patronymic")
-	person.MilitaryName = r.Form.Get("person_mil_name")
+	person.LastName = common.NormalizeString(r.Form.Get("person_last_name"))
+	person.FirstName = common.NormalizeString(r.Form.Get("person_first_name"))
+	person.Patronymic = common.NormalizeString(r.Form.Get("person_patronymic"))
+	person.MilitaryName = common.NormalizeString(r.Form.Get("person_mil_name"))
 	person.Age = common.StringToInt(r.Form.Get("person_age"))
-	person.Gender = r.Form.Get("person_gender")
-	person.Unit = r.Form.Get("person_unit")
-	person.Specialty = r.Form.Get("person_specialty")
+	person.Gender = common.NormalizeString(r.Form.Get("person_gender"))
+	person.Unit = common.NormalizeString(r.Form.Get("person_unit"))
+	person.Specialty = common.NormalizeString(r.Form.Get("person_specialty"))
 	return person
 }
 
 func GetPersonDbFromRequest(r *http.Request) PersonDb {
 	var person PersonDb
 	person.Id = common.StringToInt64(r.Form.Get("person_id"))
-	person.LastName = r.Form.Get("person_last_name")
-	person.FirstName = r.Form.Get("person_first_name")
-	person.Patronymic = r.Form.Get("person_patronymic")
-	person.MilitaryName = r.Form.Get("person_mil_name")
+	person.LastName = common.NormalizeString(r.Form.Get("person_last_name"))
+	person.FirstName = common.NormalizeString(r.Form.Get("person_first_name"))
+	person.Patronymic = common.NormalizeString(r.Form.Get("person_patronymic"))
+	person.MilitaryName = common.NormalizeString(r.Form.Get("person_mil_name"))
 	person.Age = common.StringToInt(r.Form.Get("person_age"))
-	person.Gender = r.Form.Get("person_gender")
-	person.Unit = r.Form.Get("person_unit")
-	person.Specialty = r.Form.Get("person_specialty")
+	person.Gender = common.NormalizeString(r.Form.Get("person_gender"))
+	person.Unit = common.NormalizeString(r.Form.Get("person_unit"))
+	person.Specialty = common.NormalizeString(r.Form.Get("person_specialty"))
 	return person
 }
 
 func GetPersonNameFromRequest(r *http.Request) PersonName {
 	p := PersonName{
-		LastName:   r.Form.Get("person_last_name"),
-		FirstName:  r.Form.Get("person_first_name"),
-		Patronymic: r.Form.Get("person_patronymic"),
+		LastName:   common.NormalizeString(r.Form.Get("person_last_name")),
+		FirstName:  common.NormalizeString(r.Form.Get("person_first_name")),
+		Patronymic: common.NormalizeString(r.Form.Get("person_patronymic")),
 	}
 	return p
 }
