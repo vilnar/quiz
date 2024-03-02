@@ -1,4 +1,4 @@
-# Quiz
+# Psychological tests
 
 ## Build examples
 

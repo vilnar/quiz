@@ -47,11 +47,6 @@ type Answers struct {
 	A7 int
 }
 
-func (i *Answers) setProperty(propName string, propValue int) *Answers {
-	reflect.ValueOf(i).Elem().FieldByName(propName).Set(reflect.ValueOf(propValue))
-	return i
-}
-
 type QuizResult struct {
 	Points  int
 	Summary string
@@ -94,18 +89,6 @@ func QuizDeserialization(q quiz.QuizDb) Quiz {
 func GetQuizResultFromQuizDb(q quiz.QuizDb) QuizResult {
 	qd := QuizDeserialization(q)
 	return calcQuizResult(qd.Answers)
-}
-
-func getAnswersFromRequest(r *http.Request) Answers {
-	var answers Answers
-	fields := reflect.VisibleFields(reflect.TypeOf(answers))
-	for _, field := range fields {
-		answers.setProperty(
-			field.Name,
-			common.StringToInt(r.Form.Get(field.Name)),
-		)
-	}
-	return answers
 }
 
 func renderResult(w http.ResponseWriter, q quiz.QuizDb) {

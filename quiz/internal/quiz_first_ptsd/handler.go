@@ -70,7 +70,10 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 		common.BadRequestHandler(w, r, err.Error(), false)
 		return
 	}
-	answers := getAnswersFromRequest(r)
+	// answers := getAnswersFromRequest(r)
+	var answers Answers
+	answers = quiz_common.GetAnswersFromRequest(answers, r)
+	log.Printf("debug %+v\n", answers)
 
 	personId := person.UpdateOrSavePerson(p)
 	quizId := quiz.SaveQuiz(personId, GetQuizName(), common.StructToJsonString(answers), 0)
