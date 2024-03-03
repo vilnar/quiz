@@ -5,65 +5,65 @@
 <input class="form-control" type="hidden" name="person_patronymic" value="{{.Patronymic}}">
 <div class="mb-3">
     <label class="form-check-label" for="person_last_name_d">Прізвище</label>
-    <input class="form-control" type="text" name="person_last_name_d" value="{{.GetLastName}}" disabled>
+    <input class="form-control" type="text" name="person_last_name_d" id="person_last_name_d" value="{{.GetLastName}}" disabled>
 </div>
 <div class="mb-3">
-    <label class="form-check-label" for="person_last_name_d">Ім'я</label>
-    <input class="form-control" type="text" name="person_first_name_d" value="{{.GetFirstName}}" disabled>
+    <label class="form-check-label" for="person_first_name_d">Ім'я</label>
+    <input class="form-control" type="text" name="person_first_name_d" id="person_first_name_d" value="{{.GetFirstName}}" disabled>
 </div>
 <div class="mb-3">
-    <label class="form-check-label" for="person_last_name_d">По батькові</label>
-    <input class="form-control" type="text" name="person_patronymic_d" value="{{.GetPatronymic}}" disabled>
+    <label class="form-check-label" for="person_patronymic_d">По батькові</label>
+    <input class="form-control" type="text" name="person_patronymic_d" id="person_patronymic_d" value="{{.GetPatronymic}}" disabled>
 </div>
 
 {{if .CheckId }}
 <div class="mb-3">
     <label class="form-check-label" for="person_age">Вік</label>
-    <input class="form-control" type="number" name="person_age" value="{{.Age}}" required minlength=2>
+    <input class="form-control" type="number" name="person_age" id="person_age" value="{{.Age}}" required minlength=2>
 </div>
-<input class="form-control" type="hidden" name="person_gender" value="{{.Gender}}">
+<input class="form-control" type="hidden" name="person_gender" id="person_gender" value="{{.Gender}}">
 <div class="mb-3">
     <label class="form-check-label" for="person_unit">Підрозділ</label>
-    <input class="form-control" type="text" name="person_unit" value="{{.Unit}}" required minlength=2>
+    <input class="form-control" type="text" name="person_unit" id="person_unit" value="{{.Unit}}" required minlength=2>
 </div>
 <div class="mb-3">
     <label class="form-check-label" for="person_mil_name">Військове звання</label>
-    <input class="form-control" type="text" name="person_mil_name" value="{{.MilitaryName}}" required minlength=3>
+    <input class="form-control" type="text" name="person_mil_name" id="person_mil_name" value="{{.MilitaryName}}" required minlength=3>
 </div>
 <div class="mb-3">
     <label class="form-check-label" for="person_specialty">Військова спеціальність</label>
-    <input class="form-control" type="text" name="person_specialty" value="{{.Specialty}}" required minlength=3>
+    <input class="form-control" type="text" name="person_specialty" id="person_specialty" value="{{.Specialty}}" required minlength=3>
 </div>
 {{ else }}
 
 <div class="mb-3">
     <label class="form-check-label" for="person_age">Вік</label>
-    <input class="form-control" type="number" name="person_age" required minlength=2>
+    <input class="form-control" type="number" name="person_age" id="person_age" required minlength=2>
 </div>
 <div class="mb-3">
     <fieldset id="group1">
         <legend class="col-form-label">Стать</legend>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="person_gender" value="male" required>
-            <label class="form-check-label" for="person_gender">чоловіча</label>
+            <input class="form-check-input" type="radio" name="person_gender" id="person_gender_male" value="male" required>
+            <label class="form-check-label" for="person_gender_male">чоловіча</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="person_gender" value="female">
-            <label class="form-check-label" for="person_gender">жіноча</label>
+            <input class="form-check-input" type="radio" name="person_gender" id="person_gender_female" value="female">
+            <label class="form-check-label" for="person_gender_female">жіноча</label>
         </div>
     </fieldset>
 </div>
 <div class="mb-3">
     <label class="form-check-label" for="person_unit">Підрозділ</label>
-    <input class="form-control" type="text" name="person_unit" required minlength=2>
+    <input class="form-control" type="text" name="person_unit" id="person_unit" required minlength=2>
 </div>
 <div class="mb-3">
     <label class="form-check-label" for="person_mil_name">Військове звання</label>
-    <input class="form-control" type="text" name="person_mil_name" required minlength=3>
+    <input class="form-control" type="text" name="person_mil_name" id="person_mil_name" required minlength=3>
 </div>
 <div class="mb-3">
     <label class="form-check-label" for="person_specialty">Військова спеціальність</label>
-    <input class="form-control" type="text" name="person_specialty" required minlength=3>
+    <input class="form-control" type="text" name="person_specialty" id="person_specialty" required minlength=3>
 </div>
 {{ end }}
 <!-- blank -->
