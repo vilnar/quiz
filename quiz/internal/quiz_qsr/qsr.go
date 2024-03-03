@@ -1,18 +1,10 @@
 package quiz_qsr
 
 import (
-	"encoding/json"
 	"fmt"
-	"html/template"
-	"log"
-	"net/http"
-	"path"
-	"quiz/internal/common"
-	"quiz/internal/person"
 	"quiz/internal/quiz"
+	"quiz/internal/quiz_common"
 	"quiz/internal/quiz_label"
-	"quiz/internal/quiz_template"
-	"reflect"
 )
 
 const QUIZ_LABEL_ID = 12
@@ -67,11 +59,6 @@ type Answers struct {
 	A27 int
 	A28 int
 	A29 int
-}
-
-func (i *Answers) setProperty(propName string, propValue int) *Answers {
-	reflect.ValueOf(i).Elem().FieldByName(propName).Set(reflect.ValueOf(propValue))
-	return i
 }
 
 type QuizResult struct {
@@ -135,86 +122,10 @@ func (q QuizResult) IsLowAntisuicidalFactor() bool {
 	return q.AntisuicidalFactor <= 2
 }
 
-type Quiz struct {
-	Id       int64
-	PersonId int64
-	Name     string
-	Label    string
-	Answers  Answers
-	Result   QuizResult
-	Score    int
-	CreateAt string
-}
-
-func QuizDeserialization(q quiz.QuizDb) Quiz {
-	var r Quiz
-	r.Id = q.Id
-	r.PersonId = q.PersonId
-	r.Name = q.Name
-	r.Label = q.Label
-
-	a := Answers{}
-	err := json.Unmarshal([]byte(q.Answers), &a)
-	if err != nil {
-		log.Fatal(err)
-	}
-	r.Answers = a
-
-	r.Score = q.Score
-	r.CreateAt = q.CreateAt
-	return r
-}
-
 func GetQuizResultFromQuizDb(q quiz.QuizDb) QuizResult {
-	qd := QuizDeserialization(q)
-	return calcQuizResult(qd.Answers)
-}
-
-func getAnswersFromRequest(r *http.Request) Answers {
-	var answers Answers
-	fields := reflect.VisibleFields(reflect.TypeOf(answers))
-	for _, field := range fields {
-		answers.setProperty(
-			field.Name,
-			common.StringToInt(r.Form.Get(field.Name)),
-		)
-	}
-	return answers
-}
-
-func renderResult(w http.ResponseWriter, q quiz.QuizDb) {
-	funcMap := common.GetTemplateFuncMapForAdminHeader()
-	mainTemplate := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_one_result.html")
-	header := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
-	footer := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html")
-	files := quiz_template.GetFilesForParseReport(mainTemplate, header, footer)
-	tmpl, err := template.New("quiz_one_result.html").Funcs(funcMap).ParseFiles(files...)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-	p := person.FindPersonById(q.PersonId)
-	qResult := GetQuizResultFromQuizDb(q)
-
-	data := struct {
-		QuizLabel  string
-		Person     person.PersonDb
-		QuizResult QuizResult
-		QuizName   string
-	}{
-		GetQuizLabel(),
-		p,
-		qResult,
-		q.Name,
-	}
-
-	err = tmpl.Execute(w, data)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
+	a := Answers{}
+	quiz_common.DeserializationAnswers(&a, q)
+	return calcQuizResult(a)
 }
 
 func calcQuizResult(a Answers) QuizResult {

@@ -9,6 +9,7 @@ import (
 	"quiz/internal/person"
 	"quiz/internal/quiz"
 	"quiz/internal/quiz_common"
+	"quiz/internal/quiz_template"
 	"time"
 )
 
@@ -70,7 +71,8 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 		common.BadRequestHandler(w, r, err.Error(), false)
 		return
 	}
-	answers := getAnswersFromRequest(r)
+	var answers Answers
+	answers = quiz_common.GetAnswersFromRequest(answers, r)
 
 	personId := person.UpdateOrSavePerson(p)
 	quizId := quiz.SaveQuiz(personId, GetQuizName(), common.StructToJsonString(answers), 0)
@@ -83,5 +85,36 @@ func CheckQuizHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAdminQuizResultHandler(w http.ResponseWriter, r *http.Request, q quiz.QuizDb) {
-	renderResult(w, q)
+	funcMap := common.GetTemplateFuncMapForAdminHeader()
+	mainTemplate := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "quiz_one_result.html")
+	header := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "header.html")
+	footer := path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "admin", "footer.html")
+	files := quiz_template.GetFilesForParseReport(mainTemplate, header, footer)
+	tmpl, err := template.New("quiz_one_result.html").Funcs(funcMap).ParseFiles(files...)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	p := person.FindPersonById(q.PersonId)
+	qResult := GetQuizResultFromQuizDb(q)
+
+	data := struct {
+		QuizLabel  string
+		Person     person.PersonDb
+		QuizResult QuizResult
+		QuizName   string
+	}{
+		GetQuizLabel(),
+		p,
+		qResult,
+		q.Name,
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }
