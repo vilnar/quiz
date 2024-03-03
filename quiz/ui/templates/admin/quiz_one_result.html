@@ -35,6 +35,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="mb-3 p-3 border">
+                        <p class="small text-end"><em>Дата: {{.QuizDate}}</em></p>
                         <!-- quiz_switch_todo -->
                         {{if eq .QuizName "quiz_kotenov_5_57"}}
                             {{template "kotenov_5_57_result_content.html" .QuizResult}}

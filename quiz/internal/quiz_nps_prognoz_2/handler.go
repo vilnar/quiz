@@ -105,11 +105,13 @@ func GetAdminQuizResultHandler(w http.ResponseWriter, r *http.Request, q quiz.Qu
 		Person     person.PersonDb
 		QuizResult QuizResult
 		QuizName   string
+		QuizDate   string
 	}{
 		GetQuizLabel(),
 		p,
 		qResult,
 		q.Name,
+		q.GetCreateAt(),
 	}
 
 	err = tmpl.Execute(w, data)

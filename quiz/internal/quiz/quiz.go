@@ -19,6 +19,10 @@ type QuizDb struct {
 	CreateAt string
 }
 
+func (q QuizDb) GetCreateAt() string {
+	return common.ConvertTimeToDefault(q.CreateAt)
+}
+
 func (q *QuizDb) SetLabelByName() {
 	q.Label = quiz_label.GetQuizLabelByName(q.Name).Label
 }

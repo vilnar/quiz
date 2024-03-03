@@ -32,6 +32,10 @@ type PersonDb struct {
 	UpdateAt string
 }
 
+func (p PersonDb) GetCreateAt() string {
+	return common.ConvertTimeToDefault(p.CreateAt)
+}
+
 func (p PersonDb) CheckId() bool {
 	return p.Id > 0
 }

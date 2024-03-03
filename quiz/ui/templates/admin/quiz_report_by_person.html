@@ -34,7 +34,7 @@
                         <div class="mb-5">
                             {{range $quiz := .QuizList}}
                                 <div class="row mb-3 p-3 border">
-                                    <p class="small text-end"><em>Дата: {{$quiz.CreateAt}}</em></p>
+                                    <p class="small text-end"><em>Дата: {{$quiz.GetCreateAt}}</em></p>
                                     <p class="fw-bold text-center result-text">{{$quiz.Label}}</p> 
                                     <!-- quiz_switch_todo -->
                                     {{if eq $quiz.Name "quiz_kotenov_5_57"}}
