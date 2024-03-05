@@ -35,6 +35,6 @@ func BasicAuth(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		w.Header().Set("WWW-Authenticate", `Basic realm="restricted", charset="UTF-8"`)
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		common.PrintMessageHandler(w, r, "401 Несанкціонований", false, http.StatusUnauthorized)
 	})
 }

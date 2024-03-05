@@ -40,7 +40,7 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request, message string, isA
 	}
 }
 
-func PrintMessageHandler(w http.ResponseWriter, r *http.Request, message string, isAdmin bool) {
+func PrintMessageHandler(w http.ResponseWriter, r *http.Request, message string, isAdmin bool, status int) {
 	headerPath := path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "header.html")
 	footerPath := path.Join(GetProjectRootPath(), "quiz", "ui", "templates", "footer.html")
 	if isAdmin {
@@ -64,6 +64,8 @@ func PrintMessageHandler(w http.ResponseWriter, r *http.Request, message string,
 	}{
 		message,
 	}
+
+	w.WriteHeader(status)
 	if err := tmpl.Execute(w, data); err != nil {
 		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -96,7 +98,7 @@ func BadRequestHandler(w http.ResponseWriter, r *http.Request, message string, i
 		message,
 	}
 
-	w.WriteHeader(http.StatusNotFound)
+	w.WriteHeader(http.StatusBadRequest)
 	if err := tmpl.Execute(w, data); err != nil {
 		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
