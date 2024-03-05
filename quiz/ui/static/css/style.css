@@ -18,6 +18,11 @@
     border-color: #8f8787;
 }
 
+label.form-check-label.btn.btn-outline-success{
+    min-width: 80px;
+    margin-bottom: 10px;
+}
+
 @media screen and (max-width: 767px) {
     .nav-mobile-link-item-important {
         padding-top: 1rem;

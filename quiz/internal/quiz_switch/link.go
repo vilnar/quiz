@@ -14,6 +14,7 @@ import (
 	"quiz/internal/quiz_nps_prognoz_2"
 	"quiz/internal/quiz_occupational_burnout"
 	"quiz/internal/quiz_qsr"
+	"quiz/internal/quiz_schmieschek"
 	"quiz/internal/quiz_stai"
 )
 
@@ -79,6 +80,10 @@ func GetQuizLinkList() []QuizLink {
 		{
 			quiz_occupational_burnout.GetQuizShortLabel(),
 			quiz_occupational_burnout.GetQuizUrl(),
+		},
+		{
+			quiz_schmieschek.GetQuizShortLabel(),
+			quiz_schmieschek.GetQuizUrl(),
 		},
 	}
 }

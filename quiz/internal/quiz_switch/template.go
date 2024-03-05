@@ -17,6 +17,7 @@ import (
 	"quiz/internal/quiz_nps_prognoz_2"
 	"quiz/internal/quiz_occupational_burnout"
 	"quiz/internal/quiz_qsr"
+	"quiz/internal/quiz_schmieschek"
 	"quiz/internal/quiz_stai"
 )
 
@@ -63,6 +64,9 @@ func GetTemplateFuncMapForQuizParseResult() template.FuncMap {
 		},
 		"GetQuizResultFromQuizDbOccupationalBurnout": func(q quiz.QuizDb) quiz_occupational_burnout.QuizResult {
 			return quiz_occupational_burnout.GetQuizResultFromQuizDb(q)
+		},
+		"GetQuizResultFromQuizDbSchmieschek": func(q quiz.QuizDb) quiz_schmieschek.QuizResult {
+			return quiz_schmieschek.GetQuizResultFromQuizDb(q)
 		},
 		"GetAdminName": common.GetAdminName,
 		// TODO: find in template quiz_switch_todo

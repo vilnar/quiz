@@ -31,7 +31,7 @@
                             <legend class="col-form-label"></legend>
                             <div class="mb-3">
                             {{range $key, $element := .PersonList}}
-                            <div class="form-check">
+                            <div class="form-check mb-5">
                                 <input class="form-check-input" type="radio" name="person_id" id="person_id_{{$element.Id}}" value="{{$element.Id}}" {{if eq $key 0}} required {{end}}>
                                 <label class="form-check-label" for="person_id_{{$element.Id}}">{{$element.GetFullName}}</label>
                                 <div><span class="fw-bold">Звання:</span> {{$element.MilitaryName}}</div>
@@ -41,7 +41,7 @@
                             </div>
                             {{end}}
                             </div>
-                            <div class="form-check">
+                            <div class="form-check mb-3">
                                 <input class="form-check-input" type="radio" name="person_id" id="person_id_0" value="0">
                                 <label class="form-check-label" for="person_id_0">ПРОПУСТИТИ</label>
                             </div>

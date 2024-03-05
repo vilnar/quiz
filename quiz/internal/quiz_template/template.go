@@ -22,6 +22,7 @@ func GetFilesForParseReport(main, header, footer string) []string {
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "dfp_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "adaptability_200_result_content.html"),
 		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "occupational_burnout_result_content.html"),
+		path.Join(common.GetProjectRootPath(), "quiz", "ui", "templates", "quiz", "schmieschek_result_content.html"),
 		header,
 		footer,
 		// TODO: find in template quiz_switch_todo

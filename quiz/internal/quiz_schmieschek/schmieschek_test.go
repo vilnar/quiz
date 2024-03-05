@@ -1,0 +1,108 @@
+package quiz_schmieschek
+
+import (
+	// "fmt"
+	"quiz/internal/common"
+	"testing"
+)
+
+func TestCalcQuizResult(t *testing.T) {
+	a := Answers{
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+	}
+	result := calcQuizResult(a)
+	json := common.StructToJsonString(result)
+	if result.Demonstrativeness != 22 {
+		t.Errorf("Result was incorrect, got: %s", json)
+	}
+	if result.Rigidity != 18 {
+		t.Errorf("Result was incorrect, got: %s", json)
+	}
+}

@@ -25,6 +25,7 @@ import (
 	"quiz/internal/quiz_nps_prognoz_2"
 	"quiz/internal/quiz_occupational_burnout"
 	"quiz/internal/quiz_qsr"
+	"quiz/internal/quiz_schmieschek"
 	"quiz/internal/quiz_stai"
 	"strings"
 )
@@ -78,6 +79,9 @@ func main() {
 
 	mux.HandleFunc(quiz_occupational_burnout.GetQuizUrl(), quiz_occupational_burnout.GetQuizHandler)
 	mux.HandleFunc(quiz_occupational_burnout.GetCheckQuizUrl(), quiz_occupational_burnout.CheckQuizHandler)
+
+	mux.HandleFunc(quiz_schmieschek.GetQuizUrl(), quiz_schmieschek.GetQuizHandler)
+	mux.HandleFunc(quiz_schmieschek.GetCheckQuizUrl(), quiz_schmieschek.CheckQuizHandler)
 
 	mux.HandleFunc("/find_person_for_quiz", apphandler.FindPersonForQuizHandler)
 	mux.HandleFunc("/test", apphandler.GetTestUiHandler)
