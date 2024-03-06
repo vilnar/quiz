@@ -79,8 +79,8 @@
                                     {{if eq $quiz.Name "quiz_occupational_burnout"}}
                                         {{template "occupational_burnout_result_content.html" GetQuizResultFromQuizDbOccupationalBurnout $quiz}}
                                     {{end}}
-                                    {{if eq .QuizName "quiz_schmieschek"}}
-                                        {{template "schmieschek_result_content.html" .QuizResult}}
+                                    {{if eq $quiz.Name "quiz_schmieschek"}}
+                                        {{template "schmieschek_result_content.html" GetQuizResultFromQuizDbSchmieschek $quiz}}
                                     {{end}}
                                 </div>
                             {{end}}
