@@ -34,6 +34,12 @@ go get -u ./...
 
 ## Dependencies
 
-- sqlite3
 - golang >= 1.21.0
+- sqlite3
+- required for building: cgo, gcc
+
+Example install gcc in mingw
+```
+pacman -S base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-libtool
+```
 - MobileHotspot (https://github.com/vilnar/mobile-hotspot)
