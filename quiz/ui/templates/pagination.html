@@ -1,23 +1,23 @@
 {{ if .HasPages }}
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
-      {{ .GetPreviousButton "<" }}
-      {{ range .FirstPart }}
-        {{ . }}
-      {{ end }}
-      {{ if len .MiddlePart }}
-        {{ .GetDots }}
-        {{ range .MiddlePart }}
+        {{ .GetPreviousButton }}
+        {{ range .FirstPart }}
             {{ . }}
         {{ end }}
-      {{ end }}
-      {{ if len .LastPart }}
-        {{ .GetDots }}
-        {{ range .LastPart }}
-            {{ . }}
+        {{ if len .MiddlePart }}
+            {{ .GetDots }}
+            {{ range .MiddlePart }}
+                {{ . }}
+            {{ end }}
         {{ end }}
-      {{ end }}
-      {{ .GetNextButton ">" }}
+        {{ if len .LastPart }}
+            {{ .GetDots }}
+            {{ range .LastPart }}
+                {{ . }}
+            {{ end }}
+        {{ end }}
+        {{ .GetNextButton }}
     </ul>
 </nav>
 {{end}}

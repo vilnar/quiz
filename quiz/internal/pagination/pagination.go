@@ -113,7 +113,8 @@ func (p Paginator) GetDots() template.HTML {
 	return safeHtml(`<li class="page-item disabled"><span class="page-link">...</span></li>`)
 }
 
-func (p Paginator) GetPreviousButton(text string) template.HTML {
+func (p Paginator) GetPreviousButton() template.HTML {
+	text := "<"
 	if p.CurrentPage <= 1 {
 		return p.GetDisabledPageWrapper(text)
 	}
@@ -121,7 +122,8 @@ func (p Paginator) GetPreviousButton(text string) template.HTML {
 	return p.getUrl(p.CurrentPage-1, text)
 }
 
-func (p Paginator) GetNextButton(text string) template.HTML {
+func (p Paginator) GetNextButton() template.HTML {
+	text := ">"
 	if p.CurrentPage == p.TotalPage {
 		return p.GetDisabledPageWrapper(text)
 	}
